@@ -46,7 +46,7 @@ public class Robot {
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 15; j++) {
 				if (theMap.getBlock(i, j).getIsObstacle())
-					gScores[i][j] = 9999;
+					gScores[i][j] = RobotConstants.INFINITE_COST;
 				else
 					gScores[i][j] = 0;
 			}
@@ -55,7 +55,7 @@ public class Robot {
 		//initialize parents
 					for (int i = 0; i < 20; i++) {
 						for (int j = 0; j < 15; j++) {
-							parents[i][j] = theMap.getBlock(19, 14);
+							parents[i][j] = theMap.getBlock(RobotConstants.GOAL_ROW, RobotConstants.GOAL_COL);
 						}
 					}
 				
@@ -156,7 +156,7 @@ public class Robot {
 	}
 	private Block minimumCostBlock(ArrayList<Block> theBlockList, double[][] gScores){
 		int size = theBlockList.size();
-		double minCost = 99999;
+		double minCost = RobotConstants.INFINITE_COST;
 		Block result = null;
 		for (int i=size-1;i>=0;i--){
 			double gCost = gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())];
@@ -169,14 +169,38 @@ public class Robot {
 		return result;
 	}
 	
+	//calculate the heuristic cost from block b to goal
 	private double costH(Block b){ 
 		//heuristic cost from the block to goal point
-		int colDif = Math.abs(14 - b.getCol());
-		int rowDif = Math.abs(19 - b.getRow());
-		return (colDif + rowDif);
+		double move = (Math.abs(RobotConstants.GOAL_COL - b.getCol()) + Math.abs(RobotConstants.GOAL_ROW - b.getRow())) * RobotConstants.MOVE_COST;
+		double turn = 0;
+		//the goal is at north east
+		//when the block b is goal zone
+		if (move == 0){
+			return (move+turn);
+		}
+		//when the block b is not goal zone
+		if (RobotConstants.GOAL_COL - b.getCol() == 0){
+			//at same col
+			//assume turn once
+			turn = 1*RobotConstants.TURN_COST;
+		}
+		else{ //not at same col
+			if (RobotConstants.GOAL_ROW - b.getRow() == 0){
+				//not same col but same row
+				//assume turn once
+				turn = 1*RobotConstants.TURN_COST;
+			}
+			else{ 
+				//not same col or same row
+				//assume turn twice
+				turn = 2*RobotConstants.TURN_COST;
+			}
+		}
+		return (move+turn);
 	}
 	
-	public double turnCost(DIRECTION a, DIRECTION b){
+	private double turnCost(DIRECTION a, DIRECTION b){
 		//calculate the turn cost from a to b
 		int numOfTurn = Math.abs(a.ordinal()-b.ordinal());
 		if (numOfTurn > 2){
