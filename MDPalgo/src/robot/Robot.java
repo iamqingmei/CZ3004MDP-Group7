@@ -2,6 +2,7 @@ package robot;
 
 
 import map.Map;
+import map.MapConstants;
 import map.Block;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -41,33 +42,49 @@ public class Robot {
 	public boolean shortestPathAlgo(Map theMap){
 		ArrayList<Block> open = new ArrayList<Block>();
 		ArrayList<Block> closed = new ArrayList<Block>();
-		Block[][] parents = new Block[20][15];
+		Block[][] parents = new Block[MapConstants.MAP_ROW][MapConstants.MAP_COL];
 		Block[] neighbors = new Block[4];
-		Block current = null;
+		Block current = theMap.getBlock(RobotConstants.STARTING_ROW, RobotConstants.STARTING_COL);
 		DIRECTION curDir = this.robotCurDir;
-		double[][] gScores = new double[20][15];
+		double[][] gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
 		//initialize gScores arrays
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 15; j++) {
-				if (theMap.getBlock(i, j).getIsObstacle())
+		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+			for (int j = 0; j < MapConstants.MAP_COL; j++) {
+				if (theMap.getBlock(i, j).getIsObstacle()){
 					gScores[i][j] = RobotConstants.INFINITE_COST;
-				else
-					gScores[i][j] = 0;
+				}
+				else{
+					gScores[i][j] = -1;
+				}
 			}
 		}
 
 		//initialize parents
-					for (int i = 0; i < 20; i++) {
-						for (int j = 0; j < 15; j++) {
-							parents[i][j] = theMap.getBlock(RobotConstants.GOAL_ROW, RobotConstants.GOAL_COL);
+					for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+						for (int j = 0; j < MapConstants.MAP_COL; j++) {
+							parents[i][j] = theMap.getBlock(RobotConstants.STARTING_ROW, RobotConstants.STARTING_COL);
 						}
 					}
 				
-		open.add(theMap.getBlock(this.posRow, this.posCol));
+		open.add(theMap.getBlock(RobotConstants.STARTING_ROW, RobotConstants.STARTING_COL));
 		
+		//initialize starting point
+		gScores[RobotConstants.STARTING_ROW][RobotConstants.STARTING_COL] = 0;
 		
+		int testingCount =0;
 		do{
+			testingCount++;
 			current = minimumCostBlock(open,gScores); //get the block with min cost
+			curDir = getTargetDir(parents[current.getRow()][current.getCol()],current);
+//			System.out.println(current.getRow() + ", " + current.getCol());
+//			System.out.println("size of open: " + open.size());
+//			for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+//				for (int j = 0; j < MapConstants.MAP_COL; j++) {
+//					System.out.print(gScores[i][j]);
+//					System.out.print(";");
+//				}
+//				System.out.println("\n");;
+//			}
 			closed.add(current); //add the current block to the closed
 			open.remove(current); //remove it from the open
 			if(closed.contains(theMap.getGoalZone())){
@@ -131,7 +148,7 @@ public class Robot {
 		}while(!open.isEmpty());
 		// Continue until there is no more available square in the open list (which means there is no path)  
 
-		
+		System.out.println("looping " + testingCount +" times.");
 		// Generating actual shortest Path by tracing from end to start
 		Stack<Block> actualPath = new Stack<Block>();
 		Block temp =theMap.getGoalZone();
@@ -142,6 +159,7 @@ public class Robot {
 		}while(temp.getRow()!=0 || temp.getCol()!=0);
 		
 		//print our the path
+		System.out.println("the number of steps is :" + actualPath.size());
 		System.out.println("the Path is: ");
 		while(!actualPath.isEmpty()){
 			temp = actualPath.pop();
@@ -149,8 +167,8 @@ public class Robot {
 		}
 		
 		//testing!!!
-//		for (int i = 0; i < 20; i++) {
-//			for (int j = 0; j < 15; j++) {
+//		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+//			for (int j = 0; j < MapConstants.MAP_COL; j++) {
 //				if (parents[i][j].getRow() != 19 || parents[i][j].getCol() != 14){
 //					System.out.println("("+ parents[i][j].getRow() + " ,"+ parents[i][j].getCol()+ ")");
 //				}
@@ -158,8 +176,8 @@ public class Robot {
 //			System.out.println("\n");
 //		}
 		System.out.println("\n");
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 15; j++) {
+		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+			for (int j = 0; j < MapConstants.MAP_COL; j++) {
 				System.out.print(gScores[i][j]);
 				System.out.print(";");
 			}
@@ -172,12 +190,14 @@ public class Robot {
 		double minCost = RobotConstants.INFINITE_COST;
 		Block result = null;
 		for (int i=size-1;i>=0;i--){
-			double gCost = gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())];
-			double cost = gCost + costH(theBlockList.get(i));
-			if (cost<minCost){
-				minCost = cost;
-				result = theBlockList.get(i);
-			}
+//			if (gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())] != -1){
+				double gCost = gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())];
+				double cost = gCost + costH(theBlockList.get(i));
+				if (cost<minCost){
+					minCost = cost;
+					result = theBlockList.get(i);
+				}
+//			}
 		}
 		return result;
 	}
@@ -192,24 +212,24 @@ public class Robot {
 		if (move == 0){
 			return (move+turn);
 		}
-		//when the block b is not goal zone
-		if (RobotConstants.GOAL_COL - b.getCol() == 0){
-			//at same col
-			//assume turn once
-			turn = 1*RobotConstants.TURN_COST;
-		}
-		else{ //not at same col
-			if (RobotConstants.GOAL_ROW - b.getRow() == 0){
-				//not same col but same row
-				//assume turn once
-				turn = 1*RobotConstants.TURN_COST;
+//		//when the block b is not goal zone
+//		if (RobotConstants.GOAL_COL - b.getCol() == 0){
+//			//at same col
+//			//assume turn once
+//			turn = 1*RobotConstants.TURN_COST;
+//		}
+//		else{ //not at same col
+//			if (RobotConstants.GOAL_ROW - b.getRow() == 0){
+//				//not same col but same row
+//				//assume turn once
+//				turn = 1*RobotConstants.TURN_COST;
+//			}
+//			else{ 
+		if (RobotConstants.GOAL_COL - b.getCol() != 0 && RobotConstants.GOAL_ROW - b.getRow() != 0){
+			//not same col or same row
+			//assume turn twice
+			turn = 2*RobotConstants.TURN_COST;
 			}
-			else{ 
-				//not same col or same row
-				//assume turn twice
-				turn = 2*RobotConstants.TURN_COST;
-			}
-		}
 		return (move+turn);
 	}
 	
@@ -227,23 +247,33 @@ public class Robot {
 		double move = RobotConstants.MOVE_COST;
 		//since its moving to the neighbor, move_cost always 1
 		double turn = 0;
+		DIRECTION targetDir = getTargetDir(a, b);
+		turn = turnCost(aDir, targetDir);
+		return (move + turn);
+	}
+	
+	//from block a to block b
+	//which direction should turn to
+	private DIRECTION getTargetDir(Block a, Block b){
 		DIRECTION targetDir = RobotConstants.STARTING_DIR;
-		if (a.getCol() - b.getCol() == 1){
+		if (a.getCol() - b.getCol() > 0){
 			targetDir = DIRECTION.WEST;
 		}
-		else if (b.getCol() - a.getCol() == 1){
+		else if (b.getCol() - a.getCol() > 0){
 			targetDir = DIRECTION.EAST;
 		}
 		else{ //same col
-			if (a.getRow() - b.getRow() == 1){
+			if (a.getRow() - b.getRow() > 0){
 				targetDir = DIRECTION.SOUTH;
 			}
-			else {// (b.getRow() - a.getRow() == 1)
+			else if (b.getRow() - a.getRow() > 0){
 				targetDir = DIRECTION.NORTH;
-			}	
+			}
+			else{ //same pos
+				return targetDir;
+			}
 		}
-		turn = turnCost(aDir, targetDir);
-		return (move + turn);
+		return targetDir;
 	}
 }
 

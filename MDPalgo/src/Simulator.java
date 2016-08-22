@@ -10,6 +10,8 @@ public class Simulator {
 		theMap.getBlock(8, 14).setObstacle();
 		theMap.getBlock(9, 14).setObstacle();
 		theMap.getBlock(10, 14).setObstacle();
+		theMap.getBlock(6, 0).setObstacle();
+		theMap.getBlock(7, 0).setObstacle();
 		bot.shortestPathAlgo(theMap);
 	}
 
