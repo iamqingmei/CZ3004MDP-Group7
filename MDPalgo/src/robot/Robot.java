@@ -67,34 +67,49 @@ public class Robot {
 				//Path found
 				break;
 			}
+			/// set up its neighbors
 			if (theMap.blockInRange(current.getRow() + 1,current.getCol())){
-			neighbors[0] = theMap.getBlock(current.getRow() + 1,current.getCol());
+				neighbors[0] = theMap.getBlock(current.getRow() + 1,current.getCol());
+				if (neighbors[0].getIsObstacle()){ 
+					// if it is an obstacle, set null
+					neighbors[0] = null; 
+				}
 			}
 			if (theMap.blockInRange(current.getRow() - 1,current.getCol())){
-			neighbors[1] = theMap.getBlock(current.getRow() - 1,current.getCol());
+				neighbors[1] = theMap.getBlock(current.getRow() - 1,current.getCol());
+				if (neighbors[1].getIsObstacle()){ 
+					// if it is an obstacle, set null
+					neighbors[1] = null; 
+				}
 			}
 			if (theMap.blockInRange(current.getRow(),current.getCol() - 1)){
-			neighbors[2] = theMap.getBlock(current.getRow(),current.getCol() - 1);
+				neighbors[2] = theMap.getBlock(current.getRow(),current.getCol() - 1);
+				if (neighbors[2].getIsObstacle()){ 
+					// if it is an obstacle, set null
+					neighbors[2] = null; 
+				}
 			}
 			if (theMap.blockInRange(current.getRow(), current.getCol() + 1)){
-			neighbors[3] = theMap.getBlock(current.getRow(),current.getCol() + 1);
+				neighbors[3] = theMap.getBlock(current.getRow(),current.getCol() + 1);
+				if (neighbors[3].getIsObstacle()){ 
+					// if it is an obstacle, set null
+					neighbors[3] = null; 
+				}
 			}
 			for (int i=0;i<4;i++){
-				if (closed.contains(neighbors[i])){
+				if (neighbors[i] != null){		
+					if (closed.contains(neighbors[i])){
 					continue; 
 					//this neighbor is already in the closed list 
 					//ignore it
-				}
+					}
 				
-				if (!(open.contains(neighbors[i]))){
-					if (neighbors[i] != null){
+					if (!(open.contains(neighbors[i]))){
 						parents[neighbors[i].getRow()][neighbors[i].getCol()]=current;
 						gScores[neighbors[i].getRow()][neighbors[i].getCol()] = gScores[current.getRow()][current.getCol()] + RobotConstants.MOVE_COST;
 						open.add(neighbors[i]);
 					}
-				}
-				else{
-					if (neighbors[i] != null){
+					else{
 						double currentGScore = gScores[neighbors[i].getRow()][neighbors[i].getCol()];
 						double newGScore = gScores[current.getRow()][current.getCol()] + RobotConstants.MOVE_COST;
 						if (newGScore < currentGScore){
@@ -107,21 +122,20 @@ public class Robot {
 			System.out.println("looping!");
 		}while(!open.isEmpty());
 		// Continue until there is no more available square in the open list (which means there is no path)  
-//		System.out.println("findShortestPath() -> Path found!");
+
 		
 		// Generating actual shortest Path by tracing from end to start
 		Stack<Block> actualPath = new Stack<Block>();
 		Block temp =theMap.getGoalZone();
-//		System.out.println("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
+
 		do{
 			actualPath.push(temp);
 			temp = parents[temp.getRow()][temp.getCol()];
-//			System.out.println("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
-//			System.out.println("ddd");
 		}while(temp.getRow()!=0 || temp.getCol()!=0);
 		
+		//print our the path
+		System.out.println("the Path is: ");
 		while(!actualPath.isEmpty()){
-//			System.out.println("mmm");
 			temp = actualPath.pop();
 			System.out.println("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
 		}
@@ -135,7 +149,6 @@ public class Robot {
 //			}
 //			System.out.println("\n");
 //		}
-		System.out.println("("+ parents[19][14].getRow() + " ,"+ parents[19][14].getCol()+ ")");
 		return true;
 	}
 	private Block minimumCostBlock(ArrayList<Block> theBlockList, double[][] gScores){
