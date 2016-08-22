@@ -1,8 +1,8 @@
 package robot;
 
 public final class RobotConstants {
-	public static final int MOVE_COST = 1;
-	public static final int TURN_COST = 0;
+	public static final double MOVE_COST = 1;
+	public static final double TURN_COST = 20;
 	
 	public static enum DIRECTION {
 		NORTH, EAST, SOUTH, WEST;

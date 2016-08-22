@@ -1,13 +1,16 @@
 package robot;
+
+
 import map.Map;
 import map.Block;
 import java.util.ArrayList;
 import java.util.Stack;
 
-//import robot.RobotConstants.DIRECTION;
+import robot.RobotConstants.DIRECTION;
 public class Robot {
 	private int posRow;
 	private int posCol;
+	private DIRECTION curDir;
 	
 	public Robot(){
 		posRow= -1;
@@ -166,11 +169,21 @@ public class Robot {
 		return result;
 	}
 	
-	private int costH(Block b){ 
+	private double costH(Block b){ 
 		//heuristic cost from the block to goal point
 		int colDif = Math.abs(14 - b.getCol());
 		int rowDif = Math.abs(19 - b.getRow());
 		return (colDif + rowDif);
 	}
+	
+	public double turnCost(DIRECTION a, DIRECTION b){
+		//calculate the turn cost from a to b
+		int numOfTurn = Math.abs(a.ordinal()-b.ordinal());
+		if (numOfTurn > 2){
+			numOfTurn = numOfTurn % 2;
+		}
+		return (numOfTurn * RobotConstants.TURN_COST);
+	}
+	
 }
 

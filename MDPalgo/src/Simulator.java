@@ -1,4 +1,5 @@
 import robot.Robot;
+import robot.RobotConstants.DIRECTION;
 
 import map.Map; 
 public class Simulator {
