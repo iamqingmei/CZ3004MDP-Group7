@@ -10,21 +10,24 @@ import robot.RobotConstants.DIRECTION;
 public class Robot {
 	private int posRow;
 	private int posCol;
-	private DIRECTION curDir;
+	private DIRECTION robotCurDir;
 	
 	public Robot(){
 		posRow= -1;
 		posCol= -1;
+		robotCurDir = RobotConstants.STARTING_DIR;
 	}
 	
 	public Robot(int r, int c){
 		posRow = r;
 		posCol = c;
+		robotCurDir = RobotConstants.STARTING_DIR;
 	}
 	
 	public void setRobotPos(int r, int c){
 		posRow = r;
 		posCol = c;
+		robotCurDir = RobotConstants.STARTING_DIR;
 	}
 	
 	public int getRobotPosRow(){
@@ -41,6 +44,7 @@ public class Robot {
 		Block[][] parents = new Block[20][15];
 		Block[] neighbors = new Block[4];
 		Block current = null;
+		DIRECTION curDir = this.robotCurDir;
 		double[][] gScores = new double[20][15];
 		//initialize gScores arrays
 		for (int i = 0; i < 20; i++) {
@@ -99,6 +103,7 @@ public class Robot {
 					neighbors[3] = null; 
 				}
 			}
+			
 			for (int i=0;i<4;i++){
 				if (neighbors[i] != null){		
 					if (closed.contains(neighbors[i])){
@@ -109,12 +114,12 @@ public class Robot {
 				
 					if (!(open.contains(neighbors[i]))){
 						parents[neighbors[i].getRow()][neighbors[i].getCol()]=current;
-						gScores[neighbors[i].getRow()][neighbors[i].getCol()] = gScores[current.getRow()][current.getCol()] + RobotConstants.MOVE_COST;
+						gScores[neighbors[i].getRow()][neighbors[i].getCol()] = gScores[current.getRow()][current.getCol()] + costG(current, neighbors[i], curDir);
 						open.add(neighbors[i]);
 					}
 					else{
 						double currentGScore = gScores[neighbors[i].getRow()][neighbors[i].getCol()];
-						double newGScore = gScores[current.getRow()][current.getCol()] + RobotConstants.MOVE_COST;
+						double newGScore = gScores[current.getRow()][current.getCol()] + costG(current, neighbors[i], curDir);
 						if (newGScore < currentGScore){
 							gScores[neighbors[i].getRow()][neighbors[i].getCol()] = newGScore;
 							parents[neighbors[i].getRow()][neighbors[i].getCol()]=current;
@@ -122,7 +127,7 @@ public class Robot {
 					}
 				}
 			}
-			System.out.println("looping!");
+//			System.out.println("looping!");
 		}while(!open.isEmpty());
 		// Continue until there is no more available square in the open list (which means there is no path)  
 
@@ -140,7 +145,7 @@ public class Robot {
 		System.out.println("the Path is: ");
 		while(!actualPath.isEmpty()){
 			temp = actualPath.pop();
-			System.out.println("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
+			System.out.print("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
 		}
 		
 		//testing!!!
@@ -152,6 +157,14 @@ public class Robot {
 //			}
 //			System.out.println("\n");
 //		}
+		System.out.println("\n");
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 15; j++) {
+				System.out.print(gScores[i][j]);
+				System.out.print(";");
+			}
+			System.out.println("\n");;
+		}
 		return true;
 	}
 	private Block minimumCostBlock(ArrayList<Block> theBlockList, double[][] gScores){
@@ -209,5 +222,28 @@ public class Robot {
 		return (numOfTurn * RobotConstants.TURN_COST);
 	}
 	
+	//calculate the actual cost from a to b (its neighbor)
+	private double costG(Block a, Block b, DIRECTION aDir){
+		double move = RobotConstants.MOVE_COST;
+		//since its moving to the neighbor, move_cost always 1
+		double turn = 0;
+		DIRECTION targetDir = RobotConstants.STARTING_DIR;
+		if (a.getCol() - b.getCol() == 1){
+			targetDir = DIRECTION.WEST;
+		}
+		else if (b.getCol() - a.getCol() == 1){
+			targetDir = DIRECTION.EAST;
+		}
+		else{ //same col
+			if (a.getRow() - b.getRow() == 1){
+				targetDir = DIRECTION.SOUTH;
+			}
+			else {// (b.getRow() - a.getRow() == 1)
+				targetDir = DIRECTION.NORTH;
+			}	
+		}
+		turn = turnCost(aDir, targetDir);
+		return (move + turn);
+	}
 }
 

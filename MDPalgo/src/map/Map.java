@@ -1,12 +1,13 @@
 package map;
 
+import map.MapConstants;
 public class Map{
 	private Block[][] blocks;
 
 	public Map(){
-		blocks = new Block [20][15];  
-		for (int r=0; r<20; r++){
-			for (int c=0; c<15; c++){
+		blocks = new Block [MapConstants.MAP_ROW][MapConstants.MAP_COL];  
+		for (int r=0; r<MapConstants.MAP_ROW; r++){
+			for (int c=0; c<MapConstants.MAP_COL; c++){
 				blocks[r][c] = new Block(r,c);
 			}
 		}
@@ -26,7 +27,7 @@ public class Map{
 	}
 
 	public boolean isGoalZone(int r, int c){
-		if (r==19 && c==14){
+		if (r==MapConstants.GOAL_ROW && c == MapConstants.GOAL_COL){
 			return true;
 		}
 		else{
@@ -35,7 +36,7 @@ public class Map{
 	}
 	
 	public Block getGoalZone(){
-		return blocks[19][14];
+		return blocks[MapConstants.GOAL_ROW][MapConstants.GOAL_COL];
 	}
 
 //	public Block[][] getMap(){
@@ -45,7 +46,7 @@ public class Map{
 		if (r<0 || c<0){
 			return false;
 		}
-		if (r>19 || c>14){
+		if (r>=MapConstants.MAP_ROW || c>=MapConstants.MAP_COL){
 			return false;
 		}
 		return true;

@@ -5,6 +5,7 @@ public final class RobotConstants {
 	public static final double TURN_COST = 20;
 	public static final int GOAL_ROW = 19;
 	public static final int GOAL_COL = 14;
+	public static final DIRECTION STARTING_DIR = DIRECTION.NORTH;
 	
 	public static final double INFINITE_COST = 999999; 
 	
