@@ -227,8 +227,8 @@ public class Robot {
 //			else{ 
 		if (RobotConstants.GOAL_COL - b.getCol() != 0 && RobotConstants.GOAL_ROW - b.getRow() != 0){
 			//not same col or same row
-			//assume turn twice
-			turn = 2*RobotConstants.TURN_COST;
+			//assume turn once
+			turn = RobotConstants.TURN_COST;
 			}
 		return (move+turn);
 	}
