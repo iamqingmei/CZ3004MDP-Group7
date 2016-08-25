@@ -58,7 +58,6 @@ public class Robot {
 				}
 			}
 		}
-		//testing
 
 		//initialize parents
 					for (int i = 0; i < MapConstants.MAP_ROW; i++) {
