@@ -137,7 +137,6 @@ public class ShortestPathAlgo{
 		Block temp =theMap.getGoalZone();
 
 		while(true){
-			System.out.println("poop!");
 			actualPath.push(temp);
 			temp = parents.get(temp);
 			if (temp == null){
@@ -152,7 +151,7 @@ public class ShortestPathAlgo{
 			temp = actualPath.pop();
 			System.out.print("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
 		}
-		
+		System.out.println("\n");
 		printGscores();
 	}
 	// for testing uses

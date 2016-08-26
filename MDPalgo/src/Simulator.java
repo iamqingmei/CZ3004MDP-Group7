@@ -6,7 +6,7 @@ import robot.ShortestPathAlgo;
 public class Simulator {
 
 	public static void main(String[] args) {
-		Robot bot = new Robot(0,0);
+		// Robot bot = new Robot(0,0);
 		Map theMap = new Map();
 		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap);
 		theMap.setObstacle(8, 14);
@@ -16,7 +16,7 @@ public class Simulator {
 		theMap.setObstacle(7,0);
 		theMap.setObstacle(9,9);
 		shortestPath.runShortestPath(theMap);
-		shortestPath.printGscores();
+		// shortestPath.printGscores();
 	}
 
 }

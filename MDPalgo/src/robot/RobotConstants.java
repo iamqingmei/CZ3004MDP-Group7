@@ -9,7 +9,7 @@ public final class RobotConstants {
 	public static final int STARTING_ROW = 1;
 	public static final int STARTING_COL = 1;
 	
-	public static final double INFINITE_COST = 999999; 
+	public static final double INFINITE_COST = 9999; 
 	
 	public static enum DIRECTION {
 		NORTH, EAST, SOUTH, WEST;

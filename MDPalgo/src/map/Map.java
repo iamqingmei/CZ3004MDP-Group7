@@ -9,7 +9,7 @@ public class Map{
 		for (int r=0; r<MapConstants.MAP_ROW; r++){
 			for (int c=0; c<MapConstants.MAP_COL; c++){
 				blocks[r][c] = new Block(r,c);
-				if (r==0 || c ==0 || r == MapConstants.MAP_ROW - 1 || c == MapConstants.MAP_COL){
+				if (r==0 || c ==0 || r == MapConstants.MAP_ROW-1 || c == MapConstants.MAP_COL-1){
 					blocks[r][c].setVirtualWall(true);
 				}
 			}
