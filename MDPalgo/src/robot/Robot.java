@@ -50,7 +50,7 @@ public class Robot {
 		//initialize gScores arrays
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
-				if (theMap.getBlock(i, j).getIsObstacle()){
+				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall()){
 					gScores[i][j] = RobotConstants.INFINITE_COST;
 				}
 				else{
@@ -94,28 +94,28 @@ public class Robot {
 			/// set up its neighbors
 			if (theMap.blockInRange(current.getRow() + 1,current.getCol())){
 				neighbors[0] = theMap.getBlock(current.getRow() + 1,current.getCol());
-				if (neighbors[0].getIsObstacle()){ 
+				if (neighbors[0].getIsObstacle() || neighbors[0].getIsVirtualWall()){ 
 					// if it is an obstacle, set null
 					neighbors[0] = null; 
 				}
 			}
 			if (theMap.blockInRange(current.getRow() - 1,current.getCol())){
 				neighbors[1] = theMap.getBlock(current.getRow() - 1,current.getCol());
-				if (neighbors[1].getIsObstacle()){ 
+				if (neighbors[1].getIsObstacle() || neighbors[1].getIsVirtualWall()){ 
 					// if it is an obstacle, set null
 					neighbors[1] = null; 
 				}
 			}
 			if (theMap.blockInRange(current.getRow(),current.getCol() - 1)){
 				neighbors[2] = theMap.getBlock(current.getRow(),current.getCol() - 1);
-				if (neighbors[2].getIsObstacle()){ 
+				if (neighbors[2].getIsObstacle() || neighbors[2].getIsVirtualWall()){ 
 					// if it is an obstacle, set null
 					neighbors[2] = null; 
 				}
 			}
 			if (theMap.blockInRange(current.getRow(), current.getCol() + 1)){
 				neighbors[3] = theMap.getBlock(current.getRow(),current.getCol() + 1);
-				if (neighbors[3].getIsObstacle()){ 
+				if (neighbors[3].getIsObstacle() || neighbors[3].getIsVirtualWall()){ 
 					// if it is an obstacle, set null
 					neighbors[3] = null; 
 				}

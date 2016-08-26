@@ -54,4 +54,32 @@ public class Map{
 	public Block getBlock(int r, int c){
 		return this.blocks[r][c];
 	}
+
+	public void setObstacle(int r, int c){
+		this.blocks[r][c].setObstacle();
+		if (r >= 1){
+			this.blocks[r-1][c].setVirtualWall();
+			if (c < MapConstants.MAP_COL - 1){
+				this.blocks[r-1][c+1].setVirtualWall();
+			}
+			if (c >= 1){
+				this.blocks[r-1][c-1].setVirtualWall();
+			}
+		}
+		if (c >= 1){
+			this.blocks[r][c-1].setVirtualWall();
+			if (r < MapConstants.MAP_ROW - 1){
+				this.blocks[r+1][c-1].setVirtualWall();
+			}	
+		}
+		if (r < MapConstants.MAP_ROW - 1){
+			this.blocks[r+1][c].setVirtualWall();
+			if (c < MapConstants.MAP_COL - 1){
+				this.blocks[r+1][c+1].setVirtualWall();
+			}
+		}
+		if (c < MapConstants.MAP_COL - 1){
+			this.blocks[r][c+1].setVirtualWall();
+		}	
+	}
 }

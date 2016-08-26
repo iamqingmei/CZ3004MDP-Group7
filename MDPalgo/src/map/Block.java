@@ -2,6 +2,8 @@ package map;
 
 public class Block {
 	private boolean isObstacle;
+	private boolean isExplored;
+	private boolean isVirtualWall;
 	private int row; //which row where the block is
 	private int col; //which col where the block is
 	
@@ -32,6 +34,13 @@ public class Block {
 	public int getCol(){
 		return this.col;
 	}
+
+	public void setVirtualWall(){
+		this.isVirtualWall = true;
+	}
 	
+	public boolean getIsVirtualWall(){
+		return this.isVirtualWall;
+	}
 	
 }
