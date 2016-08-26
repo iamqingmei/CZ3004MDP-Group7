@@ -35,8 +35,8 @@ public class Block {
 		return this.col;
 	}
 
-	public void setVirtualWall(){
-		this.isVirtualWall = true;
+	public void setVirtualWall(boolean b){
+		this.isVirtualWall = b;
 	}
 	
 	public boolean getIsVirtualWall(){

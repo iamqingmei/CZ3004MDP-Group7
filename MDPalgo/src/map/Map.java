@@ -9,8 +9,13 @@ public class Map{
 		for (int r=0; r<MapConstants.MAP_ROW; r++){
 			for (int c=0; c<MapConstants.MAP_COL; c++){
 				blocks[r][c] = new Block(r,c);
+				if (r==0 || c ==0 || r == MapConstants.MAP_ROW - 1 || c == MapConstants.MAP_COL){
+					blocks[r][c].setVirtualWall(true);
+				}
 			}
 		}
+		//goal point is not virtual wall!
+		blocks[MapConstants.GOAL_ROW][MapConstants.GOAL_COL].setVirtualWall(false);
 	}
 
 	public boolean isObstacle(int r, int c){
@@ -58,28 +63,28 @@ public class Map{
 	public void setObstacle(int r, int c){
 		this.blocks[r][c].setObstacle();
 		if (r >= 1){
-			this.blocks[r-1][c].setVirtualWall();
+			this.blocks[r-1][c].setVirtualWall(true);
 			if (c < MapConstants.MAP_COL - 1){
-				this.blocks[r-1][c+1].setVirtualWall();
+				this.blocks[r-1][c+1].setVirtualWall(true);
 			}
 			if (c >= 1){
-				this.blocks[r-1][c-1].setVirtualWall();
+				this.blocks[r-1][c-1].setVirtualWall(true);
 			}
 		}
 		if (c >= 1){
-			this.blocks[r][c-1].setVirtualWall();
+			this.blocks[r][c-1].setVirtualWall(true);
 			if (r < MapConstants.MAP_ROW - 1){
-				this.blocks[r+1][c-1].setVirtualWall();
+				this.blocks[r+1][c-1].setVirtualWall(true);
 			}	
 		}
 		if (r < MapConstants.MAP_ROW - 1){
-			this.blocks[r+1][c].setVirtualWall();
+			this.blocks[r+1][c].setVirtualWall(true);
 			if (c < MapConstants.MAP_COL - 1){
-				this.blocks[r+1][c+1].setVirtualWall();
+				this.blocks[r+1][c+1].setVirtualWall(true);
 			}
 		}
 		if (c < MapConstants.MAP_COL - 1){
-			this.blocks[r][c+1].setVirtualWall();
+			this.blocks[r][c+1].setVirtualWall(true);
 		}	
 	}
 }
