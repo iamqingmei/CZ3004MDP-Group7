@@ -32,5 +32,9 @@ public class Robot {
 	public int getRobotPosCol(){
 		return posCol;
 	}
+
+	public DIRECTION getRobotCurDir(){
+		return robotCurDir;
+	}
 }
 

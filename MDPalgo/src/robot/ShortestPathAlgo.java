@@ -17,18 +17,15 @@ public class ShortestPathAlgo{
 	private double[][] gScores; //stores the costG for all the blocks
 	private int testingCount; //for testing uses
 
-	public ShortestPathAlgo(Map theMap){
+	public ShortestPathAlgo(Map theMap, Robot bot){
 		open = new ArrayList<Block>();
 		closed = new ArrayList<Block>();
 		parents = new HashMap<Block, Block>();
 		neighbors = new Block[4];
-		current = theMap.getBlock(RobotConstants.STARTING_ROW, RobotConstants.STARTING_COL);
-		curDir = RobotConstants.STARTING_DIR;
+		current = theMap.getBlock(bot.getRobotPosRow(), bot.getRobotPosCol());
+		curDir = bot.getRobotCurDir();
 		gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
-	}
 
-
-	public boolean runShortestPath(Map theMap){
 		//initialize gScores arrays
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
@@ -40,11 +37,19 @@ public class ShortestPathAlgo{
 				}
 			}
 		}				
-		open.add(theMap.getBlock(RobotConstants.STARTING_ROW, RobotConstants.STARTING_COL));
-		
+		open.add(current);
+
 		//initialize starting point
-		gScores[RobotConstants.STARTING_ROW][RobotConstants.STARTING_COL] = 0;
+		gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
 		testingCount =0;
+
+	}
+
+
+	public boolean runShortestPath(Map theMap){
+		System.out.println("Start to find the shortest path from (" + current.getRow() + ", " + current.getCol() + ") to goal (" + RobotConstants.GOAL_ROW + ", " + RobotConstants.GOAL_COL + ")");
+		
+		
 		
 		do{
 			testingCount++;
@@ -53,15 +58,6 @@ public class ShortestPathAlgo{
 				curDir = getTargetDir(parents.get(current), current);
 			}
 			
-//			System.out.println(current.getRow() + ", " + current.getCol());
-//			System.out.println("size of open: " + open.size());
-//			for (int i = 0; i < MapConstants.MAP_ROW; i++) {
-//				for (int j = 0; j < MapConstants.MAP_COL; j++) {
-//					System.out.print(gScores[i][j]);
-//					System.out.print(";");
-//				}
-//				System.out.println("\n");;
-//			}
 			closed.add(current); //add the current block to the closed
 			open.remove(current); //remove it from the open
 			if(closed.contains(theMap.getGoalZone())){
@@ -145,7 +141,7 @@ public class ShortestPathAlgo{
 		}
 		
 		//print our the path
-		System.out.println("the number of steps is :" + actualPath.size());
+		System.out.println("the number of steps is :" + (actualPath.size() - 1));
 		System.out.println("the Path is: ");
 		while(!actualPath.isEmpty()){
 			temp = actualPath.pop();
