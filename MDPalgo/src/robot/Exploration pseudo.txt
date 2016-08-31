@@ -1,0 +1,76 @@
+/*
+pseudo code for exploration
+*/
+assume the initial map has no obstacles
+Initialise START and GOAL;
+curP = Starting position;
+ShortestPathAlgo algo = new ShortestPathAlgo(theMap, bot);
+ArrayList<Block> estimatedPath = algo.runShortestPath(theMap, 18, 13);
+ArrayList<Block> tracks = new ArrayList<Block>();
+
+
+// this algo is for robot to go to GOAL ZONE as fast as possible
+while(){
+	tracks.add(curp);
+	if (curP is GOAL ZONE){
+		break; //mission complete
+	}
+	scan() //scan the environment
+
+	if (obstacle is found){ 
+		//add the blocks of obstacles found into the map
+		theMap.setObstacle(r,c);
+
+		//update the estimatedPath
+		algo.reset(theMap, bot);
+		estimatedPath = algo.runShortestPath(theMap, 18, 13); 
+	}
+	Go to the next point in estimatedPath
+	curP = next point in estimatedPath
+}
+
+
+
+
+// this algo is for robot to explore more on the map 
+// and finally go to GOAL ZONE
+
+assume the initial map has no obstacles
+Initialise START and GOAL;
+Block curP = Starting position;
+ShortestPathAlgo algo = new ShortestPathAlgo(theMap, bot);
+ArrayList<Block> estimatedPath = algo.runShortestPath(theMap, 18, 13);
+ArrayList<Block> tracks = new ArrayList<Block>();
+
+
+
+while(){
+	tracks.add(curp);
+	if (curP is GOAL ZONE){
+		break; //mission complete
+	}
+	scan() //scan the environment
+
+	if (NEW obstacle is found){ 
+		update the blocks of obstacles found into the map
+		theMap.setObstacle(r,c);
+
+		if (right side of obstacles can be seen){
+			if (left side of obstacles can be seen){ //whole obstacle can be seen
+				//update the estimatedPath
+				algo.reset(theMap, bot);
+				estimatedPath = algo.runShortestPath(theMap, 18, 13); 
+				Go to the next point in estimatedPath
+				nextP = next point in estimatedPath
+			}
+			else {//only right side of obstacles can be seen
+				go to find the left end of obstacles
+			}
+		}
+		else if(only left side of obstacles can be seen)
+			go to find the left end of obstacles
+		}
+		else{ //both ends of the obstacles cannot be seen
+			go to find the right end of obstacles
+		}
+}
