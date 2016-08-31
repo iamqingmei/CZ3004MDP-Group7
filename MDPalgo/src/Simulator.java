@@ -15,8 +15,11 @@ public class Simulator {
 		theMap.setObstacle(6,0);
 		theMap.setObstacle(7,0);
 		theMap.setObstacle(9,9);
-		shortestPath.runShortestPath(theMap);
+		shortestPath.runShortestPath(theMap, 18, 13);
 		// shortestPath.printGscores();
+		bot.setRobotPos(18,13);
+		shortestPath.reset(theMap, bot);
+		shortestPath.runShortestPath(theMap, 1, 1);
 	}
 
 }

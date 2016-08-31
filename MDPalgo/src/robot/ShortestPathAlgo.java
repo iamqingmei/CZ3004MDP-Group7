@@ -42,28 +42,53 @@ public class ShortestPathAlgo{
 		//initialize starting point
 		gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
 		testingCount =0;
+	}
 
+	public void reset(Map theMap, Robot bot){
+		open = new ArrayList<Block>();
+		closed = new ArrayList<Block>();
+		parents = new HashMap<Block, Block>();
+		neighbors = new Block[4];
+		current = theMap.getBlock(bot.getRobotPosRow(), bot.getRobotPosCol());
+		curDir = bot.getRobotCurDir();
+		gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
+
+		//initialize gScores arrays
+		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+			for (int j = 0; j < MapConstants.MAP_COL; j++) {
+				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall()){
+					gScores[i][j] = RobotConstants.INFINITE_COST;
+				}
+				else{
+					gScores[i][j] = -1;
+				}
+			}
+		}				
+		open.add(current);
+
+		//initialize starting point
+		gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
+		testingCount =0;
 	}
 
 
-	public boolean runShortestPath(Map theMap){
-		System.out.println("Start to find the shortest path from (" + current.getRow() + ", " + current.getCol() + ") to goal (" + RobotConstants.GOAL_ROW + ", " + RobotConstants.GOAL_COL + ")");
-		
+	public boolean runShortestPath(Map theMap, int goalRow, int goalCol){
+		System.out.println("Start to find the shortest path from (" + current.getRow() + ", " + current.getCol() + ") to goal (" + goalRow + ", " + goalCol + ")");	
 		
 		
 		do{
 			testingCount++;
-			current = minimumCostBlock(open,gScores); //get the block with min cost
+			current = minimumCostBlock(open,gScores, goalRow, goalCol); //get the block with min cost
 			if (parents.containsKey(current)){
 				curDir = getTargetDir(parents.get(current), current);
 			}
 			
 			closed.add(current); //add the current block to the closed
 			open.remove(current); //remove it from the open
-			if(closed.contains(theMap.getGoalZone())){
+			if(closed.contains(theMap.getBlock(goalRow, goalCol))){
 				//Path found
 				System.out.println("Path found!");
-				printShortestPath(theMap);
+				printShortestPath(theMap, goalRow, goalCol);
 				return true;
 			}
 			/// set up its neighbors
@@ -126,11 +151,11 @@ public class ShortestPathAlgo{
 		return false;
 	}
 
-	private void printShortestPath(Map theMap){
+	private void printShortestPath(Map theMap, int goalRow, int goalCol){
 		System.out.println("looping " + testingCount +" times.");
 		// Generating actual shortest Path by tracing from end to start
 		Stack<Block> actualPath = new Stack<Block>();
-		Block temp =theMap.getGoalZone();
+		Block temp =theMap.getBlock(goalRow, goalCol);
 
 		while(true){
 			actualPath.push(temp);
@@ -148,9 +173,10 @@ public class ShortestPathAlgo{
 			System.out.print("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
 		}
 		System.out.println("\n");
-		printGscores();
+		// printGscores();
 	}
-	// for testing uses
+
+	// printGscores is for testing uses
 	public	void printGscores(){
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
@@ -160,14 +186,14 @@ public class ShortestPathAlgo{
 			System.out.println("\n");
 		}
 	}
-	private Block minimumCostBlock(ArrayList<Block> theBlockList, double[][] gScores){
+	private Block minimumCostBlock(ArrayList<Block> theBlockList, double[][] gScores, int goalRow, int getCol){
 		int size = theBlockList.size();
 		double minCost = RobotConstants.INFINITE_COST;
 		Block result = null;
 		for (int i=size-1;i>=0;i--){
 //			if (gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())] != -1){
 				double gCost = gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())];
-				double cost = gCost + costH(theBlockList.get(i));
+				double cost = gCost + costH(theBlockList.get(i), goalRow, getCol);
 				if (cost<minCost){
 					minCost = cost;
 					result = theBlockList.get(i);
@@ -178,29 +204,17 @@ public class ShortestPathAlgo{
 	}
 	
 	//calculate the heuristic cost from block b to goal
-	private double costH(Block b){ 
+	private double costH(Block b, int goalRow, int goalCol){ 
 		//heuristic cost from the block to goal point
-		double move = (Math.abs(RobotConstants.GOAL_COL - b.getCol()) + Math.abs(RobotConstants.GOAL_ROW - b.getRow())) * RobotConstants.MOVE_COST;
+		double move = (Math.abs(goalCol - b.getCol()) + Math.abs(goalRow - b.getRow())) * RobotConstants.MOVE_COST;
 		double turn = 0;
 		//the goal is at north east
 		//when the block b is goal zone
 		if (move == 0){
 			return (move+turn);
 		}
-//		//when the block b is not goal zone
-//		if (RobotConstants.GOAL_COL - b.getCol() == 0){
-//			//at same col
-//			//assume turn once
-//			turn = 1*RobotConstants.TURN_COST;
-//		}
-//		else{ //not at same col
-//			if (RobotConstants.GOAL_ROW - b.getRow() == 0){
-//				//not same col but same row
-//				//assume turn once
-//				turn = 1*RobotConstants.TURN_COST;
-//			}
-//			else{ 
-		if (RobotConstants.GOAL_COL - b.getCol() != 0 && RobotConstants.GOAL_ROW - b.getRow() != 0){
+
+		if (goalCol - b.getCol() != 0 && goalRow - b.getRow() != 0){
 			//not same col or same row
 			//assume turn once
 			turn = RobotConstants.TURN_COST;
