@@ -54,8 +54,6 @@ public class Simulator {
 
 	private static Robot bot;
 
-	private	static int _mapWidth = 20 * 40;
-	private	static int _mapHeight = 15 * 40;
 
 	public static void main(String[] args) {
 		bot = new Robot(1,1);
@@ -91,7 +89,7 @@ public class Simulator {
 		
 		// Create the CardLayouts for storing the different views
 		_mainCards = new JPanel(new CardLayout());
-		_buttonsCards = new JPanel(new CardLayout());
+		// _buttonsCards = new JPanel(new CardLayout());
 		
 		// Initialize the main CardLayout
 		initMainLayout();
@@ -102,7 +100,7 @@ public class Simulator {
 		// Add CardLayouts to content pane
 		Container contentPane = _appFrame.getContentPane();
 		contentPane.add(_mainCards, BorderLayout.CENTER);
-		contentPane.add(_buttonsCards, BorderLayout.SOUTH);
+		// contentPane.add(_buttonsCards, BorderLayout.SOUTH);
 		
 		// Display the application
 		_appFrame.setVisible(true);
@@ -111,14 +109,11 @@ public class Simulator {
 
 	private static void initMainLayout() {
 		
-		// Initialize the real map, used for placing obstacles
-		System.out.println("Map width: " + _mapWidth + ", Map height: "
-				+ _mapHeight);
+		// Initialize the Map for simulation
 		_mainCards.add(theMap, "MAIN");
 		
 		// Initialize the robot configuration frame
-		// _robotConfig = new RobotEditor(_almightyRobot, _appFrame);
-		// _mainCards.add(_robotConfig, "ROBOT CONFIG");
+		_mainCards.add(bot, "MAIN");
 		
 		// // Initialize the robot map, used for exploration and shortest path
 		// _robotMap = new RobotMap(theMap);
@@ -126,7 +121,8 @@ public class Simulator {
 		
 		// Show the real map (main menu) by default
 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
-	    cl.show(_mainCards, "SimulatorConstants.MAIN");
+	    cl.show(_mainCards, "MAIN");
+	    // cl.show(_mainCards, "ROBOT CONFIG");
 		
 	}
 

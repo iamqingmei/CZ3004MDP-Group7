@@ -72,9 +72,9 @@ public class ShortestPathAlgo{
 	}
 
 
-	public boolean runShortestPath(Map theMap, int goalRow, int goalCol){
-		System.out.println("Start to find the shortest path from (" + current.getRow() + ", " + current.getCol() + ") to goal (" + goalRow + ", " + goalCol + ")");	
-		
+	public Stack<Block> runShortestPath(Map theMap, int goalRow, int goalCol){
+		System.out.println("Start to find the shortest path from (" + current.getCol() + ", " + current.getRow() + ") to goal (" + goalRow + ", " + goalCol + ")");	
+		Stack<Block> path = new Stack<Block>();
 		
 		do{
 			testingCount++;
@@ -89,8 +89,9 @@ public class ShortestPathAlgo{
 				//Path found
 				System.out.println("Path found!");
 				// printGscores();
-				printShortestPath(theMap, goalRow, goalCol);
-				return true;
+				path = getPath(theMap, goalRow, goalCol);
+				printShortestPath(path);
+				return path;
 			}
 			/// set up its neighbors
 			if (theMap.blockInRange(current.getRow() + 1,current.getCol())){
@@ -149,11 +150,10 @@ public class ShortestPathAlgo{
 		}while(!open.isEmpty());
 		// Continue until there is no more available square in the open list (which means there is no path)  
 		System.out.println("Path not found!");
-		return false;
+		return path;
 	}
 
-	private void printShortestPath(Map theMap, int goalRow, int goalCol){
-		System.out.println("looping " + testingCount +" times.");
+	private Stack<Block> getPath(Map theMap, int goalRow, int goalCol){
 		// Generating actual shortest Path by tracing from end to start
 		Stack<Block> actualPath = new Stack<Block>();
 		Block temp =theMap.getBlock(goalRow, goalCol);
@@ -165,13 +165,18 @@ public class ShortestPathAlgo{
 				break;
 			}
 		}
-		
+		return actualPath;
+	}
+
+	private void printShortestPath(Stack<Block> actualPath){
+		Block temp;
+		System.out.println("looping " + testingCount +" times.");
 		//print our the path
 		System.out.println("the number of steps is :" + (actualPath.size() - 1));
 		System.out.println("the Path is: ");
 		while(!actualPath.isEmpty()){
 			temp = actualPath.pop();
-			System.out.print("("+ temp.getRow() + " ,"+ temp.getCol()+ ")");
+			System.out.print("("+ temp.getCol() + " ,"+ temp.getRow()+ ")");
 		}
 		System.out.println("\n");
 		// printGscores();

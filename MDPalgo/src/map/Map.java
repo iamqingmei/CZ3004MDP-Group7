@@ -18,9 +18,6 @@ import javax.swing.JPanel;
 public class Map extends JPanel {
 	private Block[][] blocks;
 
-	// For measuring size of the canvas
-	private boolean _bMeasured = false;
-
 	// For rendering the map efficiently
 	private MapGrid[][] _mapGrids = null;
 
@@ -64,9 +61,6 @@ public class Map extends JPanel {
 		return blocks[MapConstants.GOAL_ROW][MapConstants.GOAL_COL];
 	}
 
-//	public Block[][] getMap(){
-//		return this.blocks;
-//	}
 	public boolean blockInRange(int r, int c){
 		if (r<0 || c<0){
 			return false;
@@ -110,34 +104,26 @@ public class Map extends JPanel {
 
 	public void paintComponent(Graphics g) {
 
-		if (!_bMeasured) {
 
-			int _mapWidth = 800;
-			int _mapHeight = 600;
+		// int _mapWidth = 800;
+		// int _mapHeight = 600;
 
-			System.out.println("RealMap Graphics g; Map width: " + _mapWidth
-					+ ", Map height: " + _mapHeight);
+		// System.out.println("RealMap Graphics g; Map width: " + 800 + ", Map height: " + 600);
 
-			// Calculate the map grids for rendering
-			_mapGrids = new MapGrid[MapConstants.MAP_ROW][MapConstants.MAP_COL];
-			for (int mapRow = 0; mapRow < MapConstants.MAP_ROW; mapRow++) {
-				for (int mapCol = 0; mapCol < MapConstants.MAP_COL; mapCol++) {
-					_mapGrids[mapRow][mapCol] = new MapGrid(mapCol
-							* MapConstants.GRID_SIZE, mapRow
-							* MapConstants.GRID_SIZE, MapConstants.GRID_SIZE);
-				}
+		// Calculate the map grids for rendering
+		_mapGrids = new MapGrid[MapConstants.MAP_ROW][MapConstants.MAP_COL];
+		for (int mapRow = 0; mapRow < MapConstants.MAP_ROW; mapRow++) {
+			for (int mapCol = 0; mapCol < MapConstants.MAP_COL; mapCol++) {
+				_mapGrids[mapRow][mapCol] = new MapGrid(mapCol
+						* MapConstants.GRID_SIZE, mapRow
+						* MapConstants.GRID_SIZE, MapConstants.GRID_SIZE);
 			}
-
-			_bMeasured = true;
 		}
 
-		g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 400, 400);
-        
-        Border border = BorderFactory.createLineBorder(
-				MapConstants.C_GRID_LINE, MapConstants.GRID_LINE_WEIGHT);
-        this.setBorder(border);
-        
+		// // Clear the Graphics
+		// g.setColor(Color.DARK_GRAY);
+		// g.fillRect(0, 0, 800, 600);
+
         // Paint the grids
         for (int mapRow = 0; mapRow < MapConstants.MAP_ROW; mapRow++)
 		{
