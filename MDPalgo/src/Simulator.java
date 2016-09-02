@@ -82,7 +82,7 @@ public class Simulator {
 		// Main frame for displaying everything
 		_appFrame = new JFrame();
 		_appFrame.setTitle("MDP Group 7 Simulator");
-		_appFrame.setSize(new Dimension(886, 771));
+		_appFrame.setSize(new Dimension(800, 700));
 		_appFrame.setResizable(false);
 		
 		// Center the main frame in the middle of the screen
