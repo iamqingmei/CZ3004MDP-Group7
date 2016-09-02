@@ -88,6 +88,7 @@ public class ShortestPathAlgo{
 			if(closed.contains(theMap.getBlock(goalRow, goalCol))){
 				//Path found
 				System.out.println("Path found!");
+				// printGscores();
 				printShortestPath(theMap, goalRow, goalCol);
 				return true;
 			}
