@@ -7,13 +7,17 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import java.util.concurrent.TimeUnit;
 
 import robot.Robot;
 //import robot.RobotConstants.DIRECTION;
@@ -55,9 +59,9 @@ public class Simulator {
 	private static Robot bot;
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		bot = new Robot(1,1);
-		theMap = new Map();
+		theMap = new Map(bot);
 		theMap.setObstacle(8, 14);
 		theMap.setObstacle(9, 14);
 		theMap.setObstacle(10, 14);
@@ -65,15 +69,27 @@ public class Simulator {
 		theMap.setObstacle(7,0);
 		theMap.setObstacle(9,9);
 
-		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
-		shortestPath.runShortestPath(theMap, 13, 18);
-		shortestPath.printGscores();
-		bot.setRobotPos(13,18);
-		shortestPath.reset(theMap, bot);
-		shortestPath.runShortestPath(theMap, 1, 1);
-		shortestPath.printGscores();
+		// ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
+		// shortestPath.runShortestPath(theMap, 13, 18);
+		// shortestPath.printGscores();
+		
+		// shortestPath.reset(theMap, bot);
+		// shortestPath.runShortestPath(theMap, 1, 1);
+		// shortestPath.printGscores();
 
 		displayEverythings();
+		try{
+			TimeUnit.SECONDS.sleep(1);
+		}
+		catch(InterruptedException e)
+		{
+		     System.out.println("Miao!");
+		}
+		theMap.setObstacle(11,0);
+		bot.setRobotPos(13,18);
+		System.out.println("robot is here: " + bot.getRobotPosRow());
+
+		
 	}
 
 	private static void displayEverythings(){
@@ -113,7 +129,7 @@ public class Simulator {
 		_mainCards.add(theMap, "MAIN");
 		
 		// Initialize the robot configuration frame
-		_mainCards.add(bot, "MAIN");
+		// _mainCards.add(bot, "ROBOT CONFIG");
 		
 		// // Initialize the robot map, used for exploration and shortest path
 		// _robotMap = new RobotMap(theMap);
@@ -122,8 +138,13 @@ public class Simulator {
 		// Show the real map (main menu) by default
 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
 	    cl.show(_mainCards, "MAIN");
+
+	    theMap.setFocusable(true);
+		theMap.requestFocusInWindow();
 	    // cl.show(_mainCards, "ROBOT CONFIG");
 		
 	}
+
+	
 
 }

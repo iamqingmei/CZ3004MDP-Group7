@@ -90,7 +90,7 @@ public class ShortestPathAlgo{
 				System.out.println("Path found!");
 				// printGscores();
 				path = getPath(theMap, goalRow, goalCol);
-				printShortestPath(path);
+				// printShortestPath(path);
 				return path;
 			}
 			/// set up its neighbors

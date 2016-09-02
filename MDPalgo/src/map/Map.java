@@ -1,6 +1,7 @@
 package map;
 
 import map.MapConstants;
+import robot.Robot;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,16 +13,23 @@ import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.JPanel;
 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
 
 @SuppressWarnings("serial")
 
 public class Map extends JPanel {
 	private Block[][] blocks;
+	private Robot theRobot;
+	public int delay = 500;
 
 	// For rendering the map efficiently
 	private MapGrid[][] _mapGrids = null;
 
-	public Map(){
+	public Map(Robot bot){
+		theRobot = bot;
 		blocks = new Block [MapConstants.MAP_ROW][MapConstants.MAP_COL];  
 		for (int r=0; r<MapConstants.MAP_ROW; r++){
 			for (int c=0; c<MapConstants.MAP_COL; c++){
@@ -33,6 +41,15 @@ public class Map extends JPanel {
 		}
 		//goal point is not virtual wall!
 		blocks[MapConstants.GOAL_ROW][MapConstants.GOAL_COL].setVirtualWall(false);
+
+		/*for animation*/
+		ActionListener counter = new ActionListener(){
+				public void actionPerformed(ActionEvent evt){
+					repaint();
+				}
+			};
+		new Timer(delay, counter).start();
+
 	}
 
 	public boolean isObstacle(int r, int c){
@@ -158,6 +175,9 @@ public class Map extends JPanel {
 				
 			}
 		} // End outer for loop	
+		g.setColor(MapConstants.C_ROBOT);
+		g.fillRect(theRobot.getRobotPosCol() * 40 + 2,theRobot.getRobotPosRow() * 40 + 2,36,36);
+
 	} // End paintComponent
 
 	private class MapGrid {
@@ -179,4 +199,11 @@ public class Map extends JPanel {
 			this.gridSize = borderSize - (MapConstants.GRID_LINE_WEIGHT * 2);
 		}
 	}
+
+
+		
+
+			
+				
+		
 }
