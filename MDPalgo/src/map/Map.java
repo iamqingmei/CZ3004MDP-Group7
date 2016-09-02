@@ -19,7 +19,10 @@ public class Map extends JPanel {
 	private Block[][] blocks;
 
 	// For measuring size of the canvas
-	// private boolean _bMeasured = false;
+	private boolean _bMeasured = false;
+
+	// For rendering the map efficiently
+	private MapGrid[][] _mapGrids = null;
 
 	public Map(){
 		blocks = new Block [MapConstants.MAP_ROW][MapConstants.MAP_COL];  
@@ -40,21 +43,21 @@ public class Map extends JPanel {
 	}
 
 	public boolean isStartZone(int r, int c){
-		if (r==0 && c==0){
-			return true;
+		if (r <= 2 && r >= 0){
+			if (c <= 2 && c >= 0){
+				return true;
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 
 	public boolean isGoalZone(int r, int c){
-		if (r==MapConstants.GOAL_ROW && c == MapConstants.GOAL_COL){
-			return true;
+		if (r <= MapConstants.GOAL_ROW+1 && r >= MapConstants.GOAL_ROW-1){
+			if (c <= MapConstants.GOAL_COL + 1 && c >= MapConstants.GOAL_COL - 1){
+				return true;
+			}
 		}
-		else{
-			return false;
-		}
+		return false;
 	}
 	
 	public Block getGoalZone(){
@@ -106,41 +109,39 @@ public class Map extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		
 
-		// if (!_bMeasured) {
+		if (!_bMeasured) {
 
-		// 	_mapWidth = MapConstants.MAP_COL;
-		// 	_mapHeight = MapConstants.MAP_ROW;
+			int _mapWidth = 800;
+			int _mapHeight = 600;
 
-		// 	System.out.println("RealMap Graphics g; Map width: " + _mapWidth
-		// 			+ ", Map height: " + _mapHeight);
+			System.out.println("RealMap Graphics g; Map width: " + _mapWidth
+					+ ", Map height: " + _mapHeight);
 
-		// 	// Calculate the map grids for rendering
-		// 	_mapGrids = new MapGrid[MapConstants.MAP_ROWS][MapConstants.MAP_COLS];
-		// 	for (int mapRow = 0; mapRow < MapConstants.MAP_ROWS; mapRow++) {
-		// 		for (int mapCol = 0; mapCol < MapConstants.MAP_COLS; mapCol++) {
-		// 			_mapGrids[mapRow][mapCol] = new MapGrid(mapCol
-		// 					* MapConstants.GRID_SIZE, mapRow
-		// 					* MapConstants.GRID_SIZE, MapConstants.GRID_SIZE);
-		// 		}
-		// 	}
+			// Calculate the map grids for rendering
+			_mapGrids = new MapGrid[MapConstants.MAP_ROW][MapConstants.MAP_COL];
+			for (int mapRow = 0; mapRow < MapConstants.MAP_ROW; mapRow++) {
+				for (int mapCol = 0; mapCol < MapConstants.MAP_COL; mapCol++) {
+					_mapGrids[mapRow][mapCol] = new MapGrid(mapCol
+							* MapConstants.GRID_SIZE, mapRow
+							* MapConstants.GRID_SIZE, MapConstants.GRID_SIZE);
+				}
+			}
 
-		// 	_bMeasured = true;
-		// }
-		
-		// Clear the map
+			_bMeasured = true;
+		}
+
 		g.setColor(Color.BLACK);
-        g.fillRect(0, 0, _mapWidth, _mapHeight);
+        g.fillRect(0, 0, 400, 400);
         
         Border border = BorderFactory.createLineBorder(
 				MapConstants.C_GRID_LINE, MapConstants.GRID_LINE_WEIGHT);
         this.setBorder(border);
         
         // Paint the grids
-        for (int mapRow = 0; mapRow < MapConstants.MAP_ROWS; mapRow++)
+        for (int mapRow = 0; mapRow < MapConstants.MAP_ROW; mapRow++)
 		{
-			for (int mapCol = 0; mapCol < MapConstants.MAP_COLS; mapCol++)
+			for (int mapCol = 0; mapCol < MapConstants.MAP_COL; mapCol++)
 			{
 				g.setColor(MapConstants.C_GRID_LINE);
 				g.fillRect(_mapGrids[mapRow][mapCol].borderX,
@@ -151,15 +152,13 @@ public class Map extends JPanel {
 				Color gridColor = null;
 				
 				// Determine what color to fill grid
-				if(isBorderWalls(mapRow, mapCol))
-					gridColor = MapConstants.C_BORDER;
-				else if(isStartZone(mapRow, mapCol))
+				if(isStartZone(mapRow, mapCol))
 					gridColor = MapConstants.C_START;
 				else if(isGoalZone(mapRow, mapCol))
 					gridColor = MapConstants.C_GOAL;
 				else
 				{
-					if(_grids[mapRow][mapCol].isObstacle())
+					if(blocks[mapRow][mapCol].getIsObstacle())
 						gridColor = MapConstants.C_OBSTACLE;
 					else
 						gridColor = MapConstants.C_FREE;
@@ -174,4 +173,24 @@ public class Map extends JPanel {
 			}
 		} // End outer for loop	
 	} // End paintComponent
+
+	private class MapGrid {
+		public int borderX;
+		public int borderY;
+		public int borderSize;
+		
+		public int gridX;
+		public int gridY;
+		public int gridSize;
+		
+		public MapGrid(int borderX, int borderY, int borderSize) {
+			this.borderX = borderX;
+			this.borderY = borderY;
+			this.borderSize = borderSize;
+			
+			this.gridX = borderX + MapConstants.GRID_LINE_WEIGHT;
+			this.gridY = borderY + MapConstants.GRID_LINE_WEIGHT;
+			this.gridSize = borderSize - (MapConstants.GRID_LINE_WEIGHT * 2);
+		}
+	}
 }
