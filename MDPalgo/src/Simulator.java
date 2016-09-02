@@ -18,7 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.util.concurrent.TimeUnit;
+import java.util.*;
 
+import map.Block;
 import robot.Robot;
 //import robot.RobotConstants.DIRECTION;
 
@@ -79,17 +81,30 @@ public class Simulator {
 
 		displayEverythings();
 		try{
-			TimeUnit.SECONDS.sleep(1);
-		}
-		catch(InterruptedException e)
-		{
-		     System.out.println("Miao!");
-		}
-		theMap.setObstacle(11,0);
-		bot.setRobotPos(13,18);
-		System.out.println("robot is here: " + bot.getRobotPosRow());
+				TimeUnit.MILLISECONDS .sleep(150);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("Miao!");
+			}
 
-		
+		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
+		Stack<Block> path = shortestPath.runShortestPath(theMap, 13, 18);
+		Block temp;
+		System.out.println("path is empty?: " + path.isEmpty());
+		while(!path.isEmpty()){
+			try{
+				TimeUnit.MILLISECONDS .sleep(300);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("Miao!");
+			}
+			temp = path.pop();
+			bot.setRobotPos(temp.getRow(),temp.getCol());
+			// System.out.println("set robot as ("+ temp.getCol() + " ,"+ temp.getRow()+ ")");
+		}
+		System.out.println("robot is here: " + bot.getRobotPosRow());
 	}
 
 	private static void displayEverythings(){

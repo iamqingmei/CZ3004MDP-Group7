@@ -23,7 +23,7 @@ import javax.swing.*;
 public class Map extends JPanel {
 	private Block[][] blocks;
 	private Robot theRobot;
-	public int delay = 500;
+	public int delay = 300;
 
 	// For rendering the map efficiently
 	private MapGrid[][] _mapGrids = null;
@@ -175,8 +175,21 @@ public class Map extends JPanel {
 				
 			}
 		} // End outer for loop	
+
+		//paint robot
 		g.setColor(MapConstants.C_ROBOT);
-		g.fillRect(theRobot.getRobotPosCol() * 40 + 2,theRobot.getRobotPosRow() * 40 + 2,36,36);
+		int r = theRobot.getRobotPosRow();
+		int c = theRobot.getRobotPosCol();
+		g.fillRect((c+1) * 40 + 2,r * 40 + 2,36,36);
+		g.fillRect((c+1) * 40 + 2,(r-1) * 40 + 2,36,36);
+		g.fillRect((c+1) * 40 + 2,(r+1) * 40 + 2,36,36);
+		g.fillRect((c-1) * 40 + 2,r * 40 + 2,36,36);
+		g.fillRect((c-1) * 40 + 2,(r-1) * 40 + 2,36,36);
+		g.fillRect((c-1) * 40 + 2,(r+1) * 40 + 2,36,36);
+		g.fillRect(c * 40 + 2,r * 40 + 2,36,36);
+		g.fillRect(c * 40 + 2,(r-1) * 40 + 2,36,36);
+		g.fillRect(c * 40 + 2,(r+1) * 40 + 2,36,36);
+
 
 	} // End paintComponent
 
