@@ -3,6 +3,7 @@ package map;
 import map.MapConstants;
 import robot.Robot;
 import robot.RobotConstants.DIRECTION;
+import robot.RobotConstants.MOVE;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,6 +18,8 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+
 
 
 @SuppressWarnings("serial")
@@ -42,16 +45,6 @@ public class Map extends JPanel {
 		}
 		//goal point is not virtual wall!
 		blocks[MapConstants.GOAL_ROW][MapConstants.GOAL_COL].setVirtualWall(false);
-
-		/*for animation*/
-		ActionListener counter = new ActionListener(){
-				public void actionPerformed(ActionEvent evt){
-					revalidate();
-					repaint();
-				}
-			};
-		new Timer(delay, counter).start();
-
 	}
 
 	public boolean isObstacle(int r, int c){
@@ -228,8 +221,20 @@ public class Map extends JPanel {
 	}
 
 
-		
+	// public void setRobot(int r, int c){
+	// 	theRobot.setRobotPos(r,c);
+	// 	revalidate();
+	// 	repaint();
+	// 	System.out.println("111");
+	// }
 
+	// public void moveRobot(MOVE m){
+	// 	theRobot.moveRobot(m);
+	// 	revalidate();
+	// 	repaint();
+	// 	System.out.println("222");
+	// }
+					
 			
 				
 		
