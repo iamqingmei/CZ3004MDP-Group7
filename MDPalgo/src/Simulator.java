@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JDialog;
 
 import java.util.concurrent.TimeUnit;
 import java.util.*;
@@ -178,7 +179,24 @@ public class Simulator {
 		btn_Speed.setFocusPainted(false);
 		btn_Speed.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				//Do something here
+				JDialog d1=new JDialog(_appFrame,"Change Robot Speed",true);
+				d1.setSize(400,400);
+				d1.setLayout(new FlowLayout());
+				JTextField speedTF = new JTextField(5);
+				JButton speedSaveButton = new JButton("Save");
+				
+				speedSaveButton.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+						botSpeed = 1000/(Integer.parseInt(speedTF.getText()));
+						System.out.println("botSpeed: " + botSpeed);
+					}
+				});
+
+		        d1.add(new JLabel("Enter Speed (X steps per second): "));
+		        d1.add(speedTF);
+		        d1.add(speedSaveButton);
+
+		        d1.setVisible(true);
 			}
 		});
 		_mainButtons.add(btn_Speed);
@@ -190,7 +208,25 @@ public class Simulator {
 		btn_TimeExploration.setFocusPainted(false);
 		btn_TimeExploration.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				//Do something here
+				JDialog d2=new JDialog(_appFrame,"Time Limit Exploration",true);
+				d2.setSize(400,400);
+				d2.setLayout(new FlowLayout());
+				JTextField timeTF = new JTextField(5);
+				JButton timeSaveButton = new JButton("Save");
+				
+				timeSaveButton.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+						// get time entered
+						// do time limit exploration
+					}
+				});
+
+		        d2.add(new JLabel("Enter time for exploration: "));
+		        d2.add(timeTF);
+		        d2.add(timeSaveButton);
+
+		        d2.setVisible(true);
+		        
 			}
 		});
 		_mainButtons.add(btn_TimeExploration);
@@ -202,7 +238,24 @@ public class Simulator {
 		btn_CoverageExploration.setFocusPainted(false);
 		btn_CoverageExploration.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				//Do something here
+				JDialog d3=new JDialog(_appFrame,"Coverage Limit Exploration",true);
+				d3.setSize(400,400);
+				d3.setLayout(new FlowLayout());
+				JTextField coverageTF = new JTextField(5);
+				JButton coverageSaveButton = new JButton("Save");
+				
+				coverageSaveButton.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+						// get coverage entered
+						// do time limit exploration
+					}
+				});
+
+		        d3.add(new JLabel("Enter coverage for exploration: "));
+		        d3.add(coverageTF);
+		        d3.add(coverageSaveButton);
+
+		        d3.setVisible(true);
 			}
 		});
 		_mainButtons.add(btn_CoverageExploration);
@@ -277,7 +330,7 @@ public class Simulator {
 		Block temp = path.pop();		
 		DIRECTION targetDir = bot.getRobotCurDir();
 		while(!path.isEmpty()){
-			if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol() ){
+			if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
 				temp = path.pop();
 			}
 			System.out.println("move from" + bot.getRobotPosRow() + ", " + bot.getRobotPosCol() + " to " + temp.getRow() + " , " + temp.getCol());
