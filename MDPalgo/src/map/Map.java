@@ -2,6 +2,7 @@ package map;
 
 import map.MapConstants;
 import robot.Robot;
+import robot.RobotConstants.DIRECTION;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -45,6 +46,7 @@ public class Map extends JPanel {
 		/*for animation*/
 		ActionListener counter = new ActionListener(){
 				public void actionPerformed(ActionEvent evt){
+					revalidate();
 					repaint();
 				}
 			};
@@ -180,15 +182,26 @@ public class Map extends JPanel {
 		g.setColor(MapConstants.C_ROBOT);
 		int r = theRobot.getRobotPosRow();
 		int c = theRobot.getRobotPosCol();
-		g.fillRect((c+1) * 40 + 2,r * 40 + 2,36,36);
-		g.fillRect((c+1) * 40 + 2,(r-1) * 40 + 2,36,36);
-		g.fillRect((c+1) * 40 + 2,(r+1) * 40 + 2,36,36);
-		g.fillRect((c-1) * 40 + 2,r * 40 + 2,36,36);
-		g.fillRect((c-1) * 40 + 2,(r-1) * 40 + 2,36,36);
-		g.fillRect((c-1) * 40 + 2,(r+1) * 40 + 2,36,36);
-		g.fillRect(c * 40 + 2,r * 40 + 2,36,36);
-		g.fillRect(c * 40 + 2,(r-1) * 40 + 2,36,36);
-		g.fillRect(c * 40 + 2,(r+1) * 40 + 2,36,36);
+		g.fillOval((c-1) * 40 + 22,(r-1) * 40 + 22,76,76);
+
+
+		//paint direction
+		g.setColor(MapConstants.C_ROBOT_DIR);
+		switch (d) {
+			case DIRECTION.NORTH : 
+				g.fillOval(c * 40 + 12,r * 40 + 42,18,18);
+				break;
+			case DIRECTION.WEST :
+				g.fillOval(c * 40 + 42,r * 40 + 12,18,18);
+				break;
+			case DIRECTION.SOUTH :
+				g.fillOval(c * 40 + 12,r * 40 - 42,18,18);
+				break;
+			case DIRECTION.EAST :
+				g.fillOval(c * 40 - 42,r * 40 + 12,18,18);
+				break;
+		}
+
 
 
 	} // End paintComponent
