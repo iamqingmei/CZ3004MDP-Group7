@@ -80,7 +80,7 @@ public class ShortestPathAlgo{
 			testingCount++;
 			current = minimumCostBlock(open,gScores, goalRow, goalCol); //get the block with min cost
 			if (parents.containsKey(current)){
-				curDir = getTargetDir(parents.get(current), current);
+				curDir = getTargetDir(parents.get(current), current,curDir);
 			}
 			
 			closed.add(current); //add the current block to the closed
@@ -242,33 +242,31 @@ public class ShortestPathAlgo{
 		double move = RobotConstants.MOVE_COST;
 		//since its moving to the neighbor, move_cost always 1
 		double turn = 0;
-		DIRECTION targetDir = getTargetDir(a, b);
+		DIRECTION targetDir = getTargetDir(a, b, aDir);
 		turn = turnCost(aDir, targetDir);
 		return (move + turn);
 	}
 	
 	//from block a to block b
 	//which direction should turn to
-	private DIRECTION getTargetDir(Block a, Block b){
-		DIRECTION targetDir = RobotConstants.STARTING_DIR;
+	private DIRECTION getTargetDir(Block a, Block b, DIRECTION orginalDir){
 		if (a.getCol() - b.getCol() > 0){
-			targetDir = DIRECTION.WEST;
+			return DIRECTION.EAST;
 		}
 		else if (b.getCol() - a.getCol() > 0){
-			targetDir = DIRECTION.EAST;
+			return DIRECTION.WEST;
 		}
 		else{ //same col
 			if (a.getRow() - b.getRow() > 0){
-				targetDir = DIRECTION.SOUTH;
+				return DIRECTION.SOUTH;
 			}
 			else if (b.getRow() - a.getRow() > 0){
-				targetDir = DIRECTION.NORTH;
+				return DIRECTION.NORTH;
 			}
 			else{ //same pos
-				return targetDir;
+				return orginalDir;
 			}
 		}
-		return targetDir;
 	}
 	
 }

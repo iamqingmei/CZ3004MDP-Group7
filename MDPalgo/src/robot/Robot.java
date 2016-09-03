@@ -116,6 +116,10 @@ public class Robot extends JPanel {
 						break;
 					}
 				break;
+			
+			default:
+				System.out.println("Error!");
+				break;
 			}
 		}
 			

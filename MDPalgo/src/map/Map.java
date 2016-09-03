@@ -24,7 +24,7 @@ import javax.swing.*;
 public class Map extends JPanel {
 	private Block[][] blocks;
 	private Robot theRobot;
-	public int delay = 300;
+	public int delay = 50;
 
 	// For rendering the map efficiently
 	private MapGrid[][] _mapGrids = null;

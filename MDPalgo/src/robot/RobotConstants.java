@@ -34,7 +34,7 @@ public final class RobotConstants {
 
 
 	public static enum MOVE {
-		FORWARD, RIGHT, LEFT, RETURN; 
+		FORWARD, RIGHT, LEFT, RETURN, ERROR; 
 	};
 	
 	
