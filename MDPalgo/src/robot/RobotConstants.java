@@ -12,6 +12,8 @@ public final class RobotConstants {
 	public static final int STARTING_COL = 1;
 	
 	public static final double INFINITE_COST = 9999; 
+
+	
 	
 	public static enum DIRECTION {
 		NORTH, EAST, SOUTH, WEST;
@@ -29,7 +31,11 @@ public final class RobotConstants {
 			return valueOf(direction.toUpperCase());
 		}
 	};
-	
+
+
+	public static enum MOVE {
+		FORWARD, RIGHT, LEFT, RETURN; 
+	};
 	
 	
 	

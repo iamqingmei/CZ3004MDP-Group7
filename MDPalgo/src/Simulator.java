@@ -22,6 +22,7 @@ import java.util.*;
 
 import map.Block;
 import robot.Robot;
+import robot.RobotConstants.MOVE;
 //import robot.RobotConstants.DIRECTION;
 
 import map.Map; 
@@ -88,23 +89,23 @@ public class Simulator {
 			     System.out.println("Miao!");
 			}
 
-		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
-		Stack<Block> path = shortestPath.runShortestPath(theMap, 13, 18);
-		Block temp;
-		System.out.println("path is empty?: " + path.isEmpty());
-		while(!path.isEmpty()){
-			try{
-				TimeUnit.MILLISECONDS .sleep(300);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("Miao!");
-			}
-			temp = path.pop();
-			bot.setRobotPos(temp.getRow(),temp.getCol());
-			// System.out.println("set robot as ("+ temp.getCol() + " ,"+ temp.getRow()+ ")");
-		}
-		System.out.println("robot is here: " + bot.getRobotPosRow());
+		// ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
+		// Stack<Block> path = shortestPath.runShortestPath(theMap, 13, 18);
+		// Block temp;
+		// System.out.println("path is empty?: " + path.isEmpty());
+		// while(!path.isEmpty()){
+		// 	try{
+		// 		TimeUnit.MILLISECONDS .sleep(300);
+		// 	}
+		// 	catch(InterruptedException e)
+		// 	{
+		// 	     System.out.println("Miao!");
+		// 	}
+		// 	temp = path.pop();
+		// 	bot.setRobotPos(temp.getRow(),temp.getCol());
+		// 	// System.out.println("set robot as ("+ temp.getCol() + " ,"+ temp.getRow()+ ")");
+		// }
+		
 	}
 
 	private static void displayEverythings(){
