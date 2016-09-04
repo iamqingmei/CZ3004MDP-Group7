@@ -1,22 +1,19 @@
 package robot;
 
 import robot.RobotConstants.DIRECTION;
-import robot.SensorConstants;
 
 public class Sensor {
-	private int minRange;
-	private int maxRange;
+	private int range;
 
-	private int sensorPosRow;
-	private int sensorPosCol;
+	// private int sensorPosRow;
+	// private int sensorPosCol;
 	private DIRECTION sensorDirection;
 
-	public Sensor(){
-		this.minRange = SensorConstants.SENSOR_MIN_RANGE;
-		this.maxRange = SensorConstants.SENSOR_MAX_RANGE;
-		this.sensorPosCol = SensorConstants.STARTING_COL;
-		this.sensorPosRow = SensorConstants.STARTING_ROW;
-		this.sensorDirection = SensorConstants.STARTING_DIR;
+	public Sensor(int r, DIRECTION dir){
+		this.range = r;
+		// this.sensorPosCol = col;
+		// this.sensorPosRow = row;
+		this.sensorDirection = dir;
 	}
 }
 

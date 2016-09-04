@@ -4,10 +4,10 @@ import java.awt.Color;
 
 
 public class MapConstants {
-	public static final int GOAL_ROW = 13;
-	public static final int GOAL_COL = 18;
-	public static final int MAP_ROW = 15;
-	public static final int MAP_COL = 20;
+	public static final int GOAL_ROW = 18;
+	public static final int GOAL_COL = 13;
+	public static final int MAP_ROW = 20;
+	public static final int MAP_COL = 15;
 
 		// Colors for rendering the map
 	public static final Color C_BORDER = Color.BLACK;

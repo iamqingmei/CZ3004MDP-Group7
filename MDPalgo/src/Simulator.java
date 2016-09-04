@@ -59,12 +59,15 @@ public class Simulator {
 		theMap.setObstacle(1,13);
 		theMap.setObstacle(2,13);
 		theMap.setObstacle(3,13);
+		theMap.setObstacle(7,13);
+		theMap.setObstacle(8,13);
+		theMap.setObstacle(9,13);
 		theMap.setObstacle(9,9);
-		theMap.setObstacle(10,16);
-		theMap.setObstacle(11,16);
-		theMap.setObstacle(12,16);
-		theMap.setObstacle(13,16);
-		theMap.setObstacle(14,16);
+		// theMap.setObstacle(10,16);
+		// theMap.setObstacle(11,16);
+		// theMap.setObstacle(12,16);
+		// theMap.setObstacle(13,16);
+		// theMap.setObstacle(14,16);
 
 
 		displayEverythings();
@@ -83,7 +86,7 @@ public class Simulator {
 		// Main frame for displaying everything
 		_appFrame = new JFrame();
 		_appFrame.setTitle("MDP Group 7 Simulator");
-		_appFrame.setSize(new Dimension(800, 700));
+		_appFrame.setSize(new Dimension(800, 870));
 		_appFrame.setResizable(false);
 		
 		// Center the main frame in the middle of the screen
@@ -265,7 +268,7 @@ public class Simulator {
 		bot.setRobotPos(1,1);
 		theMap.repaint();
 		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
-		shortestPath.runShortestPath(theMap, 13, 18);
+		shortestPath.runShortestPath(theMap, 18, 13);
 		runFastestPath = false;
 	}
 }

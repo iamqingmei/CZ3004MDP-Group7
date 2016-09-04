@@ -141,11 +141,11 @@ public class Map extends JPanel {
 		{
 			for (int mapCol = 0; mapCol < MapConstants.MAP_COL; mapCol++)
 			{
-				g.setColor(MapConstants.C_GRID_LINE);
-				g.fillRect(_mapGrids[mapRow][mapCol].borderX,
-						_mapGrids[mapRow][mapCol].borderY,
-						_mapGrids[mapRow][mapCol].borderSize,
-						_mapGrids[mapRow][mapCol].borderSize);
+				// g.setColor(MapConstants.C_GRID_LINE);
+				// g.fillRect(_mapGrids[mapRow][mapCol].borderX,
+				// 		_mapGrids[mapRow][mapCol].borderY,
+				// 		_mapGrids[mapRow][mapCol].borderSize,
+				// 		_mapGrids[mapRow][mapCol].borderSize);
 				
 				Color gridColor = null;
 				
@@ -175,7 +175,7 @@ public class Map extends JPanel {
 		g.setColor(MapConstants.C_ROBOT);
 		int r = theRobot.getRobotPosRow();
 		int c = theRobot.getRobotPosCol();
-		g.fillOval((c-1) * 40 + 22,(r-1) * 40 + 22,76,76);
+		g.fillOval((c-1) * 40 + 22,758 - (r * 40 + 18),76,76);
 
 
 		//paint direction
@@ -183,16 +183,16 @@ public class Map extends JPanel {
 		DIRECTION d = theRobot.getRobotCurDir();
 		switch (d) {
 			case NORTH : 
-				g.fillOval(c * 40 + 12,r * 40 + 42,18,18);
+				g.fillOval(c * 40 + 12,758 -r * 40 - 22,18,18);
 				break;
 			case WEST :
-				g.fillOval(c * 40 + 42,r * 40 + 12,18,18);
+				g.fillOval(c * 40 + 42,758 - r * 40 + 12,18,18);
 				break;
 			case SOUTH :
-				g.fillOval(c * 40 + 12,r * 40 - 22,18,18);
+				g.fillOval(c * 40 + 12,758 - r * 40 + 42,18,18);
 				break;
 			case EAST :
-				g.fillOval(c * 40 - 22,r * 40 + 12,18,18);
+				g.fillOval(c * 40 - 22,758 - r * 40 - 12,18,18);
 				break;
 		}
 
@@ -215,7 +215,7 @@ public class Map extends JPanel {
 			this.borderSize = borderSize;
 			
 			this.gridX = borderX + MapConstants.GRID_LINE_WEIGHT;
-			this.gridY = borderY + MapConstants.GRID_LINE_WEIGHT;
+			this.gridY = 758 - (borderY - MapConstants.GRID_LINE_WEIGHT);
 			this.gridSize = borderSize - (MapConstants.GRID_LINE_WEIGHT * 2);
 		}
 	}

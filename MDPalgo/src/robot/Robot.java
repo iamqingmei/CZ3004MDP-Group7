@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import robot.RobotConstants;
 import robot.RobotConstants.DIRECTION;
 import robot.RobotConstants.MOVE;
+import robot.Sensor;
 
 
 
@@ -22,6 +23,11 @@ public class Robot extends JPanel {
 	private int posCol;
 	private DIRECTION robotCurDir;
 	private int botSpeed = 300;
+	private Sensor sensorLong;
+	private Sensor sensorShort1;
+	private Sensor sensorShort2;
+	private Sensor sensorShort3;
+	private Sensor sensorShort4;
 	
 	public Robot(){
 		posRow= -1;
@@ -136,6 +142,15 @@ public class Robot extends JPanel {
 				break;
 			}
 		}
-			
+	
+	public void setSensor(DIRECTION l, DIRECTION s1, DIRECTION s2, DIRECTION s3, DIRECTION s4){
+		sensorLong = new Sensor (RobotConstants.SENSOR_LONG_RANGE, l);
+		sensorShort1 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s1);
+		sensorShort2 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s2);
+		sensorShort3 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s3);
+		sensorShort4 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s4);
+	}
+
+	 	
 }
 

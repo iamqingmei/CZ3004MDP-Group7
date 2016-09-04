@@ -74,3 +74,10 @@ while(){
 			go to find the right end of obstacles
 		}
 }
+
+
+
+switch (bot.getRobotCurDit()){
+	case NORTH:
+		if theRealMap.checkStatus()
+}
