@@ -46,7 +46,7 @@ public class Simulator {
 
 	private static boolean runFastestPath = false;
 
-	private static int botSpeed = 300; //default 300
+	
 
 	public static void main(String[] args){
 		bot = new Robot(1,1);
@@ -187,8 +187,8 @@ public class Simulator {
 				
 				speedSaveButton.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-						botSpeed = 1000/(Integer.parseInt(speedTF.getText()));
-						System.out.println("botSpeed: " + botSpeed);
+						bot.setRobotSpeed(1000/(Integer.parseInt(speedTF.getText())));
+						// System.out.println("botSpeed: " + botSpeed);
 					}
 				});
 
@@ -261,107 +261,11 @@ public class Simulator {
 		_mainButtons.add(btn_CoverageExploration);
 	}
 
-
-	//robot is going to block b
-	//which direction it should turn to
-	private static DIRECTION getTargetDir(int botR, int botC, DIRECTION botDir, Block b){
-		if (botC - b.getCol() > 0){
-			return DIRECTION.EAST;
-		}
-		else if (b.getCol() - botC > 0){
-			return DIRECTION.WEST;
-		}
-		else{ //same col
-			if (botR - b.getRow() > 0){
-				return DIRECTION.SOUTH;
-			}
-			else if (b.getRow() - botR > 0){
-				return DIRECTION.NORTH;
-			}
-			else{ //same pos
-				System.out.println("2222!");
-				return botDir;
-			}
-		}
-	}
-
-	//from direction a to b, what moves should robot do?
-	private static MOVE getTargetMove(DIRECTION a, DIRECTION b){
-		switch (a){
-			case NORTH:
-				switch (b){
-					case NORTH: return MOVE.ERROR; 
-					case SOUTH: return MOVE.LEFT; 
-					case WEST: return MOVE.LEFT; 
-					case EAST: return MOVE.RIGHT; 
-				}
-				break;
-			case SOUTH:
-				switch (b){
-					case NORTH: return MOVE.LEFT; 
-					case SOUTH: return MOVE.ERROR; 
-					case WEST: return MOVE.RIGHT; 
-					case EAST: return MOVE.LEFT; 
-				}
-				break;
-			case WEST:
-				switch (b){
-					case NORTH: return MOVE.RIGHT; 
-					case SOUTH: return MOVE.LEFT; 
-					case WEST: return MOVE.ERROR; 
-					case EAST: return MOVE.LEFT; 
-				}
-				break;
-			case EAST:
-				switch (b){
-					case NORTH: return MOVE.LEFT; 
-					case SOUTH: return MOVE.RIGHT; 
-					case WEST: return MOVE.LEFT; 
-					case EAST: return MOVE.ERROR; 
-				}
-		}
-		System.out.println("1111!");
-		return MOVE.ERROR;
-	}
-
-	// given the path which robot should go
-	// move the robot according to the path
-	private static void moveRobot(Robot bot, Stack<Block> path){
-		Block temp = path.pop();		
-		DIRECTION targetDir = bot.getRobotCurDir();
-		while(!path.isEmpty()){
-			if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
-				temp = path.pop();
-			}
-			System.out.println("move from" + bot.getRobotPosRow() + ", " + bot.getRobotPosCol() + " to " + temp.getRow() + " , " + temp.getCol());
-			targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
-			try{
-				TimeUnit.MILLISECONDS .sleep(botSpeed);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("Miao!");
-			}
-			if (bot.getRobotCurDir() != targetDir){
-				System.out.println("robot cur dir:" + bot.getRobotCurDir().toString());
-				System.out.println("target dir:" + targetDir.toString());
-				System.out.println("move:" + getTargetMove(bot.getRobotCurDir(),targetDir).toString());
-				bot.moveRobot(getTargetMove(bot.getRobotCurDir(),targetDir));
-			}
-			else{ //alr pointing to the target direction
-				System.out.println("move: FORWARD");
-				bot.moveRobot(MOVE.FORWARD);
-			}
-			theMap.repaint();
-		}
-	}
-
 	private static void FastestPath(){
 		bot.setRobotPos(1,1);
 		theMap.repaint();
 		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
-		Stack<Block> path = shortestPath.runShortestPath(theMap, 13, 18);
-		moveRobot(bot, path);
+		shortestPath.runShortestPath(theMap, 13, 18);
 		runFastestPath = false;
 	}
 }

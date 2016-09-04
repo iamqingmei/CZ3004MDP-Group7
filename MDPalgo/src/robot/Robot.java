@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -19,6 +21,7 @@ public class Robot extends JPanel {
 	private int posRow;
 	private int posCol;
 	private DIRECTION robotCurDir;
+	private int botSpeed = 300;
 	
 	public Robot(){
 		posRow= -1;
@@ -49,8 +52,19 @@ public class Robot extends JPanel {
 	public DIRECTION getRobotCurDir(){
 		return robotCurDir;
 	}
+
+	public void setRobotSpeed(int s){
+		botSpeed = s;
+	}
 	
 	public void moveRobot(MOVE m){
+		try{
+				TimeUnit.MILLISECONDS .sleep(botSpeed);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("Miao!");
+			}
 		switch (m){
 			case FORWARD:
 				switch (robotCurDir){

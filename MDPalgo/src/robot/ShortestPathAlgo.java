@@ -6,6 +6,8 @@ import map.Block;
 import java.util.*;
 
 import robot.RobotConstants.DIRECTION;
+import robot.RobotConstants.MOVE;
+import robot.Robot;
 
 public class ShortestPathAlgo{
 	private ArrayList<Block> open;
@@ -16,8 +18,12 @@ public class ShortestPathAlgo{
 	private DIRECTION curDir; //current robot dir
 	private double[][] gScores; //stores the costG for all the blocks
 	private int testingCount; //for testing uses
+	private Robot thebot;
+	private Map map;
 
 	public ShortestPathAlgo(Map theMap, Robot bot){
+		thebot = bot;
+		map = theMap;
 		open = new ArrayList<Block>();
 		closed = new ArrayList<Block>();
 		parents = new HashMap<Block, Block>();
@@ -72,7 +78,7 @@ public class ShortestPathAlgo{
 	}
 
 
-	public Stack<Block> runShortestPath(Map theMap, int goalRow, int goalCol){
+	public void runShortestPath(Map theMap, int goalRow, int goalCol){
 		System.out.println("Start to find the shortest path from (" + current.getCol() + ", " + current.getRow() + ") to goal (" + goalRow + ", " + goalCol + ")");	
 		Stack<Block> path = new Stack<Block>();
 		
@@ -80,7 +86,7 @@ public class ShortestPathAlgo{
 			testingCount++;
 			current = minimumCostBlock(open,gScores, goalRow, goalCol); //get the block with min cost
 			if (parents.containsKey(current)){
-				curDir = getTargetDir(parents.get(current), current,curDir);
+				curDir = getTargetDir(parents.get(current).getRow(),parents.get(current).getCol(),curDir, current);
 			}
 			
 			closed.add(current); //add the current block to the closed
@@ -91,7 +97,8 @@ public class ShortestPathAlgo{
 				// printGscores();
 				path = getPath(theMap, goalRow, goalCol);
 				// printShortestPath(path);
-				return path;
+				moveRobot(thebot,path);
+				return;
 			}
 			/// set up its neighbors
 			if (theMap.blockInRange(current.getRow() + 1,current.getCol())){
@@ -150,7 +157,7 @@ public class ShortestPathAlgo{
 		}while(!open.isEmpty());
 		// Continue until there is no more available square in the open list (which means there is no path)  
 		System.out.println("Path not found!");
-		return path;
+		return;
 	}
 
 	private Stack<Block> getPath(Map theMap, int goalRow, int goalCol){
@@ -166,6 +173,29 @@ public class ShortestPathAlgo{
 			}
 		}
 		return actualPath;
+	}
+
+	private void moveRobot(Robot bot, Stack<Block> path){
+		Block temp = path.pop();		
+		DIRECTION targetDir = bot.getRobotCurDir();
+		while(!path.isEmpty()){
+			if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
+				temp = path.pop();
+			}
+			System.out.println("move from" + bot.getRobotPosRow() + ", " + bot.getRobotPosCol() + " to " + temp.getRow() + " , " + temp.getCol());
+			targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
+			if (bot.getRobotCurDir() != targetDir){
+				System.out.println("robot cur dir:" + bot.getRobotCurDir().toString());
+				System.out.println("target dir:" + targetDir.toString());
+				System.out.println("move:" + getTargetMove(bot.getRobotCurDir(),targetDir).toString());
+				bot.moveRobot(getTargetMove(bot.getRobotCurDir(),targetDir));
+			}
+			else{ //alr pointing to the target direction
+				System.out.println("move: FORWARD");
+				bot.moveRobot(MOVE.FORWARD);
+			}
+			map.repaint();
+		}
 	}
 
 	private void printShortestPath(Stack<Block> actualPath){
@@ -242,31 +272,91 @@ public class ShortestPathAlgo{
 		double move = RobotConstants.MOVE_COST;
 		//since its moving to the neighbor, move_cost always 1
 		double turn = 0;
-		DIRECTION targetDir = getTargetDir(a, b, aDir);
+		DIRECTION targetDir = getTargetDir(a.getRow(), a.getCol(), aDir, b);
 		turn = turnCost(aDir, targetDir);
 		return (move + turn);
 	}
 	
 	//from block a to block b
 	//which direction should turn to
-	private DIRECTION getTargetDir(Block a, Block b, DIRECTION orginalDir){
-		if (a.getCol() - b.getCol() > 0){
+	// private DIRECTION getTargetDir(Block a, Block b, DIRECTION orginalDir){
+	// 	if (a.getCol() - b.getCol() > 0){
+	// 		return DIRECTION.EAST;
+	// 	}
+	// 	else if (b.getCol() - a.getCol() > 0){
+	// 		return DIRECTION.WEST;
+	// 	}
+	// 	else{ //same col
+	// 		if (a.getRow() - b.getRow() > 0){
+	// 			return DIRECTION.SOUTH;
+	// 		}
+	// 		else if (b.getRow() - a.getRow() > 0){
+	// 			return DIRECTION.NORTH;
+	// 		}
+	// 		else{ //same pos
+	// 			return orginalDir;
+	// 		}
+	// 	}
+	// }
+
+	private DIRECTION getTargetDir(int botR, int botC, DIRECTION botDir, Block b){
+		if (botC - b.getCol() > 0){
 			return DIRECTION.EAST;
 		}
-		else if (b.getCol() - a.getCol() > 0){
+		else if (b.getCol() - botC > 0){
 			return DIRECTION.WEST;
 		}
 		else{ //same col
-			if (a.getRow() - b.getRow() > 0){
+			if (botR - b.getRow() > 0){
 				return DIRECTION.SOUTH;
 			}
-			else if (b.getRow() - a.getRow() > 0){
+			else if (b.getRow() - botR > 0){
 				return DIRECTION.NORTH;
 			}
 			else{ //same pos
-				return orginalDir;
+				System.out.println("2222!");
+				return botDir;
 			}
 		}
+	}
+
+	//from direction a to b, what moves should robot do?
+	private MOVE getTargetMove(DIRECTION a, DIRECTION b){
+		switch (a){
+			case NORTH:
+				switch (b){
+					case NORTH: return MOVE.ERROR; 
+					case SOUTH: return MOVE.LEFT; 
+					case WEST: return MOVE.LEFT; 
+					case EAST: return MOVE.RIGHT; 
+				}
+				break;
+			case SOUTH:
+				switch (b){
+					case NORTH: return MOVE.LEFT; 
+					case SOUTH: return MOVE.ERROR; 
+					case WEST: return MOVE.RIGHT; 
+					case EAST: return MOVE.LEFT; 
+				}
+				break;
+			case WEST:
+				switch (b){
+					case NORTH: return MOVE.RIGHT; 
+					case SOUTH: return MOVE.LEFT; 
+					case WEST: return MOVE.ERROR; 
+					case EAST: return MOVE.LEFT; 
+				}
+				break;
+			case EAST:
+				switch (b){
+					case NORTH: return MOVE.LEFT; 
+					case SOUTH: return MOVE.RIGHT; 
+					case WEST: return MOVE.LEFT; 
+					case EAST: return MOVE.ERROR; 
+				}
+		}
+		System.out.println("1111!");
+		return MOVE.ERROR;
 	}
 	
 }
