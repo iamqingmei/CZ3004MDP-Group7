@@ -23,22 +23,32 @@ public class Robot extends JPanel {
 	private int posCol;
 	private DIRECTION robotCurDir;
 	private int botSpeed = 300;
-	private Sensor sensorLong;
-	private Sensor sensorShort1;
-	private Sensor sensorShort2;
-	private Sensor sensorShort3;
-	private Sensor sensorShort4;
+	private Sensor longFront;
+	private Sensor shortRF;
+	private Sensor shortLF;
+	private Sensor shortR;
+	private Sensor shortL;
 	
 	public Robot(){
 		posRow= -1;
 		posCol= -1;
 		robotCurDir = RobotConstants.STARTING_DIR;
+		longFront = new Sensor(RobotConstants.SENSOR_LONG_RANGE,this.posRow + 1,this.posCol,this.robotCurDir);
+		shortRF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol + 1,this.robotCurDir);
+		shortLF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol - 1,this.robotCurDir);
+		shortR = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortL = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
 	}
 	
 	public Robot(int r, int c){
 		posRow = r;
 		posCol = c;
 		robotCurDir = RobotConstants.STARTING_DIR;
+		longFront = new Sensor(RobotConstants.SENSOR_LONG_RANGE,this.posRow + 1,this.posCol,this.robotCurDir);
+		shortRF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol + 1,this.robotCurDir);
+		shortLF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol - 1,this.robotCurDir);
+		shortR = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortL = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
 	}
 	
 	public void setRobotPos(int r, int c){
@@ -105,50 +115,53 @@ public class Robot extends JPanel {
 				}
 				break;
 			case RIGHT:
-				switch (robotCurDir){
-					case NORTH:
-						robotCurDir = DIRECTION.EAST;
-						break;
-					case SOUTH:
-						robotCurDir = DIRECTION.WEST;
-						break;
-					case WEST:
-						robotCurDir = DIRECTION.NORTH;
-						break;
-					case EAST:
-						robotCurDir = DIRECTION.SOUTH;
-						break;
-					}
+				robotCurDir = leftRightDirection(MOVE.RIGHT);
 				break;
 			case LEFT:
-				switch (robotCurDir){
-					case NORTH:
-						robotCurDir = DIRECTION.WEST;
-						break;
-					case SOUTH:
-						robotCurDir = DIRECTION.EAST;
-						break;
-					case WEST:
-						robotCurDir = DIRECTION.SOUTH;
-						break;
-					case EAST:
-						robotCurDir = DIRECTION.NORTH;
-						break;
-					}
+				robotCurDir = leftRightDirection(MOVE.LEFT);
 				break;
 			
 			default:
 				System.out.println("Error!");
 				break;
 			}
+			setSensors();
 		}
-	
-	public void setSensor(DIRECTION l, DIRECTION s1, DIRECTION s2, DIRECTION s3, DIRECTION s4){
-		sensorLong = new Sensor (RobotConstants.SENSOR_LONG_RANGE, l);
-		sensorShort1 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s1);
-		sensorShort2 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s2);
-		sensorShort3 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s3);
-		sensorShort4 = new Sensor (RobotConstants.SENSOR_SHORT_RANGE, s4);
+
+	private void setSensors(){
+		longFront.setSensor(this.posRow + 1,this.posCol,this.robotCurDir);
+		shortRF.setSensor(this.posRow + 1,this.posCol + 1,this.robotCurDir);
+		shortLF.setSensor(this.posRow + 1,this.posCol - 1,this.robotCurDir);
+		shortR.setSensor(this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortL.setSensor(this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+	}
+
+	private DIRECTION leftRightDirection(MOVE m){
+		if ( m == MOVE.RIGHT){
+			switch (robotCurDir){
+				case NORTH:
+					return DIRECTION.EAST;
+				case SOUTH:
+					return DIRECTION.WEST;
+				case WEST:
+					return DIRECTION.NORTH;
+				case EAST:
+					return DIRECTION.SOUTH;
+			}
+		}
+		else{ //left
+			switch (robotCurDir){
+				case NORTH:
+					return DIRECTION.WEST;
+				case SOUTH:
+					return DIRECTION.EAST;
+				case WEST:
+					return DIRECTION.SOUTH;
+				case EAST:
+					return DIRECTION.NORTH;
+			}
+		}
+		return robotCurDir;		
 	}
 
 	 	

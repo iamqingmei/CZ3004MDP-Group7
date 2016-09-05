@@ -218,24 +218,6 @@ public class Map extends JPanel {
 			this.gridY = 758 - (borderY - MapConstants.GRID_LINE_WEIGHT);
 			this.gridSize = borderSize - (MapConstants.GRID_LINE_WEIGHT * 2);
 		}
-	}
-
-
-	// public void setRobot(int r, int c){
-	// 	theRobot.setRobotPos(r,c);
-	// 	revalidate();
-	// 	repaint();
-	// 	System.out.println("111");
-	// }
-
-	// public void moveRobot(MOVE m){
-	// 	theRobot.moveRobot(m);
-	// 	revalidate();
-	// 	repaint();
-	// 	System.out.println("222");
-	// }
-					
-			
-				
+	}			
 		
 }

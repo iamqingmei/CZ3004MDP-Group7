@@ -2,7 +2,7 @@
 pseudo code for exploration
 */
 assume the initial map has no obstacles
-Initialise START and GOAL;
+Initialise START && GOAL;
 curP = Starting position;
 ShortestPathAlgo algo = new ShortestPathAlgo(theMap, bot);
 ArrayList<Block> estimatedPath = algo.runShortestPath(theMap, 18, 13);
@@ -33,7 +33,7 @@ while(){
 
 
 // this algo is for robot to explore more on the map 
-// and finally go to GOAL ZONE
+// && finally go to GOAL ZONE
 
 assume the initial map has no obstacles
 Initialise START and GOAL;
@@ -76,8 +76,62 @@ while(){
 }
 
 
+botRow
+botCol
+botDir
+prevMov
 
-switch (bot.getRobotCurDit()){
-	case NORTH:
-		if theRealMap.checkStatus()
+//return true if its explored and its not a obstacle
+private bool checkStatus(int r, int c){
+	if (r>=0 && r<MapConstants.MAP_ROW && c>=0 && c<MapConstants.MAP_COL){
+		return (exMap.getIsExplored(r,c) && (!exMap.getIsObstacle(r,c)));
+	}
+	return false;
+}
+
+private MOVE getNextMove(){
+	switch (bot.getRobotCurDit()){
+		case NORTH:
+			if (exMap.checkStatus(botRow-1, botCol-2) && exMap.checkStatus(botRow, botCol-2) && exMap.checkStatus(botRow+1, botCol-2) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow-2, botCol - 1) && exMap.checkStatus(botRow-2, botCol + 1) && exMap.checkStatus(botRow-2, botCol)){
+				return MOVE.FORWARD;
+			}
+			else if(exMap.checkStatus(botRow-1, botCol+2) && exMap.checkStatus(botRow, botCol+2) && exMap.checkStatus(botRow+1, botCol+2)){
+				return MOVE.RIGHT;
+			}
+		case SOUTH:
+			if (exMap.checkStatus(botRow-1, botCol+2) && exMap.checkStatus(botRow, botCol+2) && exMap.checkStatus(botRow+1, botCol+2) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow+2, botCol-1) && exMap.checkStatus(botRow+2, botCol) && exMap.checkStatus(botRow+2, botCol+1)){
+				return MOVE.FORWARD;
+			}
+			else if (exMap.checkStatus(botRow-1, botCol-2) && exMap.checkStatus(botRow, botCol-2) && exMap.checkStatus(botRow+1, botCol-2)){
+				return MOVE.RIGHT;
+			}
+		case WEST:
+			if (exMap.checkStatus(botRow+2, botCol-1) && exMap.checkStatus(botRow+2, botCol) && exMap.checkStatus(botRow+2, botCol+1) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow-1, botCol-2) && exMap.checkStatus(botRow, botCol-2) && exMap.checkStatus(botRow+1, botCol-2)){
+				return MOVE.FORWARD;
+			}
+			else if (exMap.checkStatus(botRow-2, botCol-1) && exMap.checkStatus(botRow-2, botCol) && exMap.checkStatus(botRow-2, botCol+1)){
+				return MOVE.RIGHT;
+			}
+		case EAST:
+			if (exMap.checkStatus(botRow-2, botCol-1) && exMap.checkStatus(botRow-2, botCol) && exMap.checkStatus(botRow-2, botCol+1) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow-1, botCol+2) && exMap.checkStatus(botRow, botCol+2) && exMap.checkStatus(botRow+1, botCol+2)){
+				return MOVE.FORWARD;
+			}
+			else if (exMap.checkStatus(botRow+2, botCol-1) && exMap.checkStatus(botRow+2, botCol) && exMap.checkStatus(botRow+2, botCol+1)){
+				return MOVE.RIGHT;
+			}
+		default:
+			return MOVE.LEFT;
+	}
 }
