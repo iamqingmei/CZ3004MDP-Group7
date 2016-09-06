@@ -27,7 +27,7 @@ public class Sensor {
 	public int sense(Map exMap, Map realMap){
 		switch(sensorDirection){
 			case NORTH:
-				for (int i=1; i<=this.range; i++){
+				for (int i=0; i<=this.range; i++){
 					if (this.sensorPosRow + i >= 20){ //wall
 						return 1;
 					}
@@ -39,7 +39,7 @@ public class Sensor {
 				}
 				return 0;
 			case SOUTH:
-				for (int i=1; i<=this.range; i++){
+				for (int i=0; i<=this.range; i++){
 					if (this.sensorPosRow - i < 0){ //wall
 						return 1;
 					}
@@ -51,7 +51,7 @@ public class Sensor {
 				}
 				return 0;
 			case EAST:
-				for (int i=1; i<=this.range; i++){
+				for (int i=0; i<=this.range; i++){
 					if (this.sensorPosCol + 1 >= 15){ //wall
 						return 1;
 					}
@@ -63,7 +63,7 @@ public class Sensor {
 				}
 				return 0;
 			case WEST:
-				for (int i=1; i<=this.range; i++){
+				for (int i=0; i<=this.range; i++){
 					if (this.sensorPosCol - 1 <0){ //wall
 						return 1;
 					}

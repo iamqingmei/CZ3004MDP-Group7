@@ -3,7 +3,7 @@ package map;
 public class Block {
 	private boolean isObstacle;
 	private boolean isVirtualWall;
-	private boolean isExplored;
+	private boolean isExplored = true;
 	private int row; //which row where the block is
 	private int col; //which col where the block is
 	

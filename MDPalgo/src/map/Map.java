@@ -37,7 +37,7 @@ public class Map extends JPanel {
 		blocks = new Block [MapConstants.MAP_ROW][MapConstants.MAP_COL];  
 		for (int r=0; r<MapConstants.MAP_ROW; r++){
 			for (int c=0; c<MapConstants.MAP_COL; c++){
-				blocks[r][c] = new Block(r,c);
+				blocks[r][c] = new Block(r,c); // for side walls, set virtual walls
 				if (r==0 || c ==0 || r == MapConstants.MAP_ROW-1 || c == MapConstants.MAP_COL-1){
 					blocks[r][c].setVirtualWall(true);
 				}
@@ -45,6 +45,20 @@ public class Map extends JPanel {
 		}
 		//goal point is not virtual wall!
 		blocks[MapConstants.GOAL_ROW][MapConstants.GOAL_COL].setVirtualWall(false);
+	}
+
+	public void setAllUnexplored(){
+		// except for goalZone and StartZone, set as explored
+		for (int r=0; r<MapConstants.MAP_ROW; r++){
+			for (int c=0; c<MapConstants.MAP_COL; c++){
+				if ((r<3 && c<3) || (r>16 && c>12)){ //startZone
+					blocks[r][c].setIsExplored(true);
+				}
+				else{
+					blocks[r][c].setIsExplored(false);
+				}
+			}
+		}
 	}
 
 	public boolean isObstacle(int r, int c){
@@ -117,11 +131,6 @@ public class Map extends JPanel {
 	public void paintComponent(Graphics g) {
 
 
-		// int _mapWidth = 800;
-		// int _mapHeight = 600;
-
-		// System.out.println("RealMap Graphics g; Map width: " + 800 + ", Map height: " + 600);
-
 		// Calculate the map grids for rendering
 		_mapGrids = new MapGrid[MapConstants.MAP_ROW][MapConstants.MAP_COL];
 		for (int mapRow = 0; mapRow < MapConstants.MAP_ROW; mapRow++) {
@@ -132,31 +141,28 @@ public class Map extends JPanel {
 			}
 		}
 
-		// // Clear the Graphics
-		// g.setColor(Color.DARK_GRAY);
-		// g.fillRect(0, 0, 800, 600);
-
         // Paint the grids
         for (int mapRow = 0; mapRow < MapConstants.MAP_ROW; mapRow++)
 		{
 			for (int mapCol = 0; mapCol < MapConstants.MAP_COL; mapCol++)
 			{
-				// g.setColor(MapConstants.C_GRID_LINE);
-				// g.fillRect(_mapGrids[mapRow][mapCol].borderX,
-				// 		_mapGrids[mapRow][mapCol].borderY,
-				// 		_mapGrids[mapRow][mapCol].borderSize,
-				// 		_mapGrids[mapRow][mapCol].borderSize);
 				
 				Color gridColor = null;
 				
 				// Determine what color to fill grid
+
+				
 				if(isStartZone(mapRow, mapCol))
 					gridColor = MapConstants.C_START;
 				else if(isGoalZone(mapRow, mapCol))
 					gridColor = MapConstants.C_GOAL;
 				else
-				{
-					if(blocks[mapRow][mapCol].getIsObstacle())
+				{	
+					//if unexplored
+					if (!blocks[mapRow][mapCol].getIsExplored()){
+						gridColor = MapConstants.C_UNEXPLORED;
+					}
+					else if(blocks[mapRow][mapCol].getIsObstacle())
 						gridColor = MapConstants.C_OBSTACLE;
 					else
 						gridColor = MapConstants.C_FREE;
