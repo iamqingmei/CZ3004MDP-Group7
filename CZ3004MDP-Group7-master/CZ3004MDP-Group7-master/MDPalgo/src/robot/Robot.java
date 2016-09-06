@@ -1,0 +1,169 @@
+package robot;
+
+import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import robot.RobotConstants;
+import robot.RobotConstants.DIRECTION;
+import robot.RobotConstants.MOVE;
+import robot.Sensor;
+
+
+
+public class Robot extends JPanel {
+	private int posRow;
+	private int posCol;
+	private DIRECTION robotCurDir;
+	private int botSpeed = 300;
+	private Sensor longFront;
+	private Sensor shortRF;
+	private Sensor shortLF;
+	private Sensor shortR;
+	private Sensor shortL;
+	
+	public Robot(){
+		posRow= -1;
+		posCol= -1;
+		robotCurDir = RobotConstants.STARTING_DIR;
+		longFront = new Sensor(RobotConstants.SENSOR_LONG_RANGE,this.posRow + 1,this.posCol,this.robotCurDir);
+		shortRF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol + 1,this.robotCurDir);
+		shortLF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol - 1,this.robotCurDir);
+		shortR = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortL = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+	}
+	
+	public Robot(int r, int c){
+		posRow = r;
+		posCol = c;
+		robotCurDir = RobotConstants.STARTING_DIR;
+		longFront = new Sensor(RobotConstants.SENSOR_LONG_RANGE,this.posRow + 1,this.posCol,this.robotCurDir);
+		shortRF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol + 1,this.robotCurDir);
+		shortLF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol - 1,this.robotCurDir);
+		shortR = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortL = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+	}
+	
+	public void setRobotPos(int r, int c){
+		posRow = r;
+		posCol = c;
+		robotCurDir = RobotConstants.STARTING_DIR;
+	}
+	
+	public int getRobotPosRow(){
+		return posRow;
+	}
+	
+	public int getRobotPosCol(){
+		return posCol;
+	}
+
+	public DIRECTION getRobotCurDir(){
+		return robotCurDir;
+	}
+
+	public void setRobotSpeed(int s){
+		botSpeed = s;
+	}
+	
+	public void moveRobot(MOVE m){
+		try{
+				TimeUnit.MILLISECONDS .sleep(botSpeed);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("Miao!");
+			}
+		switch (m){
+			case FORWARD:
+				switch (robotCurDir){
+					case NORTH:
+						posRow ++;
+						break;
+					case SOUTH:
+						posRow --;
+						break;
+					case WEST:
+						posCol ++;
+						break;
+					case EAST:
+						posCol --;
+						break;
+				}
+				break;
+			case RETURN:
+				switch (robotCurDir){
+					case NORTH:
+						posRow --;
+						break;
+					case SOUTH:
+						posRow ++;
+						break;
+					case WEST:
+						posCol --;
+						break;
+					case EAST:
+						posCol ++;
+						break;
+				}
+				break;
+			case RIGHT:
+				robotCurDir = leftRightDirection(MOVE.RIGHT);
+				break;
+			case LEFT:
+				robotCurDir = leftRightDirection(MOVE.LEFT);
+				break;
+			
+			default:
+				System.out.println("Error!");
+				break;
+			}
+			setSensors();
+		}
+
+	private void setSensors(){
+		longFront.setSensor(this.posRow + 1,this.posCol,this.robotCurDir);
+		shortRF.setSensor(this.posRow + 1,this.posCol + 1,this.robotCurDir);
+		shortLF.setSensor(this.posRow + 1,this.posCol - 1,this.robotCurDir);
+		shortR.setSensor(this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortL.setSensor(this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+	}
+
+	private DIRECTION leftRightDirection(MOVE m){
+		if ( m == MOVE.RIGHT){
+			switch (robotCurDir){
+				case NORTH:
+					return DIRECTION.EAST;
+				case SOUTH:
+					return DIRECTION.WEST;
+				case WEST:
+					return DIRECTION.NORTH;
+				case EAST:
+					return DIRECTION.SOUTH;
+			}
+		}
+		else{ //left
+			switch (robotCurDir){
+				case NORTH:
+					return DIRECTION.WEST;
+				case SOUTH:
+					return DIRECTION.EAST;
+				case WEST:
+					return DIRECTION.SOUTH;
+				case EAST:
+					return DIRECTION.NORTH;
+			}
+		}
+		return robotCurDir;		
+	}
+
+	 	
+}
+
