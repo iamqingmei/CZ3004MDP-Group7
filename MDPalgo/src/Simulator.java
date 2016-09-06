@@ -59,7 +59,7 @@ public class Simulator {
 		
 		bot = new Robot(1,1);
 		theMap = new Map(bot);
-		theMap = ReadMap();
+		ReadMap(theMap);
 
 		displayEverythings();
 
@@ -262,9 +262,9 @@ public class Simulator {
 		shortestPath.runShortestPath(theMap, 18, 13);
 		runFastestPath = false;
 	}
-	private static Map ReadMap(){//Map descriptor format
+
+	private static void ReadMap(Map m){//Map descriptor format
 		Robot bot = new Robot(1,1);
-		Map NewMap = new Map(bot);
 		System.out.println("starting to read map");
 		try{
 			int decInt, asciiInt;
@@ -285,7 +285,7 @@ public class Simulator {
 						decInt = Character.getNumericValue(asciiInt);
 						System.out.println(decInt);
 						if(decInt == 1)
-							NewMap.setObstacle(r, c);
+							m.setObstacle(r, c);
 						else if(decInt != 0)//when character in text file is not part of the map eg.spaces etc
 							c--;//empty block has to be assigned 1 or 0 to indicate obstacle
 					}
@@ -298,6 +298,6 @@ public class Simulator {
 		}
 		 	
 		System.out.println("end of read map method");
-		return NewMap;
+		// return NewMap;
 	}
 }
