@@ -56,29 +56,10 @@ public class Simulator {
 	
 
 	public static void main(String[] args){
-		//ReadMap();
 		
 		bot = new Robot(1,1);
 		theMap = new Map(bot);
 		theMap = ReadMap();
-/*		theMap.setObstacle(5, 0);
-		theMap.setObstacle(5, 1);
-		theMap.setObstacle(5, 2);
-		theMap.setObstacle(5,3);
-		theMap.setObstacle(0,13);
-		theMap.setObstacle(1,13);
-		theMap.setObstacle(2,13);
-		theMap.setObstacle(3,13);
-		theMap.setObstacle(7,13);
-		theMap.setObstacle(8,13);
-		theMap.setObstacle(9,13);
-		theMap.setObstacle(9,9);*/
-		// theMap.setObstacle(10,16);
-		// theMap.setObstacle(11,16);
-		// theMap.setObstacle(12,16);
-		// theMap.setObstacle(13,16);
-		// theMap.setObstacle(14,16);
-
 
 		displayEverythings();
 
