@@ -1,26 +1,9 @@
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import map.MapConstants;
-
-import javax.swing.JDialog;
 
 import java.util.concurrent.TimeUnit;
 import java.util.*;
@@ -29,9 +12,10 @@ import map.Block;
 import robot.Robot;
 import robot.RobotConstants.MOVE;
 import robot.RobotConstants.DIRECTION;
+import robot.ShortestPathAlgo;
 
 import map.Map; 
-import robot.ShortestPathAlgo;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -47,27 +31,39 @@ public class Simulator {
 	// The frame used for main menu buttons
 	private static JPanel _mainButtons = null;
 
-	private static Map theMap = null;
+	private static Map simShortestPathMap = null;
 
 	private static Robot bot;
 
 	private static boolean runFastestPath = false;
+	private static boolean runExploration = false;
+
+	private static Map simExMap = null;
 
 	
 
 	public static void main(String[] args){
 		
 		bot = new Robot(1,1);
-		theMap = new Map(bot);
-		ReadMap(theMap);
+		simShortestPathMap = new Map(bot);
+
+		simExMap = new Map(bot);
+		simExMap.setAllUnexplored();
+
+		// sense(Map exMap, Map realMap){
+		// bot.longFront.sense(simExMap, simShortestPathMap);
 
 		displayEverythings();
 
 		while(true){
 			System.out.print("");
 			if (runFastestPath){
-				System.out.println("entered!");
+				System.out.println("entered runFastestPath!");
 				FastestPath();
+			}
+			if (runExploration){
+				System.out.println("entered runExploration!");
+				exploration();
 			}
 			continue;
 		}
@@ -107,7 +103,8 @@ public class Simulator {
 	private static void initMainLayout() {
 		
 		// Initialize the Map for simulation
-		_mainCards.add(theMap, "MAIN");
+		_mainCards.add(simShortestPathMap, "MAIN");
+		_mainCards.add(simExMap,"EXPLO");
 		
 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
 	    cl.show(_mainCards, "MAIN");
@@ -131,11 +128,12 @@ public class Simulator {
 		// Exploration button
 		JButton btn_Exploration = new JButton("Exploration");
 		btn_Exploration.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_Exploration.setMargin(new Insets(5, 5, 5, 5));
 		btn_Exploration.setFocusPainted(false);
 		btn_Exploration.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				//Do something here
+				CardLayout cl = ((CardLayout) _mainCards.getLayout());
+			    cl.show(_mainCards, "EXPLO");
+				runExploration = true;
 			}
 		});
 		_mainButtons.add(btn_Exploration);
@@ -144,12 +142,12 @@ public class Simulator {
 		//Shortest Path button
 		JButton btn_ShortestPath = new JButton("Fastest Path");
 		btn_ShortestPath.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_ShortestPath.setMargin(new Insets(5, 5, 5, 5));
 		btn_ShortestPath.setFocusPainted(false);
 		btn_ShortestPath.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				CardLayout cl = ((CardLayout) _mainCards.getLayout());
+			    cl.show(_mainCards, "MAIN");
 				runFastestPath = true;
-				System.out.println("miao true!");
 			}
 		});
 		_mainButtons.add(btn_ShortestPath);
@@ -157,11 +155,10 @@ public class Simulator {
 		// Load Map button
 		JButton btn_LoadMap = new JButton("Load Map");
 		btn_LoadMap.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_LoadMap.setMargin(new Insets(5, 5, 5, 5));
 		btn_LoadMap.setFocusPainted(false);
 		btn_LoadMap.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				//Do something here
+				ReadMap(simShortestPathMap);
 			}
 		});
 		_mainButtons.add(btn_LoadMap);
@@ -169,7 +166,6 @@ public class Simulator {
 		// Set speed of robot (speed of X steps per second ) button
 		JButton btn_Speed = new JButton("Robot Speed");
 		btn_Speed.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_Speed.setMargin(new Insets(5, 5, 5, 5));
 		btn_Speed.setFocusPainted(false);
 		btn_Speed.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -198,7 +194,6 @@ public class Simulator {
 		// Time-limited Exploration button
 		JButton btn_TimeExploration = new JButton("Time-limited");
 		btn_TimeExploration.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_TimeExploration.setMargin(new Insets(5, 5, 5, 5));
 		btn_TimeExploration.setFocusPainted(false);
 		btn_TimeExploration.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -228,7 +223,6 @@ public class Simulator {
 		// Coverage-limited Exploration button
 		JButton btn_CoverageExploration = new JButton("Coverage-limited");
 		btn_CoverageExploration.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_CoverageExploration.setMargin(new Insets(5, 5, 5, 5));
 		btn_CoverageExploration.setFocusPainted(false);
 		btn_CoverageExploration.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -257,9 +251,9 @@ public class Simulator {
 
 	private static void FastestPath(){
 		bot.setRobotPos(1,1);
-		theMap.repaint();
-		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
-		shortestPath.runShortestPath(theMap, 18, 13);
+		simShortestPathMap.repaint();
+		ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
+		shortestPath.runShortestPath(simShortestPathMap, 18, 13);
 		runFastestPath = false;
 	}
 
@@ -274,8 +268,6 @@ public class Simulator {
 			//while ((asciiInt = fr.read()) != -1) {//read char by char in ASCII from textfile and convert to decimal
 				//decInt = Character.getNumericValue(asciiInt);
 				//System.out.println(decInt);
-
-				
 					
 				for(int r=0;r<MapConstants.MAP_ROW;r++){
 					for(int c=0;c<MapConstants.MAP_COL;c++){
@@ -298,6 +290,35 @@ public class Simulator {
 		}
 		 	
 		System.out.println("end of read map method");
-		// return NewMap;
+		CardLayout cl = ((CardLayout) _mainCards.getLayout());
+	    cl.show(_mainCards, "MAIN");
+		simShortestPathMap.repaint();
+	}
+
+	private static void exploration(){
+		bot.setRobotPos(1,1);
+		simExMap.repaint();
+
+		bot.moveRobot(MOVE.FORWARD);
+		bot.setSensors();
+		bot.sense(simExMap, simShortestPathMap);
+		simExMap.repaint();
+
+		bot.moveRobot(MOVE.FORWARD);
+		bot.setSensors();
+		bot.sense(simExMap, simShortestPathMap);
+		simExMap.repaint();
+
+		bot.moveRobot(MOVE.FORWARD);
+		bot.setSensors();
+		bot.sense(simExMap, simShortestPathMap);
+		simExMap.repaint();
+
+		bot.moveRobot(MOVE.FORWARD);
+		bot.setSensors();
+		bot.sense(simExMap, simShortestPathMap);
+		simExMap.repaint();
+
+		runExploration = false;
 	}
 }
