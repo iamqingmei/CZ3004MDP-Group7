@@ -43,8 +43,6 @@ public class Map extends JPanel {
 				}
 			}
 		}
-		//goal point is not virtual wall!
-		blocks[MapConstants.GOAL_ROW][MapConstants.GOAL_COL].setVirtualWall(false);
 	}
 
 	public void setAllUnexplored(){
@@ -96,6 +94,7 @@ public class Map extends JPanel {
 		}
 		return true;
 	}
+
 	public Block getBlock(int r, int c){
 		return this.blocks[r][c];
 	}
@@ -150,7 +149,6 @@ public class Map extends JPanel {
 				Color gridColor = null;
 				
 				// Determine what color to fill grid
-
 				
 				if(isStartZone(mapRow, mapCol))
 					gridColor = MapConstants.C_START;

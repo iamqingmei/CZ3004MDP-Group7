@@ -15,6 +15,7 @@ import robot.RobotConstants;
 import robot.RobotConstants.DIRECTION;
 import robot.RobotConstants.MOVE;
 import robot.Sensor;
+import map.Map;
 
 
 
@@ -23,11 +24,11 @@ public class Robot extends JPanel {
 	private int posCol;
 	private DIRECTION robotCurDir;
 	private int botSpeed = 300;
-	private Sensor longFront;
-	private Sensor shortRF;
-	private Sensor shortLF;
-	private Sensor shortR;
-	private Sensor shortL;
+	public Sensor longFront;
+	public Sensor shortRF;
+	public Sensor shortLF;
+	public Sensor shortR;
+	public Sensor shortL;
 	
 	public Robot(){
 		posRow= -1;
@@ -125,15 +126,24 @@ public class Robot extends JPanel {
 				System.out.println("Error!");
 				break;
 			}
-			setSensors();
 		}
 
-	private void setSensors(){
+	public void setSensors(){
 		longFront.setSensor(this.posRow + 1,this.posCol,this.robotCurDir);
 		shortRF.setSensor(this.posRow + 1,this.posCol + 1,this.robotCurDir);
 		shortLF.setSensor(this.posRow + 1,this.posCol - 1,this.robotCurDir);
 		shortR.setSensor(this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
 		shortL.setSensor(this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+	}
+
+	public int[] sense(Map simExMap, Map simShortestPathMap){
+		int[] result = new int[5];
+		result[0] = longFront.sense(simExMap, simShortestPathMap);
+		result[1] = shortRF.sense(simExMap, simShortestPathMap);
+		result[2] = shortLF.sense(simExMap, simShortestPathMap);
+		result[3] = shortR.sense(simExMap, simShortestPathMap);
+		result[4] = shortL.sense(simExMap, simShortestPathMap);
+		return result;
 	}
 
 	private DIRECTION leftRightDirection(MOVE m){

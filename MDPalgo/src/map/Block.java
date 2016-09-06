@@ -17,7 +17,7 @@ public class Block {
 		this.row = theRow;
 		this.col = theCol;
 		isObstacle = false;
-		isExplored = false;
+		isExplored = true;
 	}
 	
 	public void setObstacle(){
