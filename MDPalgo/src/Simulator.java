@@ -17,6 +17,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import map.MapConstants;
+
 import javax.swing.JDialog;
 
 import java.util.concurrent.TimeUnit;
@@ -29,6 +32,10 @@ import robot.RobotConstants.DIRECTION;
 
 import map.Map; 
 import robot.ShortestPathAlgo;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Simulator {
 	// JFrame for the application
 	private static JFrame _appFrame = null;
@@ -49,9 +56,12 @@ public class Simulator {
 	
 
 	public static void main(String[] args){
+		//ReadMap();
+		
 		bot = new Robot(1,1);
 		theMap = new Map(bot);
-		theMap.setObstacle(5, 0);
+		theMap = ReadMap();
+/*		theMap.setObstacle(5, 0);
 		theMap.setObstacle(5, 1);
 		theMap.setObstacle(5, 2);
 		theMap.setObstacle(5,3);
@@ -62,7 +72,7 @@ public class Simulator {
 		theMap.setObstacle(7,13);
 		theMap.setObstacle(8,13);
 		theMap.setObstacle(9,13);
-		theMap.setObstacle(9,9);
+		theMap.setObstacle(9,9);*/
 		// theMap.setObstacle(10,16);
 		// theMap.setObstacle(11,16);
 		// theMap.setObstacle(12,16);
@@ -270,5 +280,43 @@ public class Simulator {
 		ShortestPathAlgo shortestPath = new ShortestPathAlgo(theMap, bot);
 		shortestPath.runShortestPath(theMap, 18, 13);
 		runFastestPath = false;
+	}
+	private static Map ReadMap(){//Map descriptor format
+		Robot bot = new Robot(1,1);
+		Map NewMap = new Map(bot);
+		System.out.println("starting to read map");
+		try{
+			int decInt, asciiInt;
+			FileReader fr = new FileReader("MAP1.txt");
+			BufferedReader br = new BufferedReader(fr);
+				
+			//while ((asciiInt = fr.read()) != -1) {//read char by char in ASCII from textfile and convert to decimal
+				//decInt = Character.getNumericValue(asciiInt);
+				//System.out.println(decInt);
+
+				
+					
+				for(int r=0;r<MapConstants.MAP_ROW;r++){
+					for(int c=0;c<MapConstants.MAP_COL;c++){
+						asciiInt = fr.read();
+						if(asciiInt==-1)//check for EOF
+							break;
+						decInt = Character.getNumericValue(asciiInt);
+						System.out.println(decInt);
+						if(decInt == 1)
+							NewMap.setObstacle(r, c);
+						else if(decInt != 0)//when character in text file is not part of the map eg.spaces etc
+							c--;//empty block has to be assigned 1 or 0 to indicate obstacle
+					}
+				}
+				
+			//}//end of while loop
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		 	
+		System.out.println("end of read map method");
+		return NewMap;
 	}
 }

@@ -4,30 +4,24 @@ pseudo code for exploration
 assume the initial map has no obstacles
 Initialise START && GOAL;
 curP = Starting position;
-ShortestPathAlgo algo = new ShortestPathAlgo(theMap, bot);
-ArrayList<Block> estimatedPath = algo.runShortestPath(theMap, 18, 13);
 ArrayList<Block> tracks = new ArrayList<Block>();
 
+initialise start point and direction
+set repeatedArea = 0
+do
+	get sensor data
+	update exploration map
+	Use algorithm & sensor data to decide turn left, right or go straight
+		Include consideration if the path is explored or unexplored.
+	if next cell is already explored then
+		repeatedArea += 1
+	Execute the movement (Update current position of robot)
+	
+	if repeatedArea = 15 then
+		break
+while (Not start point) and (exploration map < 100%)
+Use Shortest path to return back to start point from current position
 
-// this algo is for robot to go to GOAL ZONE as fast as possible
-while(){
-	tracks.add(curp);
-	if (curP is GOAL ZONE){
-		break; //mission complete
-	}
-	scan() //scan the environment
-
-	if (obstacle is found){ 
-		//add the blocks of obstacles found into the map
-		theMap.setObstacle(r,c);
-
-		//update the estimatedPath
-		algo.reset(theMap, bot);
-		estimatedPath = algo.runShortestPath(theMap, 18, 13); 
-	}
-	Go to the next point in estimatedPath
-	curP = next point in estimatedPath
-}
 
 
 
