@@ -264,7 +264,7 @@ public class Simulator {
 	}
 
 	private static void ReadMap(Map m){//Map descriptor format
-		Robot bot = new Robot(1,1);
+		// Robot bot = new Robot(1,1);
 		System.out.println("starting to read map");
 		try{
 			int decInt, asciiInt;
