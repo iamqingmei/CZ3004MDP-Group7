@@ -284,10 +284,10 @@ public class ShortestPathAlgo{
 
 	private DIRECTION getTargetDir(int botR, int botC, DIRECTION botDir, Block b){
 		if (botC - b.getCol() > 0){
-			return DIRECTION.EAST;
+			return DIRECTION.WEST;
 		}
 		else if (b.getCol() - botC > 0){
-			return DIRECTION.WEST;
+			return DIRECTION.EAST;
 		}
 		else{ //same col
 			if (botR - b.getRow() > 0){

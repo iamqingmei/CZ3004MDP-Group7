@@ -191,13 +191,13 @@ public class Map extends JPanel {
 				g.fillOval(c * 40 + 12,758 -r * 40 - 22,18,18);
 				break;
 			case WEST :
-				g.fillOval(c * 40 + 42,758 - r * 40 + 8 ,18,18);
+				g.fillOval(c * 40 - 22,758 - r * 40 + 8 ,18,18);
 				break;
 			case SOUTH :
 				g.fillOval(c * 40 + 12,758 - r * 40 + 42,18,18);
 				break;
 			case EAST :
-				g.fillOval(c * 40 - 22,758 - r * 40 + 8,18,18);
+				g.fillOval(c * 40 + 42,758 - r * 40 + 8,18,18);
 				break;
 		}
 

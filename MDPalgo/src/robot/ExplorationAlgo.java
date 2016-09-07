@@ -43,15 +43,16 @@ public class ExplorationAlgo{
 		exMap.repaint();
 		do{
 			prevMov = nextMove;
-			nextMove = getNextMove(prevMov);
+			nextMove = getNextMove();
 			// if next cell is already explored then
 				// repeatedArea += 1
+			System.out.println("move: " + nextMove);
 			bot.moveRobot(nextMove);
 			bot.setSensors();
 			sensorData = bot.sense(exMap, realMap);
-			for (int i = 0; i<5; i++){
-				System.out.println(i + ": " + sensorData[i]);
-			}
+			// for (int i = 0; i<5; i++){
+			// 	System.out.println(i + ": " + sensorData[i]);
+			// }
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
@@ -82,16 +83,23 @@ public class ExplorationAlgo{
 	private MOVE getNextMove(MOVE prevMov){
 		int botRow = bot.getRobotPosRow();
 		int botCol = bot.getRobotPosCol();
+		// LEFT side free:
+		// checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)
+		// RIGHT side free:
+		// checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)
+		// UP side free:
+		// checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol)
+		// DOWN side free:
+		// checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)
+		// sensorData[0] = longFront
+		// sensorData[1] = shortRF
+		// sensorData[2] = shortLF
+		// sensorData[3] = shortR
+		// sensorData[4] = shortL
 		switch (bot.getRobotCurDir()){
 			case NORTH:
-				if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2) && prevMov != MOVE.LEFT){
-					return MOVE.LEFT;
-	            }
-				else if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol)){
-					return MOVE.FORWARD;
-				}
-				else if(checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
-					return MOVE.RIGHT;
+				if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol) && sensorData[4] == 1){
+					return MOVE.FORWARD
 				}
 			case SOUTH:
 				if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && prevMov != MOVE.LEFT){
@@ -127,4 +135,5 @@ public class ExplorationAlgo{
 				return MOVE.LEFT;
 		}
 	}
+
 }

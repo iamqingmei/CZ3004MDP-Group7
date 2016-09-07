@@ -54,6 +54,23 @@ public class Simulator {
 
 		displayEverythings();
 
+		// bot.moveRobot(MOVE.RIGHT);
+		// simShortestPathMap.repaint();
+		// bot.moveRobot(MOVE.RIGHT);
+		// simShortestPathMap.repaint();
+		// bot.moveRobot(MOVE.RIGHT);
+		// simShortestPathMap.repaint();
+		// bot.moveRobot(MOVE.RIGHT);
+		// simShortestPathMap.repaint();
+		// bot.moveRobot(MOVE.LEFT);
+		// simShortestPathMap.repaint();
+		// bot.moveRobot(MOVE.LEFT);
+		// simShortestPathMap.repaint();
+		// bot.moveRobot(MOVE.LEFT);
+		// simShortestPathMap.repaint();
+		// bot.moveRobot(MOVE.LEFT);
+		// simShortestPathMap.repaint();
+
 		while(true){
 			System.out.print("");
 			if (runFastestPath){

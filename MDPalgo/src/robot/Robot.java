@@ -92,10 +92,10 @@ public class Robot extends JPanel {
 						posRow --;
 						break;
 					case WEST:
-						posCol ++;
+						posCol --;
 						break;
 					case EAST:
-						posCol --;
+						posCol ++;
 						break;
 				}
 				break;
@@ -108,18 +108,20 @@ public class Robot extends JPanel {
 						posRow ++;
 						break;
 					case WEST:
-						posCol --;
+						posCol ++;
 						break;
 					case EAST:
-						posCol ++;
+						posCol --;
 						break;
 				}
 				break;
 			case RIGHT:
 				robotCurDir = leftRightDirection(MOVE.RIGHT);
+				System.out.println("robot facing:" +  robotCurDir);
 				break;
 			case LEFT:
 				robotCurDir = leftRightDirection(MOVE.LEFT);
+				System.out.println("robot facing:" +  robotCurDir);
 				break;
 			
 			default:
@@ -129,11 +131,37 @@ public class Robot extends JPanel {
 		}
 
 	public void setSensors(){
-		longFront.setSensor(this.posRow + 1,this.posCol,this.robotCurDir);
-		shortRF.setSensor(this.posRow + 1,this.posCol + 1,this.robotCurDir);
-		shortLF.setSensor(this.posRow + 1,this.posCol - 1,this.robotCurDir);
-		shortR.setSensor(this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
-		shortL.setSensor(this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+		switch (robotCurDir){
+			case NORTH:
+				longFront.setSensor(this.posRow + 1,this.posCol,this.robotCurDir);
+				shortRF.setSensor(this.posRow + 1,this.posCol + 1,this.robotCurDir);
+				shortLF.setSensor(this.posRow + 1,this.posCol - 1,this.robotCurDir);
+				shortR.setSensor(this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+				shortL.setSensor(this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+				break;
+			case SOUTH:
+				longFront.setSensor(this.posRow - 1,this.posCol,this.robotCurDir);
+				shortRF.setSensor(this.posRow - 1,this.posCol - 1,this.robotCurDir);
+				shortLF.setSensor(this.posRow - 1,this.posCol + 1,this.robotCurDir);
+				shortR.setSensor(this.posRow- 1, this.posCol - 1,leftRightDirection(MOVE.RIGHT));
+				shortL.setSensor(this.posRow- 1, this.posCol + 1,leftRightDirection(MOVE.LEFT));
+				break;
+			case EAST:
+				longFront.setSensor(this.posRow,this.posCol + 1,this.robotCurDir);
+				shortRF.setSensor(this.posRow - 1,this.posCol + 1,this.robotCurDir);
+				shortLF.setSensor(this.posRow + 1,this.posCol + 1,this.robotCurDir);
+				shortR.setSensor(this.posRow- 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+				shortL.setSensor(this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.LEFT));
+				break;
+			case WEST:
+				longFront.setSensor(this.posRow,this.posCol - 1,this.robotCurDir);
+				shortRF.setSensor(this.posRow + 1,this.posCol - 1,this.robotCurDir);
+				shortLF.setSensor(this.posRow - 1,this.posCol - 1,this.robotCurDir);
+				shortR.setSensor(this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.RIGHT));
+				shortL.setSensor(this.posRow- 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
+				break;
+		}
+		
 	}
 
 	public int[] sense(Map simExMap, Map simShortestPathMap){
@@ -150,6 +178,7 @@ public class Robot extends JPanel {
 		if ( m == MOVE.RIGHT){
 			switch (robotCurDir){
 				case NORTH:
+					System.out.println("RIGHT EAST!");
 					return DIRECTION.EAST;
 				case SOUTH:
 					return DIRECTION.WEST;
@@ -162,6 +191,7 @@ public class Robot extends JPanel {
 		else{ //left
 			switch (robotCurDir){
 				case NORTH:
+				System.out.println("LEFT WEST!");
 					return DIRECTION.WEST;
 				case SOUTH:
 					return DIRECTION.EAST;
