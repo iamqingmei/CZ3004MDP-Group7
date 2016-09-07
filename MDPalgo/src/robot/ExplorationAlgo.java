@@ -43,7 +43,7 @@ public class ExplorationAlgo{
 		exMap.repaint();
 		do{
 			prevMov = nextMove;
-			nextMove = getNextMove();
+			nextMove = getNextMove(prevMov);
 			// if next cell is already explored then
 				// repeatedArea += 1
 			System.out.println("move: " + nextMove);
@@ -56,7 +56,7 @@ public class ExplorationAlgo{
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-		}while(bot.getRobotPosCol() != RobotConstants.GOAL_COL || bot.getRobotPosRow() != RobotConstants.GOAL_ROW);
+		}while(bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1);
 	}
 
 	private int countExploredArea(){
@@ -80,17 +80,34 @@ public class ExplorationAlgo{
 		return false;
 	}
 
-	private MOVE getNextMove(){
+	//return true if west side is free
+	private boolean wSideFree(){
 		int botRow = bot.getRobotPosRow();
 		int botCol = bot.getRobotPosCol();
-		// LEFT side free:
-		// checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)
-		// RIGHT side free:
-		// checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)
-		// UP side free:
-		// checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol)
-		// DOWN side free:
-		// checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)
+		return(checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2));
+	}
+	//return true if east side is free
+	private boolean eSideFree(){
+		int botRow = bot.getRobotPosRow();
+		int botCol = bot.getRobotPosCol();
+		return (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2));
+	}
+	//return true if north side is free
+	private boolean nSideFree(){
+		int botRow = bot.getRobotPosRow();
+		int botCol = bot.getRobotPosCol();
+		return (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol));
+	}
+	//return true if south side is free
+	private boolean sSideFree(){
+		int botRow = bot.getRobotPosRow();
+		int botCol = bot.getRobotPosCol();
+		return (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1));
+	}
+
+	private MOVE getNextMove(MOVE prevMov){
+		int botRow = bot.getRobotPosRow();
+		int botCol = bot.getRobotPosCol();
 		// sensorData[0] = longFront
 		// sensorData[1] = shortRF
 		// sensorData[2] = shortLF
@@ -98,63 +115,63 @@ public class ExplorationAlgo{
 		// sensorData[4] = shortL
 		switch (bot.getRobotCurDir()){
 			case NORTH: 
-				if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol) && sensorData[4] == 1){
+				if (nSideFree() && !wSideFree()){
 					return MOVE.FORWARD;
 				}
-				else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)){
+				else if (wSideFree() && prevMov!= MOVE.LEFT){
 					return MOVE.LEFT;
 				}
-				else if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && sensorData[0] == 1){
+				else if (eSideFree() && !nSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("north error!");
-					return MOVE.ERROR;
-				}
-			case EAST:
-				if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && sensorData[4] == 1 ){
 					return MOVE.FORWARD;
 				}
-				else if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol)){
+			case EAST:
+				if (eSideFree() && !nSideFree() ){
+					return MOVE.FORWARD;
+				}
+				else if (nSideFree() && prevMov!= MOVE.LEFT){
 					return MOVE.LEFT;
 				}
-				else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1) && sensorData[0] == 1){
+				else if (sSideFree() && !eSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("east error!");
-					return MOVE.ERROR;
-				}
-			case SOUTH:
-				if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1) && sensorData[4] == 1 ){
 					return MOVE.FORWARD;
 				}
-				else if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
+			case SOUTH:
+				if (sSideFree() && !eSideFree() ){
+					return MOVE.FORWARD;
+				}
+				else if (eSideFree() && prevMov!= MOVE.LEFT){
 					return MOVE.LEFT;
 				}
-				else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2) && sensorData[0] == 1){
+				else if (wSideFree() && !sSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("south error!");
-					return MOVE.ERROR;
-				}
-			case WEST:
-				if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2) && sensorData[4] == 1 ){
 					return MOVE.FORWARD;
 				}
-				else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
+			case WEST:
+				if (wSideFree() && !sSideFree() ){
+					return MOVE.FORWARD;
+				}
+				else if (sSideFree() && prevMov!= MOVE.LEFT){
 					return MOVE.LEFT;
 				}
-				else if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol) && sensorData[0] == 1){
+				else if (nSideFree() && !wSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("west error!");
-					return MOVE.ERROR;
+					return MOVE.FORWARD;
 				}
 			default:
-				return MOVE.ERROR;
+				return MOVE.LEFT;
 		}
 		
 		// switch (bot.getRobotCurDir()){
