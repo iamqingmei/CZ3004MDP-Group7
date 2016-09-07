@@ -6,13 +6,13 @@ import javax.swing.*;
 import map.MapConstants;
 
 import java.util.concurrent.TimeUnit;
-import java.util.*;
 
 import map.Block;
 import robot.Robot;
 import robot.RobotConstants.MOVE;
 import robot.RobotConstants.DIRECTION;
 import robot.ShortestPathAlgo;
+import robot.ExplorationAlgo;
 
 import map.Map; 
 
@@ -31,14 +31,13 @@ public class Simulator {
 	// The frame used for main menu buttons
 	private static JPanel _mainButtons = null;
 
-	private static Map simShortestPathMap = null;
-
 	private static Robot bot;
 
 	private static boolean runFastestPath = false;
 	private static boolean runExploration = false;
 
 	private static Map simExMap = null;
+	private static Map simShortestPathMap = null;
 
 	
 
@@ -275,7 +274,7 @@ public class Simulator {
 						if(asciiInt==-1)//check for EOF
 							break;
 						decInt = Character.getNumericValue(asciiInt);
-						System.out.println(decInt);
+						// System.out.println(decInt);
 						if(decInt == 1)
 							m.setObstacle(r, c);
 						else if(decInt != 0)//when character in text file is not part of the map eg.spaces etc
@@ -299,26 +298,8 @@ public class Simulator {
 		bot.setRobotPos(1,1);
 		simExMap.repaint();
 
-		bot.moveRobot(MOVE.FORWARD);
-		bot.setSensors();
-		bot.sense(simExMap, simShortestPathMap);
-		simExMap.repaint();
-
-		bot.moveRobot(MOVE.FORWARD);
-		bot.setSensors();
-		bot.sense(simExMap, simShortestPathMap);
-		simExMap.repaint();
-
-		bot.moveRobot(MOVE.FORWARD);
-		bot.setSensors();
-		bot.sense(simExMap, simShortestPathMap);
-		simExMap.repaint();
-
-		bot.moveRobot(MOVE.FORWARD);
-		bot.setSensors();
-		bot.sense(simExMap, simShortestPathMap);
-		simExMap.repaint();
-
+		ExplorationAlgo exploration = new ExplorationAlgo(simExMap, simShortestPathMap, bot);
+		exploration.runExploration();
 		runExploration = false;
 	}
 }

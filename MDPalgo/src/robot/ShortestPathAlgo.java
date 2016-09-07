@@ -35,7 +35,10 @@ public class ShortestPathAlgo{
 		//initialize gScores arrays
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
-				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall()){
+				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall() || !theMap.getBlock(i,j).getIsExplored()){
+					System.out.println("block (" + i+ ", "+ j + ")");
+					System.out.println("obstacle? : " + theMap.getBlock(i, j).getIsObstacle());
+					System.out.println("Vwall?: " + theMap.getBlock(i,j).getIsVirtualWall());
 					gScores[i][j] = RobotConstants.INFINITE_COST;
 				}
 				else{
@@ -50,32 +53,32 @@ public class ShortestPathAlgo{
 		testingCount =0;
 	}
 
-	public void reset(Map theMap, Robot bot){
-		open = new ArrayList<Block>();
-		closed = new ArrayList<Block>();
-		parents = new HashMap<Block, Block>();
-		neighbors = new Block[4];
-		current = theMap.getBlock(bot.getRobotPosRow(), bot.getRobotPosCol());
-		curDir = bot.getRobotCurDir();
-		gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
+	// public void reset(Map theMap, Robot bot){
+	// 	open = new ArrayList<Block>();
+	// 	closed = new ArrayList<Block>();
+	// 	parents = new HashMap<Block, Block>();
+	// 	neighbors = new Block[4];
+	// 	current = theMap.getBlock(bot.getRobotPosRow(), bot.getRobotPosCol());
+	// 	curDir = bot.getRobotCurDir();
+	// 	gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
 
-		//initialize gScores arrays
-		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
-			for (int j = 0; j < MapConstants.MAP_COL; j++) {
-				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall()){
-					gScores[i][j] = RobotConstants.INFINITE_COST;
-				}
-				else{
-					gScores[i][j] = -1;
-				}
-			}
-		}				
-		open.add(current);
+	// 	//initialize gScores arrays
+	// 	for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+	// 		for (int j = 0; j < MapConstants.MAP_COL; j++) {
+	// 			if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall()){
+	// 				gScores[i][j] = RobotConstants.INFINITE_COST;
+	// 			}
+	// 			else{
+	// 				gScores[i][j] = -1;
+	// 			}
+	// 		}
+	// 	}				
+	// 	open.add(current);
 
-		//initialize starting point
-		gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
-		testingCount =0;
-	}
+	// 	//initialize starting point
+	// 	gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
+	// 	testingCount =0;
+	// }
 
 
 	public void runShortestPath(Map theMap, int goalRow, int goalCol){
@@ -103,28 +106,28 @@ public class ShortestPathAlgo{
 			/// set up its neighbors
 			if (theMap.blockInRange(current.getRow() + 1,current.getCol())){
 				neighbors[0] = theMap.getBlock(current.getRow() + 1,current.getCol());
-				if (neighbors[0].getIsObstacle() || neighbors[0].getIsVirtualWall()){ 
+				if (neighbors[0].getIsObstacle() || neighbors[0].getIsVirtualWall() || !neighbors[0].getIsExplored()){ 
 					// if it is an obstacle, set null
 					neighbors[0] = null; 
 				}
 			}
 			if (theMap.blockInRange(current.getRow() - 1,current.getCol())){
 				neighbors[1] = theMap.getBlock(current.getRow() - 1,current.getCol());
-				if (neighbors[1].getIsObstacle() || neighbors[1].getIsVirtualWall()){ 
+				if (neighbors[1].getIsObstacle() || neighbors[1].getIsVirtualWall() || !neighbors[1].getIsExplored()){ 
 					// if it is an obstacle, set null
 					neighbors[1] = null; 
 				}
 			}
 			if (theMap.blockInRange(current.getRow(),current.getCol() - 1)){
 				neighbors[2] = theMap.getBlock(current.getRow(),current.getCol() - 1);
-				if (neighbors[2].getIsObstacle() || neighbors[2].getIsVirtualWall()){ 
+				if (neighbors[2].getIsObstacle() || neighbors[2].getIsVirtualWall() || !neighbors[2].getIsExplored()){ 
 					// if it is an obstacle, set null
 					neighbors[2] = null; 
 				}
 			}
 			if (theMap.blockInRange(current.getRow(), current.getCol() + 1)){
 				neighbors[3] = theMap.getBlock(current.getRow(),current.getCol() + 1);
-				if (neighbors[3].getIsObstacle() || neighbors[3].getIsVirtualWall()){ 
+				if (neighbors[3].getIsObstacle() || neighbors[3].getIsVirtualWall() || !neighbors[3].getIsExplored()){ 
 					// if it is an obstacle, set null
 					neighbors[3] = null; 
 				}
@@ -157,6 +160,7 @@ public class ShortestPathAlgo{
 		}while(!open.isEmpty());
 		// Continue until there is no more available square in the open list (which means there is no path)  
 		System.out.println("Path not found!");
+		// printGscores();
 		return;
 	}
 
@@ -216,7 +220,7 @@ public class ShortestPathAlgo{
 	public	void printGscores(){
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
-				System.out.print(gScores[i][j]);
+				System.out.print(gScores[MapConstants.MAP_ROW - 1 -i][j]);
 				System.out.print(";");
 			}
 			System.out.println("\n");
@@ -277,27 +281,6 @@ public class ShortestPathAlgo{
 		return (move + turn);
 	}
 	
-	//from block a to block b
-	//which direction should turn to
-	// private DIRECTION getTargetDir(Block a, Block b, DIRECTION orginalDir){
-	// 	if (a.getCol() - b.getCol() > 0){
-	// 		return DIRECTION.EAST;
-	// 	}
-	// 	else if (b.getCol() - a.getCol() > 0){
-	// 		return DIRECTION.WEST;
-	// 	}
-	// 	else{ //same col
-	// 		if (a.getRow() - b.getRow() > 0){
-	// 			return DIRECTION.SOUTH;
-	// 		}
-	// 		else if (b.getRow() - a.getRow() > 0){
-	// 			return DIRECTION.NORTH;
-	// 		}
-	// 		else{ //same pos
-	// 			return orginalDir;
-	// 		}
-	// 	}
-	// }
 
 	private DIRECTION getTargetDir(int botR, int botC, DIRECTION botDir, Block b){
 		if (botC - b.getCol() > 0){

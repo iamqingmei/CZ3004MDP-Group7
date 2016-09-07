@@ -27,7 +27,7 @@ import javax.swing.*;
 public class Map extends JPanel {
 	private Block[][] blocks;
 	private Robot theRobot;
-	public int delay = 50;
+	// public int delay = 50;
 
 	// For rendering the map efficiently
 	private MapGrid[][] _mapGrids = null;
@@ -49,7 +49,7 @@ public class Map extends JPanel {
 		// except for goalZone and StartZone, set as explored
 		for (int r=0; r<MapConstants.MAP_ROW; r++){
 			for (int c=0; c<MapConstants.MAP_COL; c++){
-				if ((r<3 && c<3) || (r>16 && c>12)){ //startZone
+				if ((r<3 && c<3) || (r>16 && c>11)){ //startZone and goalZone
 					blocks[r][c].setIsExplored(true);
 				}
 				else{
@@ -101,6 +101,7 @@ public class Map extends JPanel {
 
 	public void setObstacle(int r, int c){
 		this.blocks[r][c].setObstacle();
+		// System.out.println(r+ ", "+c + " set Vwall ");
 		if (r >= 1){
 			this.blocks[r-1][c].setVirtualWall(true);
 			if (c < MapConstants.MAP_COL - 1){
@@ -190,13 +191,13 @@ public class Map extends JPanel {
 				g.fillOval(c * 40 + 12,758 -r * 40 - 22,18,18);
 				break;
 			case WEST :
-				g.fillOval(c * 40 + 42,758 - r * 40 + 12,18,18);
+				g.fillOval(c * 40 + 42,758 - r * 40 + 8 ,18,18);
 				break;
 			case SOUTH :
 				g.fillOval(c * 40 + 12,758 - r * 40 + 42,18,18);
 				break;
 			case EAST :
-				g.fillOval(c * 40 - 22,758 - r * 40 - 12,18,18);
+				g.fillOval(c * 40 - 22,758 - r * 40 + 8,18,18);
 				break;
 		}
 
