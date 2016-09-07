@@ -27,9 +27,9 @@ public class Sensor {
 	public int sense(Map exMap, Map realMap){
 		switch(sensorDirection){
 			case NORTH:
-				for (int i=0; i<=this.range; i++){
+				for (int i=1; i<=this.range; i++){
 					if (this.sensorPosRow + i == 20){ //touching north wall
-						return 1;
+						return i;
 					}
 					exMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).getIsObstacle()){
@@ -39,9 +39,9 @@ public class Sensor {
 				}
 				return 0;
 			case SOUTH:
-				for (int i=0; i<=this.range; i++){
-					if (this.sensorPosRow == 0){ //touching south wall
-						return 1;
+				for (int i=1; i<=this.range; i++){
+					if (this.sensorPosRow - i == -1){ //touching south wall
+						return i;
 					}
 					exMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).getIsObstacle()){
@@ -51,9 +51,9 @@ public class Sensor {
 				}
 				return 0;
 			case EAST:
-				for (int i=0; i<=this.range; i++){
-					if (this.sensorPosCol == 15){ //touching east wall
-						return 1;
+				for (int i=1; i<=this.range; i++){
+					if (this.sensorPosCol + i == 15){ //touching east wall
+						return i;
 					}
 					exMap.getBlock(this.sensorPosRow, this.sensorPosCol + i).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow, this.sensorPosCol + i).getIsObstacle()){
@@ -63,10 +63,10 @@ public class Sensor {
 				}
 				return 0;
 			case WEST:
-				for (int i=0; i<=this.range; i++){
-					if (this.sensorPosCol == 0){ // touching west wall
+				for (int i=1; i<=this.range; i++){
+					if (this.sensorPosCol - i == -1){ // touching west wall
 						System.out.println("touching west wall");
-						return 1;
+						return i;
 					}
 					exMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).getIsObstacle()){

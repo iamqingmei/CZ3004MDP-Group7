@@ -80,7 +80,7 @@ public class ExplorationAlgo{
 		return false;
 	}
 
-	private MOVE getNextMove(MOVE prevMov){
+	private MOVE getNextMove(){
 		int botRow = bot.getRobotPosRow();
 		int botCol = bot.getRobotPosCol();
 		// LEFT side free:
@@ -97,43 +97,110 @@ public class ExplorationAlgo{
 		// sensorData[3] = shortR
 		// sensorData[4] = shortL
 		switch (bot.getRobotCurDir()){
-			case NORTH:
+			case NORTH: 
 				if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol) && sensorData[4] == 1){
-					return MOVE.FORWARD
-				}
-			case SOUTH:
-				if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && prevMov != MOVE.LEFT){
-					return MOVE.LEFT;
-	            }
-				else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
 					return MOVE.FORWARD;
 				}
 				else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)){
-					return MOVE.RIGHT;
-				}
-			case WEST:
-				if (checkStatus(botRow+2, botCol-1) && checkStatus(botRow+2, botCol) && checkStatus(botRow+2, botCol+1) && prevMov != MOVE.LEFT){
 					return MOVE.LEFT;
-	            }
-				else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)){
-					return MOVE.FORWARD;
 				}
-				else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
+				else if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && sensorData[0] == 1){
 					return MOVE.RIGHT;
+				}
+				else{
+					System.out.println("north error!");
+					return MOVE.ERROR;
 				}
 			case EAST:
-				if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1) && prevMov != MOVE.LEFT){
-					return MOVE.LEFT;
-	            }
-				else if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
+				if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && sensorData[4] == 1 ){
 					return MOVE.FORWARD;
 				}
-				else if (checkStatus(botRow+2, botCol-1) && checkStatus(botRow+2, botCol) && checkStatus(botRow+2, botCol+1)){
+				else if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol)){
+					return MOVE.LEFT;
+				}
+				else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1) && sensorData[0] == 1){
 					return MOVE.RIGHT;
 				}
+				else{
+					System.out.println("east error!");
+					return MOVE.ERROR;
+				}
+			case SOUTH:
+				if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1) && sensorData[4] == 1 ){
+					return MOVE.FORWARD;
+				}
+				else if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
+					return MOVE.LEFT;
+				}
+				else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2) && sensorData[0] == 1){
+					return MOVE.RIGHT;
+				}
+				else{
+					System.out.println("south error!");
+					return MOVE.ERROR;
+				}
+			case WEST:
+				if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2) && sensorData[4] == 1 ){
+					return MOVE.FORWARD;
+				}
+				else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
+					return MOVE.LEFT;
+				}
+				else if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol) && sensorData[0] == 1){
+					return MOVE.RIGHT;
+				}
+				else{
+					System.out.println("west error!");
+					return MOVE.ERROR;
+				}
 			default:
-				return MOVE.LEFT;
+				return MOVE.ERROR;
 		}
+		
+		// switch (bot.getRobotCurDir()){
+		// 	case NORTH:
+		// 		if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2) && prevMov != MOVE.LEFT){
+		// 			return MOVE.LEFT;
+	 //            }
+		// 		else if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol)){
+		// 			return MOVE.FORWARD;
+		// 		}
+		// 		else if(checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
+		// 			return MOVE.RIGHT;
+		// 		}
+		// 	case SOUTH:
+		// 		if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && prevMov != MOVE.LEFT){
+		// 			return MOVE.LEFT;
+	 //            }
+		// 		else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
+		// 			return MOVE.FORWARD;
+		// 		}
+		// 		else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)){
+		// 			return MOVE.RIGHT;
+		// 		}
+		// 	case WEST:
+		// 		if (checkStatus(botRow+2, botCol-1) && checkStatus(botRow+2, botCol) && checkStatus(botRow+2, botCol+1) && prevMov != MOVE.LEFT){
+		// 			return MOVE.LEFT;
+	 //            }
+		// 		else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)){
+		// 			return MOVE.FORWARD;
+		// 		}
+		// 		else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
+		// 			return MOVE.RIGHT;
+		// 		}
+		// 	case EAST:
+		// 		if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1) && prevMov != MOVE.LEFT){
+		// 			return MOVE.LEFT;
+	 //            }
+		// 		else if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
+		// 			return MOVE.FORWARD;
+		// 		}
+		// 		else if (checkStatus(botRow+2, botCol-1) && checkStatus(botRow+2, botCol) && checkStatus(botRow+2, botCol+1)){
+		// 			return MOVE.RIGHT;
+		// 		}
+		// 	default:
+		// 		return MOVE.LEFT;
+		// }
 	}
 
 }
