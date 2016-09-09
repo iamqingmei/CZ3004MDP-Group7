@@ -318,5 +318,19 @@ public class Simulator {
 		ExplorationAlgo exploration = new ExplorationAlgo(simExMap, simShortestPathMap, bot);
 		exploration.runExploration();
 		runExploration = false;
+		for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for explored area
+			for(int c=0;c<MapConstants.MAP_COL;c++){
+				if(simExMap.getBlock(r,c).getIsExplored() == true)
+					System.out.println(1);
+			}
+		}
+		System.out.println("printing obstacles");
+		for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for obstacles in map
+			for(int c=0;c<MapConstants.MAP_COL;c++){
+				if(simExMap.getBlock(r,c).getIsObstacle() == true)
+					System.out.println(1);
+			}
+		}
 	}
+	
 }
