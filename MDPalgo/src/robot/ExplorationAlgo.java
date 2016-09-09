@@ -56,7 +56,24 @@ public class ExplorationAlgo{
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-		}while(bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1);
+		}while(bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1); //back to the START zone
+
+		if (exploredArea!=300){
+			System.out.println("there are still unexplored areas!!!!");
+		}
+		else{
+			System.out.println("All grids are explored!");
+		}
+		//after back to the start zone
+		//turn to North (Ready for shortest path finding)
+		System.out.println("robot facing: " + bot.getRobotCurDir());
+		while(bot.getRobotCurDir() != DIRECTION.NORTH){
+			bot.moveRobot(MOVE.RIGHT);
+			bot.setSensors();
+			sensorData = bot.sense(exMap, realMap);
+			exMap.repaint();
+			System.out.println("robot facing: " + bot.getRobotCurDir());
+		}
 	}
 
 	private int countExploredArea(){
@@ -213,6 +230,15 @@ public class ExplorationAlgo{
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
 		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (System.currentTimeMillis() < end));
+
+		if (exploredArea!=300){
+			System.out.println("there are still unexplored areas!!!!");
+		}
+		//after back to the start zone
+		//turn to North (Ready for shortest path finding)
+		while(bot.getRobotCurDir() != DIRECTION.NORTH){
+			bot.moveRobot(MOVE.RIGHT);
+		}
 	}
 
 	//for coverage limited
@@ -238,5 +264,14 @@ public class ExplorationAlgo{
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
 		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (exploredArea < coverageLimited));
+
+		if (exploredArea!=300){
+			System.out.println("there are still unexplored areas!!!!");
+		}
+		//after back to the start zone
+		//turn to North (Ready for shortest path finding)
+		while(bot.getRobotCurDir() != DIRECTION.NORTH){
+			bot.moveRobot(MOVE.RIGHT);
+		}
 	}
 }
