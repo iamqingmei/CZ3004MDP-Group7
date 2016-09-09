@@ -173,51 +173,57 @@ public class ExplorationAlgo{
 			default:
 				return MOVE.LEFT;
 		}
-		
-		// switch (bot.getRobotCurDir()){
-		// 	case NORTH:
-		// 		if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2) && prevMov != MOVE.LEFT){
-		// 			return MOVE.LEFT;
-	 //            }
-		// 		else if (checkStatus(botRow+2, botCol - 1) && checkStatus(botRow+2, botCol + 1) && checkStatus(botRow+2, botCol)){
-		// 			return MOVE.FORWARD;
-		// 		}
-		// 		else if(checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
-		// 			return MOVE.RIGHT;
-		// 		}
-		// 	case SOUTH:
-		// 		if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2) && prevMov != MOVE.LEFT){
-		// 			return MOVE.LEFT;
-	 //            }
-		// 		else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
-		// 			return MOVE.FORWARD;
-		// 		}
-		// 		else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)){
-		// 			return MOVE.RIGHT;
-		// 		}
-		// 	case WEST:
-		// 		if (checkStatus(botRow+2, botCol-1) && checkStatus(botRow+2, botCol) && checkStatus(botRow+2, botCol+1) && prevMov != MOVE.LEFT){
-		// 			return MOVE.LEFT;
-	 //            }
-		// 		else if (checkStatus(botRow-1, botCol-2) && checkStatus(botRow, botCol-2) && checkStatus(botRow+1, botCol-2)){
-		// 			return MOVE.FORWARD;
-		// 		}
-		// 		else if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1)){
-		// 			return MOVE.RIGHT;
-		// 		}
-		// 	case EAST:
-		// 		if (checkStatus(botRow-2, botCol-1) && checkStatus(botRow-2, botCol) && checkStatus(botRow-2, botCol+1) && prevMov != MOVE.LEFT){
-		// 			return MOVE.LEFT;
-	 //            }
-		// 		else if (checkStatus(botRow-1, botCol+2) && checkStatus(botRow, botCol+2) && checkStatus(botRow+1, botCol+2)){
-		// 			return MOVE.FORWARD;
-		// 		}
-		// 		else if (checkStatus(botRow+2, botCol-1) && checkStatus(botRow+2, botCol) && checkStatus(botRow+2, botCol+1)){
-		// 			return MOVE.RIGHT;
-		// 		}
-		// 	default:
-		// 		return MOVE.LEFT;
-		// }
 	}
 
+	//for time limited
+	public void runExploration(int timeInSecond){
+		long start = System.currentTimeMillis();
+		long end = start + timeInSecond*1000; // 60 seconds * 1000 ms/sec
+		MOVE nextMove = null;
+		MOVE prevMov = null;
+		bot.setSensors();
+		sensorData = bot.sense(exMap, realMap);
+		for (int i = 0; i<5; i++){
+			System.out.println(i + ": " + sensorData[i]);
+		}
+		exploredArea = countExploredArea();
+		System.out.println("exploredArea: " + exploredArea);
+		exMap.repaint();
+		do{
+			prevMov = nextMove;
+			nextMove = getNextMove(prevMov);
+			System.out.println("move: " + nextMove);
+			bot.moveRobot(nextMove);
+			bot.setSensors();
+			sensorData = bot.sense(exMap, realMap);
+			exploredArea = countExploredArea();
+			System.out.println("exploredArea: " + exploredArea);
+			exMap.repaint();
+		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (System.currentTimeMillis() < end));
+	}
+
+	//for coverage limited
+	public void runExploration(long coverageLimited){
+		MOVE nextMove = null;
+		MOVE prevMov = null;
+		bot.setSensors();
+		sensorData = bot.sense(exMap, realMap);
+		for (int i = 0; i<5; i++){
+			System.out.println(i + ": " + sensorData[i]);
+		}
+		exploredArea = countExploredArea();
+		System.out.println("exploredArea: " + exploredArea);
+		exMap.repaint();
+		do{
+			prevMov = nextMove;
+			nextMove = getNextMove(prevMov);
+			System.out.println("move: " + nextMove);
+			bot.moveRobot(nextMove);
+			bot.setSensors();
+			sensorData = bot.sense(exMap, realMap);
+			exploredArea = countExploredArea();
+			System.out.println("exploredArea: " + exploredArea);
+			exMap.repaint();
+		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (exploredArea < coverageLimited));
+	}
 }

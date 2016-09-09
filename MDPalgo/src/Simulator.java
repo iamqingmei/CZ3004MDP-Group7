@@ -35,9 +35,19 @@ public class Simulator {
 
 	private static boolean runFastestPath = false;
 	private static boolean runExploration = false;
+	private static boolean runTimeExploration = false;
+	private static boolean runCoverageExploration = false;
 
 	private static Map simExMap = null;
 	private static Map simShortestPathMap = null;
+	private static Map simTimeExMap = null;
+	private static Map simCoverageExMap = null;
+
+	//for time limited exploration
+	private static int timeLimited=10;
+
+	//for coverage limited exploration
+	private static long coverageLimited = 0;
 
 	
 
@@ -49,27 +59,13 @@ public class Simulator {
 		simExMap = new Map(bot);
 		simExMap.setAllUnexplored();
 
-		// sense(Map exMap, Map realMap){
-		// bot.longFront.sense(simExMap, simShortestPathMap);
+		simTimeExMap = new Map(bot);
+		simTimeExMap.setAllUnexplored();
+
+		simCoverageExMap = new Map(bot);
+		simCoverageExMap.setAllUnexplored();
 
 		displayEverythings();
-
-		// bot.moveRobot(MOVE.RIGHT);
-		// simShortestPathMap.repaint();
-		// bot.moveRobot(MOVE.RIGHT);
-		// simShortestPathMap.repaint();
-		// bot.moveRobot(MOVE.RIGHT);
-		// simShortestPathMap.repaint();
-		// bot.moveRobot(MOVE.RIGHT);
-		// simShortestPathMap.repaint();
-		// bot.moveRobot(MOVE.LEFT);
-		// simShortestPathMap.repaint();
-		// bot.moveRobot(MOVE.LEFT);
-		// simShortestPathMap.repaint();
-		// bot.moveRobot(MOVE.LEFT);
-		// simShortestPathMap.repaint();
-		// bot.moveRobot(MOVE.LEFT);
-		// simShortestPathMap.repaint();
 
 		while(true){
 			System.out.print("");
@@ -80,6 +76,14 @@ public class Simulator {
 			if (runExploration){
 				System.out.println("entered runExploration!");
 				exploration();
+			}
+			if (runTimeExploration){
+				System.out.println("entered runTimeExploration!");
+				timeExploration();
+			}
+			if (runCoverageExploration){
+				System.out.println("entered runCoverageExploration!");
+				coverageExploration();
 			}
 			continue;
 		}
@@ -121,6 +125,8 @@ public class Simulator {
 		// Initialize the Map for simulation
 		_mainCards.add(simShortestPathMap, "MAIN");
 		_mainCards.add(simExMap,"EXPLO");
+		_mainCards.add(simTimeExMap,"TIMEEXPLO");
+		_mainCards.add(simCoverageExMap,"COVERAGEEXPLO");
 		
 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
 	    cl.show(_mainCards, "MAIN");
@@ -221,12 +227,14 @@ public class Simulator {
 				
 				timeSaveButton.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-						// get time entered
-						// do time limit exploration
+						timeLimited = (Integer.parseInt(timeTF.getText()));
+						CardLayout cl = ((CardLayout) _mainCards.getLayout());
+					    cl.show(_mainCards, "TIMEEXPLO");
+						runTimeExploration = true;
 					}
 				});
 
-		        d2.add(new JLabel("Enter time for exploration: "));
+		        d2.add(new JLabel("Enter time for exploration (in Sesond): "));
 		        d2.add(timeTF);
 		        d2.add(timeSaveButton);
 
@@ -250,8 +258,9 @@ public class Simulator {
 				
 				coverageSaveButton.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-						// get coverage entered
-						// do time limit exploration
+						coverageLimited = (Integer.parseInt(coverageTF.getText()));
+						
+						runCoverageExploration = true;
 					}
 				});
 
@@ -314,9 +323,33 @@ public class Simulator {
 	private static void exploration(){
 		bot.setRobotPos(1,1);
 		simExMap.repaint();
+		CardLayout cl = ((CardLayout) _mainCards.getLayout());
+	    cl.show(_mainCards, "EXPLO");
 
 		ExplorationAlgo exploration = new ExplorationAlgo(simExMap, simShortestPathMap, bot);
 		exploration.runExploration();
 		runExploration = false;
+	}
+
+	private static void timeExploration(){
+		bot.setRobotPos(1,1);
+		CardLayout cl = ((CardLayout) _mainCards.getLayout());
+	    cl.show(_mainCards, "TIMEEXPLO");
+		simTimeExMap.repaint();
+
+		ExplorationAlgo timeExpo = new ExplorationAlgo(simTimeExMap, simShortestPathMap, bot);
+		timeExpo.runExploration(timeLimited);
+		runTimeExploration = false;
+	}
+
+	private static void coverageExploration(){
+		bot.setRobotPos(1,1);
+		CardLayout cl = ((CardLayout) _mainCards.getLayout());
+	    cl.show(_mainCards, "COVERAGEEXPLO");
+		simCoverageExMap.repaint();
+
+		ExplorationAlgo coverageExpo = new ExplorationAlgo(simCoverageExMap, simShortestPathMap, bot);
+		coverageExpo.runExploration(coverageLimited);
+		runCoverageExploration = false;
 	}
 }

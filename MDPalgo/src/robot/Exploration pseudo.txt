@@ -17,8 +17,6 @@ do
 		repeatedArea += 1
 	Execute the movement (Update current position of robot)
 	
-	if repeatedArea = 15 then
-		break
 while (Not start point) and (exploration map < 100%)
 Use Shortest path to return back to start point from current position
 
