@@ -117,11 +117,11 @@ public class Robot extends JPanel {
 				break;
 			case RIGHT:
 				robotCurDir = leftRightDirection(MOVE.RIGHT);
-				System.out.println("robot facing:" +  robotCurDir);
+				// System.out.println("robot facing:" +  robotCurDir);
 				break;
 			case LEFT:
 				robotCurDir = leftRightDirection(MOVE.LEFT);
-				System.out.println("robot facing:" +  robotCurDir);
+				// System.out.println("robot facing:" +  robotCurDir);
 				break;
 			
 			default:
@@ -178,7 +178,7 @@ public class Robot extends JPanel {
 		if ( m == MOVE.RIGHT){
 			switch (robotCurDir){
 				case NORTH:
-					System.out.println("RIGHT EAST!");
+					// System.out.println("RIGHT EAST!");
 					return DIRECTION.EAST;
 				case SOUTH:
 					return DIRECTION.WEST;
@@ -191,7 +191,7 @@ public class Robot extends JPanel {
 		else{ //left
 			switch (robotCurDir){
 				case NORTH:
-				System.out.println("LEFT WEST!");
+				// System.out.println("LEFT WEST!");
 					return DIRECTION.WEST;
 				case SOUTH:
 					return DIRECTION.EAST;
