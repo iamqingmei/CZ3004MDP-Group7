@@ -118,60 +118,73 @@ public class ExplorationAlgo{
 				if (nSideFree() && !wSideFree()){
 					return MOVE.FORWARD;
 				}
-				else if (wSideFree() && prevMov!= MOVE.LEFT){
-					return MOVE.LEFT;
+				else if (wSideFree()){
+					if (prevMov!= MOVE.LEFT){
+						return MOVE.LEFT;
+					}
+					return MOVE.FORWARD;
 				}
 				else if (eSideFree() && !nSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("north error!");
-					return MOVE.FORWARD;
+					return MOVE.RIGHT;
 				}
 			case EAST:
 				if (eSideFree() && !nSideFree() ){
 					return MOVE.FORWARD;
 				}
-				else if (nSideFree() && prevMov!= MOVE.LEFT){
-					return MOVE.LEFT;
+				else if (nSideFree()){
+					if (prevMov!= MOVE.LEFT){
+						return MOVE.LEFT;
+					}
+					return MOVE.FORWARD;
 				}
 				else if (sSideFree() && !eSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("east error!");
-					return MOVE.FORWARD;
+					return MOVE.RIGHT;
 				}
 			case SOUTH:
 				if (sSideFree() && !eSideFree() ){
 					return MOVE.FORWARD;
 				}
-				else if (eSideFree() && prevMov!= MOVE.LEFT){
-					return MOVE.LEFT;
+				else if (eSideFree()){
+					if (prevMov!= MOVE.LEFT){
+						return MOVE.LEFT;
+					}
+					return MOVE.FORWARD;
 				}
 				else if (wSideFree() && !sSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("south error!");
-					return MOVE.FORWARD;
+					return MOVE.RIGHT;
 				}
 			case WEST:
 				if (wSideFree() && !sSideFree() ){
 					return MOVE.FORWARD;
 				}
-				else if (sSideFree() && prevMov!= MOVE.LEFT){
-					return MOVE.LEFT;
+				else if (sSideFree()){
+					if (prevMov!= MOVE.LEFT){
+						return MOVE.LEFT;
+					}
+					return MOVE.FORWARD;
 				}
 				else if (nSideFree() && !wSideFree()){
 					return MOVE.RIGHT;
 				}
 				else{
 					System.out.println("west error!");
-					return MOVE.FORWARD;
+					return MOVE.RIGHT;
 				}
 			default:
-				return MOVE.LEFT;
+				System.out.println("default error!");
+				return MOVE.RIGHT;
 		}
 	}
 

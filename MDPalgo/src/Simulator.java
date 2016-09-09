@@ -234,7 +234,7 @@ public class Simulator {
 					}
 				});
 
-		        d2.add(new JLabel("Enter time for exploration (in Sesond): "));
+		        d2.add(new JLabel("Enter time for exploration (in Second): "));
 		        d2.add(timeTF);
 		        d2.add(timeSaveButton);
 
@@ -264,7 +264,7 @@ public class Simulator {
 					}
 				});
 
-		        d3.add(new JLabel("Enter coverage for exploration: "));
+		        d3.add(new JLabel("Enter coverage for exploration (number of grids): "));
 		        d3.add(coverageTF);
 		        d3.add(coverageSaveButton);
 
