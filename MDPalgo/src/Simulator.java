@@ -289,14 +289,14 @@ public class Simulator {
 		System.out.println("starting to read map");
 		try{
 			int decInt, asciiInt;
-			FileReader fr = new FileReader("MAP1.txt");
+			System.out.println("Please enter the name of the MAP you want to use:");
+			Scanner sc = new Scanner(System.in);
+			String file = sc.nextLine();
+			FileReader fr = new FileReader(file + ".txt");
 			BufferedReader br = new BufferedReader(fr);
 				
-			//while ((asciiInt = fr.read()) != -1) {//read char by char in ASCII from textfile and convert to decimal
-				//decInt = Character.getNumericValue(asciiInt);
-				//System.out.println(decInt);
 					
-				for(int r=0;r<MapConstants.MAP_ROW;r++){
+				for(int r=MapConstants.MAP_ROW-1;r>=0;r--){
 					for(int c=0;c<MapConstants.MAP_COL;c++){
 						asciiInt = fr.read();
 						if(asciiInt==-1)//check for EOF
