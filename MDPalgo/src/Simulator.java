@@ -281,6 +281,7 @@ public class Simulator {
 		simShortestPathMap.repaint();
 		ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
 		shortestPath.runShortestPath(simShortestPathMap, 18, 13);
+		System.out.println("robot current position: " + bot.getRobotPosRow() + ", " + bot.getRobotPosCol());
 		runFastestPath = false;
 	}
 

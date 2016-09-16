@@ -36,9 +36,9 @@ public class ShortestPathAlgo{
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
 				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall() || !theMap.getBlock(i,j).getIsExplored()){
-					System.out.println("block (" + i+ ", "+ j + ")");
-					System.out.println("obstacle? : " + theMap.getBlock(i, j).getIsObstacle());
-					System.out.println("Vwall?: " + theMap.getBlock(i,j).getIsVirtualWall());
+					// System.out.println("block (" + i+ ", "+ j + ")");
+					// System.out.println("obstacle? : " + theMap.getBlock(i, j).getIsObstacle());
+					// System.out.println("Vwall?: " + theMap.getBlock(i,j).getIsVirtualWall());
 					gScores[i][j] = RobotConstants.INFINITE_COST;
 				}
 				else{
@@ -100,7 +100,7 @@ public class ShortestPathAlgo{
 				// printGscores();
 				path = getPath(theMap, goalRow, goalCol);
 				// printShortestPath(path);
-				moveRobot(thebot,path);
+				moveRobot(thebot,path, goalRow, goalCol);
 				return;
 			}
 			/// set up its neighbors
@@ -179,10 +179,10 @@ public class ShortestPathAlgo{
 		return actualPath;
 	}
 
-	private void moveRobot(Robot bot, Stack<Block> path){
+	private void moveRobot(Robot bot, Stack<Block> path, int goalRow, int goalCol){
 		Block temp = path.pop();		
 		DIRECTION targetDir = bot.getRobotCurDir();
-		while(!path.isEmpty()){
+		while((bot.getRobotPosRow() != goalRow) || (bot.getRobotPosCol() != goalCol)){
 			if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
 				temp = path.pop();
 			}
