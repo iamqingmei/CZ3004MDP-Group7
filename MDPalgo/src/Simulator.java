@@ -35,7 +35,7 @@ public class Simulator {
 
 	private static Robot bot;
 
-	private static boolean runFastestPath = false;
+	// private static boolean runFastestPath = false;
 	private static boolean runExploration = false;
 	private static boolean runTimeExploration = false;
 	private static boolean runCoverageExploration = false;
@@ -71,10 +71,10 @@ public class Simulator {
 
 		while(true){
 			System.out.print("");
-			if (runFastestPath){
-				System.out.println("entered runFastestPath!");
-				FastestPath();
-			}
+			// if (runFastestPath){
+			// 	System.out.println("entered runFastestPath!");
+			// 	FastestPath();
+			// }
 			if (runExploration){
 				System.out.println("entered runExploration!");
 				exploration();
@@ -109,6 +109,8 @@ public class Simulator {
 		// Initialize the main CardLayout
 		initMainLayout();
 		
+		
+
 		// Initialize the buttons CardLayout
 		initButtonsLayout();
 		
@@ -162,6 +164,31 @@ public class Simulator {
 		});
 		_mainButtons.add(btn_Exploration);
 
+		// for multithreading
+		class FastestPath extends SwingWorker<Integer, String>{
+		    protected Integer doInBackground() throws Exception
+		    {
+		        bot.setRobotPos(1,1);
+				simShortestPathMap.repaint();
+				ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
+				shortestPath.runShortestPath(simShortestPathMap, 18, 13);
+				System.out.println("robot current position: " + bot.getRobotPosRow() + ", " + bot.getRobotPosCol());
+		        // Thread.sleep(1000);
+		        return 111;
+		    }
+
+		    // protected void done()
+		    // {
+		    //     try
+		    //     {
+		    //         System.out.println("")
+		    //     }
+		    //     catch (Exception e)
+		    //     {
+		    //         e.printStackTrace();
+		    //     }
+		    // }
+		}
 
 		//Shortest Path button
 		JButton btn_ShortestPath = new JButton("Fastest Path");
@@ -171,7 +198,7 @@ public class Simulator {
 			public void mousePressed(MouseEvent e) {
 				CardLayout cl = ((CardLayout) _mainCards.getLayout());
 			    cl.show(_mainCards, "MAIN");
-				runFastestPath = true;
+			    new FastestPath().execute();
 			}
 		});
 		_mainButtons.add(btn_ShortestPath);
@@ -276,14 +303,16 @@ public class Simulator {
 		_mainButtons.add(btn_CoverageExploration);
 	}
 
-	private static void FastestPath(){
-		bot.setRobotPos(1,1);
-		simShortestPathMap.repaint();
-		ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
-		shortestPath.runShortestPath(simShortestPathMap, 18, 13);
-		System.out.println("robot current position: " + bot.getRobotPosRow() + ", " + bot.getRobotPosCol());
-		runFastestPath = false;
-	}
+	// private static void FastestPath(){
+	// 	bot.setRobotPos(1,1);
+	// 	simShortestPathMap.repaint();
+	// 	ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
+	// 	shortestPath.runShortestPath(simShortestPathMap, 18, 13);
+	// 	System.out.println("robot current position: " + bot.getRobotPosRow() + ", " + bot.getRobotPosCol());
+	// 	runFastestPath = false;
+	// }
+
+
 
 	private static void ReadMap(Map m){//Map descriptor format
 		// Robot bot = new Robot(1,1);
