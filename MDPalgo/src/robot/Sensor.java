@@ -65,7 +65,7 @@ public class Sensor {
 			case WEST:
 				for (int i=1; i<=this.range; i++){
 					if (this.sensorPosCol - i == -1){ // touching west wall
-						System.out.println("touching west wall");
+						// System.out.println("touching west wall");
 						return i;
 					}
 					exMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).setIsExplored(true);

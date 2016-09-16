@@ -348,7 +348,7 @@ public class Simulator {
 					String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
 					while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
 						DescriptorFormatHex = "0"+ DescriptorFormatHex;
-					System.out.println(DescriptorFormatHex);
+					// System.out.println(DescriptorFormatHex);
 					DescriptorFinal += DescriptorFormatHex;
 					DescriptorFormat = "";//resets string after each column
 				}
@@ -372,12 +372,12 @@ public class Simulator {
 					else
 						DescriptorFormat += "0";
 					if(DescriptorFormat.length()==16){
-						System.out.println(DescriptorFormat);
+						// System.out.println(DescriptorFormat);
 						DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
 						DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
 						while(DescriptorFormatHex.length()!= 4)
 							DescriptorFormatHex = "0" + DescriptorFormatHex;//add back the zeros automatically removed by the computer
-						System.out.println(DescriptorFormatHex);
+						// System.out.println(DescriptorFormatHex);
 						DescriptorFinal2 += DescriptorFormatHex;
 						DescriptorFormat = "";//resets string after each column
 					}

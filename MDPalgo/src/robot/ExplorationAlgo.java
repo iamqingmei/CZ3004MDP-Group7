@@ -35,9 +35,9 @@ public class ExplorationAlgo{
 		// sensorData[2] = shortLF
 		// sensorData[3] = shortR
 		// sensorData[4] = shortL
-		for (int i = 0; i<5; i++){
-			System.out.println(i + ": " + sensorData[i]);
-		}
+		// for (int i = 0; i<5; i++){
+		// 	System.out.println(i + ": " + sensorData[i]);
+		// }
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
@@ -58,12 +58,18 @@ public class ExplorationAlgo{
 			exMap.repaint();
 		}while(bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1); //back to the START zone
 
+		//continue to explore the Unexplored area
 		if (exploredArea!=300){
 			System.out.println("there are still unexplored areas!!!!");
+			Block nearestUnexplored = nearestUnexploredGrid();
+			System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
+			Block nearbyOb = nearbyObstacle(nearestUnexplored);
+			System.out.println("Nearby Obstacle: " + nearbyOb.getRow() + ", " + nearbyOb.getCol());
 		}
 		else{
 			System.out.println("All grids are explored!");
 		}
+
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
 		System.out.println("robot facing: " + bot.getRobotCurDir());
@@ -272,6 +278,59 @@ public class ExplorationAlgo{
 		//turn to North (Ready for shortest path finding)
 		while(bot.getRobotCurDir() != DIRECTION.NORTH){
 			bot.moveRobot(MOVE.RIGHT);
+		}
+	}
+
+	private Block nearestUnexploredGrid(){
+		Block rBlock = nearestRowUnexploredGrid();
+		Block cBlock = nearestColUnexploredGrid();
+		int rDis = Math.abs(rBlock.getRow() - bot.getRobotPosRow()) + Math.abs(rBlock.getCol() - bot.getRobotPosCol());
+		int cDis = Math.abs(cBlock.getRow() - bot.getRobotPosRow()) + Math.abs(cBlock.getCol() - bot.getRobotPosCol());
+		if (rDis < cDis){
+			return rBlock;
+		}
+		return cBlock;
+
+	}
+	private Block nearestRowUnexploredGrid(){
+		for (int r=0;r<MapConstants.MAP_ROW;r++){
+			for (int c=0; c<MapConstants.MAP_COL; c++){
+				if (!exMap.getBlock(r,c).getIsExplored()){
+					return exMap.getBlock(r,c);
+				}
+			}
+		}
+		return null;
+	}
+
+	private Block nearestColUnexploredGrid(){
+		for (int c=0; c<MapConstants.MAP_COL; c++){
+			for (int r=0;r<MapConstants.MAP_ROW;r++){
+				if (!exMap.getBlock(r,c).getIsExplored()){
+					return exMap.getBlock(r,c);
+				}
+			}
+		}
+		return null;
+	}
+
+	private Block nearbyObstacle(Block blk){
+		int c = blk.getCol();
+		int r = blk.getRow();
+		if (exMap.getBlock(r,c+1).getIsObstacle()){
+			return exMap.getBlock(r,c+1);
+		}
+		else if (exMap.getBlock(r,c-1).getIsObstacle()){
+			return exMap.getBlock(r,c-1);
+		}
+		else if (exMap.getBlock(r+1,c).getIsObstacle()){
+			return exMap.getBlock(r+1,c);
+		}
+		else if (exMap.getBlock(r-1,c).getIsObstacle()){
+			return exMap.getBlock(r-1,c);
+		}
+		else{
+			return null;
 		}
 	}
 }
