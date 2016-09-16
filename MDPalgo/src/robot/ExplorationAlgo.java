@@ -269,7 +269,7 @@ public class ExplorationAlgo{
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (exploredArea < coverageLimited));
+		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (exploredArea < (coverageLimited * MapConstants.MAP_SIZE /100)));
 
 		if (exploredArea!=300){
 			System.out.println("there are still unexplored areas!!!!");

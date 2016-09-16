@@ -266,7 +266,7 @@ public class Simulator {
 					}
 				});
 
-		        d3.add(new JLabel("Enter coverage for exploration (number of grids): "));
+		        d3.add(new JLabel("Enter coverage for exploration ( % of the maze squares): "));
 		        d3.add(coverageTF);
 		        d3.add(coverageSaveButton);
 
