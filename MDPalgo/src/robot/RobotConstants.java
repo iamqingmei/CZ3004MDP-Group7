@@ -37,6 +37,20 @@ public final class RobotConstants {
 
 	public static enum MOVE {
 		FORWARD, RIGHT, LEFT, RETURN, ERROR; 
+		public static char print(MOVE m) {
+			switch (m){
+				case FORWARD:
+					return 'f';
+				case RIGHT:
+					return 'r';
+				case LEFT:
+					return 'l';
+				case RETURN:
+					return 't';
+				default:
+					return 'e';
+			}
+		}
 	};
 	
 	

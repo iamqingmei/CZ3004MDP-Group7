@@ -81,7 +81,7 @@ public class ShortestPathAlgo{
 	// }
 
 
-	public void runShortestPath(Map theMap, int goalRow, int goalCol){
+	public StringBuilder runShortestPath(Map theMap, int goalRow, int goalCol){
 		System.out.println("Start to find the shortest path from (" + current.getCol() + ", " + current.getRow() + ") to goal (" + goalRow + ", " + goalCol + ")");	
 		Stack<Block> path = new Stack<Block>();
 		
@@ -100,8 +100,7 @@ public class ShortestPathAlgo{
 				// printGscores();
 				path = getPath(theMap, goalRow, goalCol);
 				// printShortestPath(path);
-				moveRobot(thebot,path, goalRow, goalCol);
-				return;
+				return moveRobot(thebot,path, goalRow, goalCol);
 			}
 			/// set up its neighbors
 			if (theMap.blockInRange(current.getRow() + 1,current.getCol())){
@@ -161,7 +160,7 @@ public class ShortestPathAlgo{
 		// Continue until there is no more available square in the open list (which means there is no path)  
 		System.out.println("Path not found!");
 		// printGscores();
-		return;
+		return null;
 	}
 
 	private Stack<Block> getPath(Map theMap, int goalRow, int goalCol){
@@ -179,9 +178,11 @@ public class ShortestPathAlgo{
 		return actualPath;
 	}
 
-	private void moveRobot(Robot bot, Stack<Block> path, int goalRow, int goalCol){
+	private StringBuilder moveRobot(Robot bot, Stack<Block> path, int goalRow, int goalCol){
 		Block temp = path.pop();		
 		DIRECTION targetDir = bot.getRobotCurDir();
+		StringBuilder outputString = new StringBuilder("");
+		MOVE m;
 		while((bot.getRobotPosRow() != goalRow) || (bot.getRobotPosCol() != goalCol)){
 			if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
 				temp = path.pop();
@@ -189,17 +190,22 @@ public class ShortestPathAlgo{
 			System.out.println("move from" + bot.getRobotPosRow() + ", " + bot.getRobotPosCol() + " to " + temp.getRow() + " , " + temp.getCol());
 			targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
 			if (bot.getRobotCurDir() != targetDir){
-				System.out.println("robot cur dir:" + bot.getRobotCurDir().toString());
-				System.out.println("target dir:" + targetDir.toString());
-				System.out.println("move:" + getTargetMove(bot.getRobotCurDir(),targetDir).toString());
-				bot.moveRobot(getTargetMove(bot.getRobotCurDir(),targetDir));
+				// System.out.println("robot cur dir:" + bot.getRobotCurDir().toString());
+				// System.out.println("target dir:" + targetDir.toString());
+				m=getTargetMove(bot.getRobotCurDir(),targetDir);
+				// System.out.println("move:" + m.toString());
+				outputString.append(m.print(m));
+				bot.moveRobot(m);
 			}
 			else{ //alr pointing to the target direction
-				System.out.println("move: FORWARD");
+				// System.out.println("move: FORWARD");
+				outputString.append("f");
 				bot.moveRobot(MOVE.FORWARD);
 			}
 			map.repaint();
 		}
+		System.out.println(outputString);
+		return outputString;
 	}
 
 	private void printShortestPath(Stack<Block> actualPath){
