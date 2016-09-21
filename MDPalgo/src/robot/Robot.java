@@ -23,7 +23,7 @@ public class Robot extends JPanel {
 	private int posRow;
 	private int posCol;
 	private DIRECTION robotCurDir;
-	private int botSpeed = 300;
+	private int botSpeed = 50;
 	public Sensor longFront;
 	public Sensor shortRF;
 	public Sensor shortLF;

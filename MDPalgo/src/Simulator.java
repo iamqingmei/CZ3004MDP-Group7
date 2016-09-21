@@ -20,7 +20,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.util.Scanner;
+
+import java.util.*;
 
 public class Simulator {
 	// JFrame for the application
@@ -221,8 +222,11 @@ public class Simulator {
 		        bot.setRobotPos(1,1);
 				simShortestPathMap.repaint();
 				ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
-				shortestPath.runShortestPath(simShortestPathMap, 18, 13);
-				System.out.println("robot current position: " + bot.getRobotPosRow() + ", " + bot.getRobotPosCol());
+
+				StringBuilder output = shortestPath.runShortestPath(simShortestPathMap, 18, 13);
+				byte[] outputByteArray = String.valueOf(output).getBytes();
+				System.out.println(outputByteArray);
+				// System.out.println("robot current position: " + bot.getRobotPosRow() + ", " + bot.getRobotPosCol());
 		        return 111;
 		    }
 		}
