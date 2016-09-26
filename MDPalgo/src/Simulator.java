@@ -130,7 +130,7 @@ public class Simulator {
 		// for multithreading
 		class Exploration extends SwingWorker<Integer, String>{
 			protected Integer doInBackground() throws Exception{
-				bot.setRobotPos(1,1);
+				// bot.setRobotPos(1,1);
 				simExMap.repaint();
 				CardLayout cl = ((CardLayout) _mainCards.getLayout());
 			    cl.show(_mainCards, "EXPLO");
