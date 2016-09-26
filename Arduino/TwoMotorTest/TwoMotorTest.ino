@@ -43,10 +43,8 @@ void loop()
     md.setM1Speed(-i);
     md.setM2Speed(i);
     Serial.println(digitalRead(M1INA));
-    Serial.println(digitalRead(M1INB));
     Serial.println();
     Serial.println(digitalRead(M2INA));
-    Serial.println(digitalRead(M2INB));
     Serial.println();
     delay(2);
   }
@@ -55,10 +53,8 @@ void loop()
     md.setM1Speed(-i);
     md.setM2Speed(i);
     Serial.println(digitalRead(M1INA));
-    Serial.println(digitalRead(M1INB));
     Serial.println();
     Serial.println(digitalRead(M2INA));
-    Serial.println(digitalRead(M2INB));
     Serial.println();
     delay(2);
   }
