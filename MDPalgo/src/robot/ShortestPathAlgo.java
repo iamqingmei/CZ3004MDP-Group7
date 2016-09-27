@@ -20,8 +20,43 @@ public class ShortestPathAlgo{
 	private int testingCount; //for testing uses
 	private Robot thebot;
 	private Map map;
+	private Map exMap;
 
 	public ShortestPathAlgo(Map theMap, Robot bot){
+		thebot = bot;
+		map = theMap;
+		exMap=null;
+		open = new ArrayList<Block>();
+		closed = new ArrayList<Block>();
+		parents = new HashMap<Block, Block>();
+		neighbors = new Block[4];
+		current = theMap.getBlock(bot.getRobotPosRow(), bot.getRobotPosCol());
+		curDir = bot.getRobotCurDir();
+		gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
+
+		//initialize gScores arrays
+		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+			for (int j = 0; j < MapConstants.MAP_COL; j++) {
+				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall() || !theMap.getBlock(i,j).getIsExplored()){
+					// System.out.println("block (" + i+ ", "+ j + ")");
+					// System.out.println("obstacle? : " + theMap.getBlock(i, j).getIsObstacle());
+					// System.out.println("Vwall?: " + theMap.getBlock(i,j).getIsVirtualWall());
+					gScores[i][j] = RobotConstants.INFINITE_COST;
+				}
+				else{
+					gScores[i][j] = -1;
+				}
+			}
+		}				
+		open.add(current);
+
+		//initialize starting point
+		gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
+		testingCount =0;
+	}
+
+	public ShortestPathAlgo(Map theMap, Robot bot, Map theExMap){
+		exMap = theExMap;
 		thebot = bot;
 		map = theMap;
 		open = new ArrayList<Block>();

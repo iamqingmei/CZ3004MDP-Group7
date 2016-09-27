@@ -15,7 +15,6 @@ public class ExplorationAlgo{
 	private Map exMap, realMap;
 	private Robot bot;
 	private ArrayList<Block> pathTaken;
-	private int repeatedArea = 0;
 	private int exploredArea;
 	private int[] sensorData;
 
@@ -42,25 +41,33 @@ public class ExplorationAlgo{
 		looping(1,1);
 
 		//continue to explore the Unexplored area
-		if (exploredArea!=300){
+		while (exploredArea!=300){
 			System.out.println("there are still unexplored areas!!!!");
 			Block nearestUnexplored = nearestUnexploredGrid();
 			System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
 			Block nearbyOb = nearbyObstacle(nearestUnexplored);
 			if (nearbyOb!=null){
 				System.out.println("Nearby Obstacle: " + nearbyOb.getRow() + ", " + nearbyOb.getCol());
-				Block mark = exploredGridNearOb(nearbyOb);
-				System.out.println("Nearby explored grid: " + mark.getRow() + ", " + mark.getCol());
+				exploredGridNearOb(nearbyOb);
+			}
+			else{
+				exploredGridNearOb(nearestUnexplored);
 			}
 		}
-		else{
-			System.out.println("All grids are explored!");
-		}
+		System.out.println("All grids are explored!");
+		//go back to start zone
+		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot);
+		goBackToStart.runShortestPath(exMap,1,1);
 
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
+		turnRobotDir(DIRECTION.NORTH);
+		
+	}
+
+	private void turnRobotDir(DIRECTION dir){
 		System.out.println("robot facing: " + bot.getRobotCurDir());
-		while(bot.getRobotCurDir() != DIRECTION.NORTH){
+		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
 			bot.setSensors();
 			sensorData = bot.sense(exMap, realMap);
@@ -72,21 +79,39 @@ public class ExplorationAlgo{
 	private Block exploredGridNearOb(Block obs){
 		int obsRow = obs.getRow();
 		int obsCol = obs.getCol();
-		if (checkFreeToGo(obsRow-2,obsCol)){
-			return exMap.getBlock(obsRow-2,obsCol);
+		Block mark = null;
+		DIRECTION dir = null;
+		if (checkFreeToGo(obsRow-2,obsCol)){ //south
+			//facing east
+			mark = exMap.getBlock(obsRow-2,obsCol);
+			dir = DIRECTION.EAST;
 		}
-		else if (checkFreeToGo(obsRow+2,obsCol)){
-			return exMap.getBlock(obsRow+2,obsCol);
+		else if (checkFreeToGo(obsRow+2,obsCol)){ //north
+			//facing west
+			mark = exMap.getBlock(obsRow+2,obsCol);
+			dir = DIRECTION.WEST;
 		}
-		else if (checkFreeToGo(obsRow,obsCol-2)){
-			return exMap.getBlock(obsRow,obsCol-2);
+		else if (checkFreeToGo(obsRow,obsCol-2)){ //west
+			//facing south
+			mark = exMap.getBlock(obsRow,obsCol-2);
+			dir = DIRECTION.SOUTH;
 		}
-		else if (checkFreeToGo(obsRow,obsCol+2)){
-			return exMap.getBlock(obsRow,obsCol+2);
+		else if (checkFreeToGo(obsRow,obsCol+2)){ //east
+			//facing north
+			mark = exMap.getBlock(obsRow,obsCol+2);
+			dir = DIRECTION.NORTH;
 		}
-		else{
-			return null;
-		}
+		// go to the mark point
+		ShortestPathAlgo spa = new ShortestPathAlgo(exMap,bot);
+		spa.runShortestPath(exMap,mark.getRow(),mark.getCol());
+		bot.setSensors();
+		sensorData = bot.sense(exMap, realMap);
+		exploredArea = countExploredArea();
+		turnRobotDir(dir);
+		System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
+		System.out.println("Mark: " + mark.getRow() + ", " + mark.getCol());
+		looping(mark.getRow(),mark.getCol());
+		return mark;
 	}
 
 
@@ -104,19 +129,14 @@ public class ExplorationAlgo{
 		do{
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
-			// if next cell is already explored then
-				// repeatedArea += 1
 			System.out.println("move: " + nextMove);
 			bot.moveRobot(nextMove);
 			bot.setSensors();
 			sensorData = bot.sense(exMap, realMap);
-			// for (int i = 0; i<5; i++){
-			// 	System.out.println(i + ": " + sensorData[i]);
-			// }
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-		}while(bot.getRobotPosCol() != r || bot.getRobotPosRow() != c); //back to the START zone
+		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}
 
 	private int countExploredArea(){
@@ -134,10 +154,12 @@ public class ExplorationAlgo{
 
 	//return true if its explored and its not a obstacle
 	private boolean checkStatus(int r, int c){
+		boolean res = false;
 		if (r>=0 && r<MapConstants.MAP_ROW && c>=0 && c<MapConstants.MAP_COL){
-			return (exMap.getBlock(r,c).getIsExplored() && (!exMap.getBlock(r,c).getIsObstacle())); //explored and not obstacle
+			res = (exMap.getBlock(r,c).getIsExplored() && (!exMap.getBlock(r,c).getIsObstacle())); //explored and not obstacle
 		}
-		return false;
+		System.out.println("checkStatus for block " +r+", "+c+" : "+res);
+		return res;
 	}
 
 	//return true if west side is free
@@ -169,6 +191,8 @@ public class ExplorationAlgo{
 	private MOVE getNextMove(MOVE prevMov){
 		int botRow = bot.getRobotPosRow();
 		int botCol = bot.getRobotPosCol();
+		System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
+		System.out.println("bot current dir: " + bot.getRobotCurDir());
 		switch (bot.getRobotCurDir()){
 			case NORTH: 
 				if (nSideFree() && !wSideFree()){
@@ -189,12 +213,16 @@ public class ExplorationAlgo{
 				}
 			case EAST:
 				if (eSideFree() && !nSideFree() ){
+					System.out.println("here?!!!");
 					return MOVE.FORWARD;
 				}
 				else if (nSideFree()){
+					System.out.println("222?!!!");
 					if (prevMov!= MOVE.LEFT){
+						System.out.println("3333?!!!");
 						return MOVE.LEFT;
 					}
+					System.out.println("44444?!!!");
 					return MOVE.FORWARD;
 				}
 				else if (sSideFree() && !eSideFree()){
@@ -330,9 +358,9 @@ public class ExplorationAlgo{
 		MOVE prevMov = null;
 		bot.setSensors();
 		sensorData = bot.sense(exMap, realMap);
-		for (int i = 0; i<5; i++){
-			System.out.println(i + ": " + sensorData[i]);
-		}
+		// for (int i = 0; i<5; i++){
+		// 	System.out.println(i + ": " + sensorData[i]);
+		// }
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
@@ -364,9 +392,9 @@ public class ExplorationAlgo{
 		MOVE prevMov = null;
 		bot.setSensors();
 		sensorData = bot.sense(exMap, realMap);
-		for (int i = 0; i<5; i++){
-			System.out.println(i + ": " + sensorData[i]);
-		}
+		// for (int i = 0; i<5; i++){
+		// 	System.out.println(i + ": " + sensorData[i]);
+		// }
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
