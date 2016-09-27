@@ -102,10 +102,10 @@ public class ExplorationAlgo{
 			dir = DIRECTION.NORTH;
 		}
 		// go to the mark point
-		ShortestPathAlgo spa = new ShortestPathAlgo(exMap,bot);
+		ShortestPathAlgo spa = new ShortestPathAlgo(exMap,bot,realMap);
 		spa.runShortestPath(exMap,mark.getRow(),mark.getCol());
-		bot.setSensors();
-		sensorData = bot.sense(exMap, realMap);
+		// bot.setSensors();
+		// sensorData = bot.sense(exMap, realMap);
 		exploredArea = countExploredArea();
 		turnRobotDir(dir);
 		System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
@@ -272,84 +272,84 @@ public class ExplorationAlgo{
 		}
 	}
 
-	//follow right hand side
-	private MOVE getNextMoveRHS(MOVE prevMov){
-		int botRow = bot.getRobotPosRow();
-		int botCol = bot.getRobotPosCol();
-		switch (bot.getRobotCurDir()){
-			case NORTH: 
-				if (nSideFree() && !eSideFree()){
-					return MOVE.FORWARD;
-				}
-				else if (eSideFree()){
-					if (prevMov!= MOVE.RIGHT){
-						return MOVE.RIGHT;
-					}
-					return MOVE.FORWARD;
-				}
-				else if (wSideFree() && !nSideFree()){
-					return MOVE.LEFT;
-				}
-				else{
-					System.out.println("north error!");
-					return MOVE.LEFT;
-				}
-			case EAST:
-				if (eSideFree() && !sSideFree() ){
-					return MOVE.FORWARD;
-				}
-				else if (sSideFree()){
-					if (prevMov!= MOVE.RIGHT){
-						return MOVE.RIGHT;
-					}
-					return MOVE.FORWARD;
-				}
-				else if (nSideFree() && !eSideFree()){
-					return MOVE.LEFT;
-				}
-				else{
-					System.out.println("east error!");
-					return MOVE.LEFT;
-				}
-			case SOUTH:
-				if (sSideFree() && !wSideFree() ){
-					return MOVE.FORWARD;
-				}
-				else if (wSideFree()){
-					if (prevMov!= MOVE.RIGHT){
-						return MOVE.RIGHT;
-					}
-					return MOVE.FORWARD;
-				}
-				else if (eSideFree() && !sSideFree()){
-					return MOVE.LEFT;
-				}
-				else{
-					System.out.println("south error!");
-					return MOVE.LEFT;
-				}
-			case WEST:
-				if (wSideFree() && !nSideFree() ){
-					return MOVE.FORWARD;
-				}
-				else if (nSideFree()){
-					if (prevMov!= MOVE.RIGHT){
-						return MOVE.RIGHT;
-					}
-					return MOVE.FORWARD;
-				}
-				else if (sSideFree() && !wSideFree()){
-					return MOVE.LEFT;
-				}
-				else{
-					System.out.println("west error!");
-					return MOVE.LEFT;
-				}
-			default:
-				System.out.println("default error!");
-				return MOVE.LEFT;
-		}
-	}
+	// //follow right hand side
+	// private MOVE getNextMoveRHS(MOVE prevMov){
+	// 	int botRow = bot.getRobotPosRow();
+	// 	int botCol = bot.getRobotPosCol();
+	// 	switch (bot.getRobotCurDir()){
+	// 		case NORTH: 
+	// 			if (nSideFree() && !eSideFree()){
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (eSideFree()){
+	// 				if (prevMov!= MOVE.RIGHT){
+	// 					return MOVE.RIGHT;
+	// 				}
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (wSideFree() && !nSideFree()){
+	// 				return MOVE.LEFT;
+	// 			}
+	// 			else{
+	// 				System.out.println("north error!");
+	// 				return MOVE.LEFT;
+	// 			}
+	// 		case EAST:
+	// 			if (eSideFree() && !sSideFree() ){
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (sSideFree()){
+	// 				if (prevMov!= MOVE.RIGHT){
+	// 					return MOVE.RIGHT;
+	// 				}
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (nSideFree() && !eSideFree()){
+	// 				return MOVE.LEFT;
+	// 			}
+	// 			else{
+	// 				System.out.println("east error!");
+	// 				return MOVE.LEFT;
+	// 			}
+	// 		case SOUTH:
+	// 			if (sSideFree() && !wSideFree() ){
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (wSideFree()){
+	// 				if (prevMov!= MOVE.RIGHT){
+	// 					return MOVE.RIGHT;
+	// 				}
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (eSideFree() && !sSideFree()){
+	// 				return MOVE.LEFT;
+	// 			}
+	// 			else{
+	// 				System.out.println("south error!");
+	// 				return MOVE.LEFT;
+	// 			}
+	// 		case WEST:
+	// 			if (wSideFree() && !nSideFree() ){
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (nSideFree()){
+	// 				if (prevMov!= MOVE.RIGHT){
+	// 					return MOVE.RIGHT;
+	// 				}
+	// 				return MOVE.FORWARD;
+	// 			}
+	// 			else if (sSideFree() && !wSideFree()){
+	// 				return MOVE.LEFT;
+	// 			}
+	// 			else{
+	// 				System.out.println("west error!");
+	// 				return MOVE.LEFT;
+	// 			}
+	// 		default:
+	// 			System.out.println("default error!");
+	// 			return MOVE.LEFT;
+	// 	}
+	// }
 	//for time limited
 	public void runExploration(int timeInSecond){
 		long start = System.currentTimeMillis();

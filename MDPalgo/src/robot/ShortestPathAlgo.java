@@ -20,12 +20,12 @@ public class ShortestPathAlgo{
 	private int testingCount; //for testing uses
 	private Robot thebot;
 	private Map map;
-	private Map exMap;
+	private Map realMap;
 
 	public ShortestPathAlgo(Map theMap, Robot bot){
 		thebot = bot;
 		map = theMap;
-		exMap=null;
+		realMap=null;
 		open = new ArrayList<Block>();
 		closed = new ArrayList<Block>();
 		parents = new HashMap<Block, Block>();
@@ -55,8 +55,8 @@ public class ShortestPathAlgo{
 		testingCount =0;
 	}
 
-	public ShortestPathAlgo(Map theMap, Robot bot, Map theExMap){
-		exMap = theExMap;
+	public ShortestPathAlgo(Map theMap, Robot bot, Map theRealMap){
+		realMap = theRealMap;
 		thebot = bot;
 		map = theMap;
 		open = new ArrayList<Block>();
@@ -231,13 +231,21 @@ public class ShortestPathAlgo{
 				// System.out.println("move:" + m.toString());
 				outputString.append(m.print(m));
 				bot.moveRobot(m);
+				if (realMap != null){
+					bot.setSensors();
+					bot.sense(this.map, this.realMap);
+				}
 			}
 			else{ //alr pointing to the target direction
 				// System.out.println("move: FORWARD");
 				outputString.append("f");
 				bot.moveRobot(MOVE.FORWARD);
+				if (realMap != null){
+					bot.setSensors();
+					bot.sense(this.map, this.realMap);
+				}
 			}
-			map.repaint();
+			this.map.repaint();
 		}
 		System.out.println(outputString);
 		return outputString;
@@ -379,7 +387,6 @@ public class ShortestPathAlgo{
 					case EAST: return MOVE.ERROR; 
 				}
 		}
-		System.out.println("1111!");
 		return MOVE.ERROR;
 	}
 	
