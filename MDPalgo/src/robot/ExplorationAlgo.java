@@ -158,7 +158,7 @@ public class ExplorationAlgo{
 		if (r>=0 && r<MapConstants.MAP_ROW && c>=0 && c<MapConstants.MAP_COL){
 			res = (exMap.getBlock(r,c).getIsExplored() && (!exMap.getBlock(r,c).getIsObstacle())); //explored and not obstacle
 		}
-		System.out.println("checkStatus for block " +r+", "+c+" : "+res);
+		// System.out.println("checkStatus for block " +r+", "+c+" : "+res);
 		return res;
 	}
 

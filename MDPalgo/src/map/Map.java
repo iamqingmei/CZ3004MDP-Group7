@@ -5,11 +5,6 @@ import robot.Robot;
 import robot.RobotConstants.DIRECTION;
 import robot.RobotConstants.MOVE;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;

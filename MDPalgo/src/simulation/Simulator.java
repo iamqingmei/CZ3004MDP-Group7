@@ -1,3 +1,4 @@
+package simulation;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,14 +8,13 @@ import map.MapConstants;
 
 import java.util.concurrent.TimeUnit;
 
+import map.Map; 
 import map.Block;
 import robot.Robot;
 import robot.RobotConstants.MOVE;
 import robot.RobotConstants.DIRECTION;
 import robot.ShortestPathAlgo;
 import robot.ExplorationAlgo;
-
-import map.Map; 
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -64,6 +64,10 @@ public class Simulator {
 		simCoverageExMap.setAllUnexplored();
 
 		displayEverythings();
+		CommMgr.getCommMgr().setConnection(60000);
+		System.out.println("If it is connected: " + CommMgr.getCommMgr().isConnected());
+		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		CommMgr.sendMsg("hello Andriod", "Android, ");
 	}
 
 	private static void displayEverythings(){
@@ -84,8 +88,6 @@ public class Simulator {
 		// Initialize the main CardLayout
 		initMainLayout();
 		
-		
-
 		// Initialize the buttons CardLayout
 		initButtonsLayout();
 		
@@ -273,7 +275,6 @@ public class Simulator {
 						// System.out.println("botSpeed: " + botSpeed);
 					}
 				});
-
 		        d1.add(new JLabel("Enter Speed (X steps per second): "));
 		        d1.add(speedTF);
 		        d1.add(speedSaveButton);
@@ -295,6 +296,7 @@ public class Simulator {
 				return 333;
 			}
 		}
+
 		// Time-limited Exploration button
 		JButton btn_TimeExploration = new JButton("Time-limited");
 		btn_TimeExploration.setFont(new Font("Arial", Font.BOLD, 13));
