@@ -60,8 +60,22 @@ public class Simulator {
 		displayEverythings();
 		CommMgr.getCommMgr().setConnection(60000);
 		System.out.println("If it is connected: " + CommMgr.getCommMgr().isConnected());
+		
+		// for (int i=0;i<2;i++){
+		CommMgr.getCommMgr().sendMsg("hello Andriod", "PC2PC ");
+		// 	try{
+		// 		TimeUnit.MILLISECONDS.sleep(5000);
+		// 	}
+		// 	catch(InterruptedException e)
+		// 	{
+		// 	     System.out.println("Miao!");
+		// 	}
+		// 	System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		// }
 		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		CommMgr.getCommMgr().sendMsg("hello Andriod", "Android, ");
+		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		
+		
 	}
 
 	private static void displayEverythings(){
@@ -126,7 +140,7 @@ public class Simulator {
 			protected Integer doInBackground() throws Exception{
 				// bot.setRobotPos(1,1);
 				simExMap.repaint();
-
+				// CommMgr.getCommMgr().sendMsg("Start Exploration", "PC2PC ");
 				ExplorationAlgo exploration = new ExplorationAlgo(simExMap, simShortestPathMap, bot);
 				exploration.runExploration();
 
@@ -156,9 +170,10 @@ public class Simulator {
 				ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
 
 				StringBuilder output = shortestPath.runShortestPath(simShortestPathMap, 18, 13);
-				byte[] outputByteArray = String.valueOf(output).getBytes();
-				System.out.println(outputByteArray);
-				// System.out.println("robot current position: " + bot.getRobotPosRow() + ", " + bot.getRobotPosCol());
+				// byte[] outputByteArray = String.valueOf(output).getBytes();
+				// System.out.println(outputByteArray);
+				System.out.println("Fastest Path is : " + output);
+				CommMgr.getCommMgr().sendMsg(output.toString(), "PC2PC ");
 		        return 111;
 		    }
 		}

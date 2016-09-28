@@ -6,6 +6,7 @@ import map.MapConstants;
 import map.Map;
 import map.Block;
 
+import communication.CommMgr;
 import robot.RobotConstants.DIRECTION;
 import robot.RobotConstants.MOVE;
 import robot.Robot;
@@ -26,7 +27,7 @@ public class ExplorationAlgo{
 
 	public void runExploration(){
 		bot.setSensors();
-		sensorData = bot.sense(exMap, realMap);
+		sensorData = bot.sense(exMap);
 		// sensorData[0] = longFront
 		// sensorData[1] = shortRF
 		// sensorData[2] = shortLF
@@ -69,8 +70,9 @@ public class ExplorationAlgo{
 		System.out.println("robot facing: " + bot.getRobotCurDir());
 		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
+			System.out.println("send msg: " + CommMgr.getCommMgr().sendMsg("r","PC2PC"));
 			bot.setSensors();
-			sensorData = bot.sense(exMap, realMap);
+			sensorData = bot.sense(exMap);
 			exMap.repaint();
 			System.out.println("robot facing: " + bot.getRobotCurDir());
 		}
@@ -102,10 +104,8 @@ public class ExplorationAlgo{
 			dir = DIRECTION.NORTH;
 		}
 		// go to the mark point
-		ShortestPathAlgo spa = new ShortestPathAlgo(exMap,bot,realMap);
+		ShortestPathAlgo spa = new ShortestPathAlgo(exMap,bot,true);
 		spa.runShortestPath(exMap,mark.getRow(),mark.getCol());
-		// bot.setSensors();
-		// sensorData = bot.sense(exMap, realMap);
 		exploredArea = countExploredArea();
 		turnRobotDir(dir);
 		System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
@@ -130,9 +130,10 @@ public class ExplorationAlgo{
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
 			System.out.println("move: " + nextMove);
+			System.out.println("send msg: " + CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove).toString(), "PC2PC"));
 			bot.moveRobot(nextMove);
 			bot.setSensors();
-			sensorData = bot.sense(exMap, realMap);
+			sensorData = bot.sense(exMap);
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
@@ -269,154 +270,6 @@ public class ExplorationAlgo{
 			default:
 				System.out.println("default error!");
 				return MOVE.RIGHT;
-		}
-	}
-
-	// //follow right hand side
-	// private MOVE getNextMoveRHS(MOVE prevMov){
-	// 	int botRow = bot.getRobotPosRow();
-	// 	int botCol = bot.getRobotPosCol();
-	// 	switch (bot.getRobotCurDir()){
-	// 		case NORTH: 
-	// 			if (nSideFree() && !eSideFree()){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (eSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (wSideFree() && !nSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("north error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		case EAST:
-	// 			if (eSideFree() && !sSideFree() ){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (sSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (nSideFree() && !eSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("east error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		case SOUTH:
-	// 			if (sSideFree() && !wSideFree() ){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (wSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (eSideFree() && !sSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("south error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		case WEST:
-	// 			if (wSideFree() && !nSideFree() ){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (nSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (sSideFree() && !wSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("west error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		default:
-	// 			System.out.println("default error!");
-	// 			return MOVE.LEFT;
-	// 	}
-	// }
-	//for time limited
-	public void runExploration(int timeInSecond){
-		long start = System.currentTimeMillis();
-		long end = start + timeInSecond*1000; // 60 seconds * 1000 ms/sec
-		MOVE nextMove = null;
-		MOVE prevMov = null;
-		bot.setSensors();
-		sensorData = bot.sense(exMap, realMap);
-		// for (int i = 0; i<5; i++){
-		// 	System.out.println(i + ": " + sensorData[i]);
-		// }
-		exploredArea = countExploredArea();
-		System.out.println("exploredArea: " + exploredArea);
-		exMap.repaint();
-		do{
-			prevMov = nextMove;
-			nextMove = getNextMove(prevMov);
-			System.out.println("move: " + nextMove);
-			bot.moveRobot(nextMove);
-			bot.setSensors();
-			sensorData = bot.sense(exMap, realMap);
-			exploredArea = countExploredArea();
-			System.out.println("exploredArea: " + exploredArea);
-			exMap.repaint();
-		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (System.currentTimeMillis() < end));
-
-		if (exploredArea!=300){
-			System.out.println("there are still unexplored areas!!!!");
-		}
-		//after back to the start zone
-		//turn to North (Ready for shortest path finding)
-		while(bot.getRobotCurDir() != DIRECTION.NORTH){
-			bot.moveRobot(MOVE.RIGHT);
-		}
-	}
-
-	//for coverage limited
-	public void runExploration(long coverageLimited){
-		MOVE nextMove = null;
-		MOVE prevMov = null;
-		bot.setSensors();
-		sensorData = bot.sense(exMap, realMap);
-		// for (int i = 0; i<5; i++){
-		// 	System.out.println(i + ": " + sensorData[i]);
-		// }
-		exploredArea = countExploredArea();
-		System.out.println("exploredArea: " + exploredArea);
-		exMap.repaint();
-		do{
-			prevMov = nextMove;
-			nextMove = getNextMove(prevMov);
-			System.out.println("move: " + nextMove);
-			bot.moveRobot(nextMove);
-			bot.setSensors();
-			sensorData = bot.sense(exMap, realMap);
-			exploredArea = countExploredArea();
-			System.out.println("exploredArea: " + exploredArea);
-			exMap.repaint();
-		}while((bot.getRobotPosCol() != 1 || bot.getRobotPosRow() != 1) && (exploredArea < (coverageLimited * MapConstants.MAP_SIZE /100)));
-
-		if (exploredArea!=300){
-			System.out.println("there are still unexplored areas!!!!");
-		}
-		//after back to the start zone
-		//turn to North (Ready for shortest path finding)
-		while(bot.getRobotCurDir() != DIRECTION.NORTH){
-			bot.moveRobot(MOVE.RIGHT);
 		}
 	}
 

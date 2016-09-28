@@ -10,8 +10,8 @@ public final class RobotConstants {
 	public static final DIRECTION STARTING_DIR = DIRECTION.NORTH;
 	public static final int STARTING_ROW = 1;
 	public static final int STARTING_COL = 1;
-	public static final int SENSOR_SHORT_RANGE = 3;
-	public static final int SENSOR_LONG_RANGE = 5;
+	public static final int SENSOR_SHORT_RANGE = 8;
+	public static final int SENSOR_LONG_RANGE = 8;
 	
 	public static final double INFINITE_COST = 9999; 
 
@@ -37,18 +37,18 @@ public final class RobotConstants {
 
 	public static enum MOVE {
 		FORWARD, RIGHT, LEFT, RETURN, ERROR; 
-		public static char print(MOVE m) {
+		public static String print(MOVE m) {
 			switch (m){
 				case FORWARD:
-					return 'f';
+					return "f";
 				case RIGHT:
-					return 'r';
+					return "r";
 				case LEFT:
-					return 'l';
+					return "l";
 				case RETURN:
-					return 't';
+					return "t";
 				default:
-					return 'e';
+					return "e";
 			}
 		}
 	};

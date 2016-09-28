@@ -5,6 +5,7 @@ import map.MapConstants;
 import map.Block;
 import java.util.*;
 
+import communication.CommMgr;
 import robot.RobotConstants.DIRECTION;
 import robot.RobotConstants.MOVE;
 import robot.Robot;
@@ -20,12 +21,11 @@ public class ShortestPathAlgo{
 	private int testingCount; //for testing uses
 	private Robot thebot;
 	private Map map;
-	private Map realMap;
+	private boolean explore=false;
 
 	public ShortestPathAlgo(Map theMap, Robot bot){
 		thebot = bot;
 		map = theMap;
-		realMap=null;
 		open = new ArrayList<Block>();
 		closed = new ArrayList<Block>();
 		parents = new HashMap<Block, Block>();
@@ -55,8 +55,8 @@ public class ShortestPathAlgo{
 		testingCount =0;
 	}
 
-	public ShortestPathAlgo(Map theMap, Robot bot, Map theRealMap){
-		realMap = theRealMap;
+	public ShortestPathAlgo(Map theMap, Robot bot, boolean ex){
+		this.explore = ex;
 		thebot = bot;
 		map = theMap;
 		open = new ArrayList<Block>();
@@ -87,33 +87,6 @@ public class ShortestPathAlgo{
 		gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
 		testingCount =0;
 	}
-
-	// public void reset(Map theMap, Robot bot){
-	// 	open = new ArrayList<Block>();
-	// 	closed = new ArrayList<Block>();
-	// 	parents = new HashMap<Block, Block>();
-	// 	neighbors = new Block[4];
-	// 	current = theMap.getBlock(bot.getRobotPosRow(), bot.getRobotPosCol());
-	// 	curDir = bot.getRobotCurDir();
-	// 	gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
-
-	// 	//initialize gScores arrays
-	// 	for (int i = 0; i < MapConstants.MAP_ROW; i++) {
-	// 		for (int j = 0; j < MapConstants.MAP_COL; j++) {
-	// 			if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall()){
-	// 				gScores[i][j] = RobotConstants.INFINITE_COST;
-	// 			}
-	// 			else{
-	// 				gScores[i][j] = -1;
-	// 			}
-	// 		}
-	// 	}				
-	// 	open.add(current);
-
-	// 	//initialize starting point
-	// 	gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
-	// 	testingCount =0;
-	// }
 
 
 	public StringBuilder runShortestPath(Map theMap, int goalRow, int goalCol){
@@ -231,18 +204,18 @@ public class ShortestPathAlgo{
 				// System.out.println("move:" + m.toString());
 				outputString.append(m.print(m));
 				bot.moveRobot(m);
-				if (realMap != null){
+				if (explore == true){
 					bot.setSensors();
-					bot.sense(this.map, this.realMap);
+					bot.sense(this.map);
 				}
 			}
 			else{ //alr pointing to the target direction
 				// System.out.println("move: FORWARD");
 				outputString.append("f");
 				bot.moveRobot(MOVE.FORWARD);
-				if (realMap != null){
+				if (explore == true){
 					bot.setSensors();
-					bot.sense(this.map, this.realMap);
+					bot.sense(this.map);
 				}
 			}
 			this.map.repaint();

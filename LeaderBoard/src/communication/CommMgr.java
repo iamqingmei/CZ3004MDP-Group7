@@ -6,9 +6,9 @@ import java.net.*;
 public class CommMgr{
 	private static CommMgr commMgr = null;
 
-	private static final String HOST = "192.168.1.7"; //Raspberry Pi ip address
+	private static final String HOST = "192.168.7.1"; //Raspberry Pi ip address
 
-	private static final int PORT = 55555;   //Raspberry Pi port
+	private static final int PORT = 8080;   //Raspberry Pi port
 
 	public static final String MSG_TYPE_ANDROID = "Android, ";
 	public static final String MSG_TYPE_ARDUINO = "Arduino, ";
@@ -33,6 +33,7 @@ public class CommMgr{
 
 	// if the time exceeds timeoutInMs, it will fail
 	public boolean setConnection(int timeoutInMs){
+		System.out.println("Starts to set Connection");
 		try{
 			conn = new Socket(HOST, PORT);
 			//conn.connect(new InetSocketAddress(HOST, PORT), timeoutInMs);
@@ -113,8 +114,10 @@ public class CommMgr{
 	}
 
 	public String recvMsg(){
+		System.out.println("Waiting for receiving msg!");
 		try{
 			String input = br.readLine();
+			System.out.println("sth!");
 			if (input != null && input.length() > 0){
 				System.out.println(input);
 				return input;

@@ -3,6 +3,7 @@ package robot;
 
 import java.util.concurrent.TimeUnit;
 
+import communication.CommMgr;
 import robot.RobotConstants;
 import robot.RobotConstants.DIRECTION;
 import robot.RobotConstants.MOVE;
@@ -156,15 +157,26 @@ public class Robot{
 		
 	}
 
-	public int[] sense(Map simExMap, Map simShortestPathMap){
+	public int[] sense(Map simExMap){
 		int[] result = new int[5];
-		result[0] = longFront.sense(simExMap, simShortestPathMap);
-		result[1] = shortRF.sense(simExMap, simShortestPathMap);
-		result[2] = shortLF.sense(simExMap, simShortestPathMap);
-		result[3] = shortR.sense(simExMap, simShortestPathMap);
-		result[4] = shortL.sense(simExMap, simShortestPathMap);
+	
+		String sensorData = CommMgr.getCommMgr().recvMsg();
+		System.out.println("sensorData: "+ sensorData);
+		Integer sensorDataInt = Integer.parseInt(sensorData);
+		for (int i=4; i>-1;i--){
+			result[i] = sensorDataInt%10;
+			sensorDataInt=sensorDataInt/10;
+		}
+		longFront.sense(simExMap,result[0]);
+		shortRF.sense(simExMap,result[1]);
+		shortLF.sense(simExMap,result[2]);
+		shortR.sense(simExMap,result[3]);
+		shortL.sense(simExMap,result[4]);
 		return result;
 	}
+	
+	
+
 
 	private DIRECTION leftRightDirection(MOVE m){
 		if ( m == MOVE.RIGHT){
