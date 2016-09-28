@@ -1,0 +1,129 @@
+/*
+pseudo code for exploration
+*/
+assume the initial map has no obstacles
+Initialise START && GOAL;
+curP = Starting position;
+ArrayList<Block> tracks = new ArrayList<Block>();
+
+initialise start point and direction
+set repeatedArea = 0
+do
+	get sensor data
+	update exploration map
+	Use algorithm & sensor data to decide turn left, right or go straight
+		Include consideration if the path is explored or unexplored.
+	if next cell is already explored then
+		repeatedArea += 1
+	Execute the movement (Update current position of robot)
+	
+while (Not start point) and (exploration map < 100%)
+Use Shortest path to return back to start point from current position
+
+
+
+
+
+// this algo is for robot to explore more on the map 
+// && finally go to GOAL ZONE
+
+assume the initial map has no obstacles
+Initialise START and GOAL;
+Block curP = Starting position;
+ShortestPathAlgo algo = new ShortestPathAlgo(theMap, bot);
+ArrayList<Block> estimatedPath = algo.runShortestPath(theMap, 18, 13);
+ArrayList<Block> tracks = new ArrayList<Block>();
+
+
+
+while(){
+	tracks.add(curp);
+	if (curP is GOAL ZONE){
+		break; //mission complete
+	}
+	scan() //scan the environment
+
+	if (NEW obstacle is found){ 
+		update the blocks of obstacles found into the map
+		theMap.setObstacle(r,c);
+
+		if (right side of obstacles can be seen){
+			if (left side of obstacles can be seen){ //whole obstacle can be seen
+				//update the estimatedPath
+				algo.reset(theMap, bot);
+				estimatedPath = algo.runShortestPath(theMap, 18, 13); 
+				Go to the next point in estimatedPath
+				nextP = next point in estimatedPath
+			}
+			else {//only right side of obstacles can be seen
+				go to find the left end of obstacles
+			}
+		}
+		else if(only left side of obstacles can be seen)
+			go to find the left end of obstacles
+		}
+		else{ //both ends of the obstacles cannot be seen
+			go to find the right end of obstacles
+		}
+}
+
+
+botRow
+botCol
+botDir
+prevMov
+
+//return true if its explored and its not a obstacle
+private bool checkStatus(int r, int c){
+	if (r>=0 && r<MapConstants.MAP_ROW && c>=0 && c<MapConstants.MAP_COL){
+		return (exMap.getIsExplored(r,c) && (!exMap.getIsObstacle(r,c)));
+	}
+	return false;
+}
+
+private MOVE getNextMove(){
+	switch (bot.getRobotCurDit()){
+		case NORTH:
+			if (exMap.checkStatus(botRow-1, botCol-2) && exMap.checkStatus(botRow, botCol-2) && exMap.checkStatus(botRow+1, botCol-2) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow-2, botCol - 1) && exMap.checkStatus(botRow-2, botCol + 1) && exMap.checkStatus(botRow-2, botCol)){
+				return MOVE.FORWARD;
+			}
+			else if(exMap.checkStatus(botRow-1, botCol+2) && exMap.checkStatus(botRow, botCol+2) && exMap.checkStatus(botRow+1, botCol+2)){
+				return MOVE.RIGHT;
+			}
+		case SOUTH:
+			if (exMap.checkStatus(botRow-1, botCol+2) && exMap.checkStatus(botRow, botCol+2) && exMap.checkStatus(botRow+1, botCol+2) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow+2, botCol-1) && exMap.checkStatus(botRow+2, botCol) && exMap.checkStatus(botRow+2, botCol+1)){
+				return MOVE.FORWARD;
+			}
+			else if (exMap.checkStatus(botRow-1, botCol-2) && exMap.checkStatus(botRow, botCol-2) && exMap.checkStatus(botRow+1, botCol-2)){
+				return MOVE.RIGHT;
+			}
+		case WEST:
+			if (exMap.checkStatus(botRow+2, botCol-1) && exMap.checkStatus(botRow+2, botCol) && exMap.checkStatus(botRow+2, botCol+1) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow-1, botCol-2) && exMap.checkStatus(botRow, botCol-2) && exMap.checkStatus(botRow+1, botCol-2)){
+				return MOVE.FORWARD;
+			}
+			else if (exMap.checkStatus(botRow-2, botCol-1) && exMap.checkStatus(botRow-2, botCol) && exMap.checkStatus(botRow-2, botCol+1)){
+				return MOVE.RIGHT;
+			}
+		case EAST:
+			if (exMap.checkStatus(botRow-2, botCol-1) && exMap.checkStatus(botRow-2, botCol) && exMap.checkStatus(botRow-2, botCol+1) && prevMov != LEFT){
+				return MOVE.LEFT;
+            }
+			else if (exMap.checkStatus(botRow-1, botCol+2) && exMap.checkStatus(botRow, botCol+2) && exMap.checkStatus(botRow+1, botCol+2)){
+				return MOVE.FORWARD;
+			}
+			else if (exMap.checkStatus(botRow+2, botCol-1) && exMap.checkStatus(botRow+2, botCol) && exMap.checkStatus(botRow+2, botCol+1)){
+				return MOVE.RIGHT;
+			}
+		default:
+			return MOVE.LEFT;
+	}
+}
