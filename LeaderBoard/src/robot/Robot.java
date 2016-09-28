@@ -161,6 +161,7 @@ public class Robot{
 		int[] result = new int[5];
 	
 		String sensorData = CommMgr.getCommMgr().recvMsg();
+		
 		System.out.println("sensorData: "+ sensorData);
 		Integer sensorDataInt = Integer.parseInt(sensorData);
 		for (int i=4; i>-1;i--){

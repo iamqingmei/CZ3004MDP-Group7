@@ -62,7 +62,7 @@ public class Simulator {
 		System.out.println("If it is connected: " + CommMgr.getCommMgr().isConnected());
 		
 		// for (int i=0;i<2;i++){
-		CommMgr.getCommMgr().sendMsg("hello Andriod", "PC2PC ");
+		CommMgr.getCommMgr().sendMsg("hello Andriod", "PC2AN ");
 		// 	try{
 		// 		TimeUnit.MILLISECONDS.sleep(5000);
 		// 	}
@@ -72,8 +72,12 @@ public class Simulator {
 		// 	}
 		// 	System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
 		// }
+		// CommMgr.getCommMgr().sendMsg(output.toString(), "PC2PC ");
 		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
 		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		
 		
 		
 	}
@@ -255,5 +259,6 @@ public class Simulator {
 		System.out.println("last df:" + DescriptorFormatHex);
 		DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
 		System.out.println(DescriptorFinal2);
+		CommMgr.getCommMgr().sendMsg(DescriptorFinal2, "PC2AN ");
 	}
 }

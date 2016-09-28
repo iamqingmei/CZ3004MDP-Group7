@@ -117,7 +117,6 @@ public class CommMgr{
 		System.out.println("Waiting for receiving msg!");
 		try{
 			String input = br.readLine();
-			System.out.println("sth!");
 			if (input != null && input.length() > 0){
 				System.out.println(input);
 				return input;
