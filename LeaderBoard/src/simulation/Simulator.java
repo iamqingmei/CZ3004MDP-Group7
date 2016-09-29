@@ -62,7 +62,7 @@ public class Simulator {
 		System.out.println("If it is connected: " + CommMgr.getCommMgr().isConnected());
 		
 		// for (int i=0;i<2;i++){
-		CommMgr.getCommMgr().sendMsg("hello Andriod", "PC2AN ");
+		// CommMgr.getCommMgr().sendMsg("hello Andriod", "PC2AN ");
 		// 	try{
 		// 		TimeUnit.MILLISECONDS.sleep(5000);
 		// 	}
@@ -73,12 +73,13 @@ public class Simulator {
 		// 	System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
 		// }
 		// CommMgr.getCommMgr().sendMsg(output.toString(), "PC2PC ");
-		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
+		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
 		
-		
+
+
 		
 	}
 
@@ -142,13 +143,19 @@ public class Simulator {
 		// for multithreading
 		class Exploration extends SwingWorker<Integer, String>{
 			protected Integer doInBackground() throws Exception{
+				System.out.println("waiting for Andriod command");
+				String startE = CommMgr.getCommMgr().recvMsg();
+		    	while(!startE.equals("explore")){
+		    		startE = CommMgr.getCommMgr().recvMsg();
+		    	}
+		    	System.out.println("start exploration");
 				// bot.setRobotPos(1,1);
 				simExMap.repaint();
 				// CommMgr.getCommMgr().sendMsg("Start Exploration", "PC2PC ");
 				ExplorationAlgo exploration = new ExplorationAlgo(simExMap, simShortestPathMap, bot);
 				exploration.runExploration();
 
-				mapDescriptor();
+				simExMap.mapDescriptor();
 				return 222;
 			}
 		}
@@ -165,10 +172,17 @@ public class Simulator {
 		});
 		_mainButtons.add(btn_Exploration);
 
+
 		// for multithreading
 		class FastestPath extends SwingWorker<Integer, String>{
 		    protected Integer doInBackground() throws Exception
 		    {
+		    	System.out.println("waiting for Andriod command");
+		    	String startF = CommMgr.getCommMgr().recvMsg();
+		    	while(!startF.equals("race")){
+		    		startF = CommMgr.getCommMgr().recvMsg();
+		    	}
+		    	System.out.println("start FastestPath");
 		        bot.setRobotPos(1,1);
 				simShortestPathMap.repaint();
 				ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
@@ -177,7 +191,8 @@ public class Simulator {
 				// byte[] outputByteArray = String.valueOf(output).getBytes();
 				// System.out.println(outputByteArray);
 				System.out.println("Fastest Path is : " + output);
-				CommMgr.getCommMgr().sendMsg(output.toString(), "PC2PC ");
+				CommMgr.getCommMgr().sendMsg(output.toString(), "PC2AR");
+				
 		        return 111;
 		    }
 		}
@@ -194,71 +209,115 @@ public class Simulator {
 			}
 		});
 		_mainButtons.add(btn_ShortestPath);
-	}
 
+		// for multithreading
+		class RecvMsg extends SwingWorker<Integer, String>{
+		    protected Integer doInBackground() throws Exception
+		    {
+		        CommMgr.getCommMgr().recvMsg();
+		        return 333;
+		    }
+		}
 
-	private static void mapDescriptor(){
-		String DescriptorFormat = "11"; //pad the first 2 bits
-		String DescriptorFinal = "";
-		for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for explored area
-			for(int c=0;c<MapConstants.MAP_COL;c++){
-				if(simExMap.getBlock(r,c).getIsExplored() == true){					
-					//System.out.println(i++);
-					DescriptorFormat = DescriptorFormat + "1"; //grid explored
-				}
-				else
-					DescriptorFormat = DescriptorFormat + "0"; //grid not explored
-				if(DescriptorFormat.length()==16){
-					int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-					String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-					while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
-						DescriptorFormatHex = "0"+ DescriptorFormatHex;
-					// System.out.println(DescriptorFormatHex);
-					DescriptorFinal += DescriptorFormatHex;
-					DescriptorFormat = "";//resets string after each column
-				}
+		//RecvMsg button
+		JButton btn_recvMsg = new JButton("Receive Msg");
+		btn_recvMsg.setFont(new Font("Arial", Font.BOLD, 13));
+		btn_recvMsg.setFocusPainted(false);
+		btn_recvMsg.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				CardLayout cl = ((CardLayout) _mainCards.getLayout());
+			    cl.show(_mainCards, "MAIN");
+			    new RecvMsg().execute();
 			}
+		});
+		_mainButtons.add(btn_recvMsg);
+
+		// for multithreading
+		class SendMsg extends SwingWorker<Integer, String>{
+		    protected Integer doInBackground() throws Exception
+		    {
+				CommMgr.getCommMgr().sendMsg("testing pc to pc", "PC2PC");
+		        return 333;
+		    }
 		}
-		DescriptorFormat = DescriptorFormat + "11";//pad the last 2 bits
-		int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-		String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-		System.out.println(DescriptorFormatHex);
-		DescriptorFinal += DescriptorFormatHex; //last 4 hexa digits
-		System.out.println(DescriptorFinal);
-		
-		DescriptorFormat = "";
-		String DescriptorFinal2 ="";
-		System.out.println("printing obstacles");
-		for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for obstacles in map
-			for(int c=0;c<MapConstants.MAP_COL;c++){
-				if(simExMap.getBlock(r,c).getIsExplored() == true){
-					if(simExMap.getBlock(r,c).getIsObstacle() == true)
-						DescriptorFormat += "1";
-					else
-						DescriptorFormat += "0";
-					if(DescriptorFormat.length()==16){
-						// System.out.println(DescriptorFormat);
-						DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-						DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-						while(DescriptorFormatHex.length()!= 4)
-							DescriptorFormatHex = "0" + DescriptorFormatHex;//add back the zeros automatically removed by the computer
-						// System.out.println(DescriptorFormatHex);
-						DescriptorFinal2 += DescriptorFormatHex;
-						DescriptorFormat = "";//resets string after each column
-					}
-				}
-			}	
-		}
-		System.out.println(DescriptorFormat);
-		while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
-			DescriptorFormat += "1";
-		DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-		DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-		while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
-			DescriptorFormatHex = "0"+ DescriptorFormatHex;
-		System.out.println("last df:" + DescriptorFormatHex);
-		DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
-		System.out.println(DescriptorFinal2);
-		CommMgr.getCommMgr().sendMsg(DescriptorFinal2, "PC2AN ");
+
+		//RecvMsg button
+		JButton btn_SendMsg = new JButton("Send Msg");
+		btn_SendMsg.setFont(new Font("Arial", Font.BOLD, 13));
+		btn_SendMsg.setFocusPainted(false);
+		btn_SendMsg.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				CardLayout cl = ((CardLayout) _mainCards.getLayout());
+			    cl.show(_mainCards, "MAIN");
+			    new SendMsg().execute();
+			}
+		});
+		_mainButtons.add(btn_SendMsg);
 	}
+
+
+	// private static void mapDescriptor(){
+	// 	String DescriptorFormat = "11"; //pad the first 2 bits
+	// 	String DescriptorFinal = "";
+	// 	for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for explored area
+	// 		for(int c=0;c<MapConstants.MAP_COL;c++){
+	// 			if(simExMap.getBlock(r,c).getIsExplored() == true){					
+	// 				//System.out.println(i++);
+	// 				DescriptorFormat = DescriptorFormat + "1"; //grid explored
+	// 			}
+	// 			else
+	// 				DescriptorFormat = DescriptorFormat + "0"; //grid not explored
+	// 			if(DescriptorFormat.length()==16){
+	// 				int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
+	// 				String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
+	// 				while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
+	// 					DescriptorFormatHex = "0"+ DescriptorFormatHex;
+	// 				// System.out.println(DescriptorFormatHex);
+	// 				DescriptorFinal += DescriptorFormatHex;
+	// 				DescriptorFormat = "";//resets string after each column
+	// 			}
+	// 		}
+	// 	}
+	// 	DescriptorFormat = DescriptorFormat + "11";//pad the last 2 bits
+	// 	int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
+	// 	String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
+	// 	System.out.println(DescriptorFormatHex);
+	// 	DescriptorFinal += DescriptorFormatHex; //last 4 hexa digits
+	// 	System.out.println(DescriptorFinal);
+		
+	// 	DescriptorFormat = "";
+	// 	String DescriptorFinal2 ="";
+	// 	System.out.println("printing obstacles");
+	// 	for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for obstacles in map
+	// 		for(int c=0;c<MapConstants.MAP_COL;c++){
+	// 			if(simExMap.getBlock(r,c).getIsExplored() == true){
+	// 				if(simExMap.getBlock(r,c).getIsObstacle() == true)
+	// 					DescriptorFormat += "1";
+	// 				else
+	// 					DescriptorFormat += "0";
+	// 				if(DescriptorFormat.length()==16){
+	// 					// System.out.println(DescriptorFormat);
+	// 					DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
+	// 					DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
+	// 					while(DescriptorFormatHex.length()!= 4)
+	// 						DescriptorFormatHex = "0" + DescriptorFormatHex;//add back the zeros automatically removed by the computer
+	// 					// System.out.println(DescriptorFormatHex);
+	// 					DescriptorFinal2 += DescriptorFormatHex;
+	// 					DescriptorFormat = "";//resets string after each column
+	// 				}
+	// 			}
+	// 		}	
+	// 	}
+	// 	System.out.println(DescriptorFormat);
+	// 	while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
+	// 		DescriptorFormat += "1";
+	// 	DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
+	// 	DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
+	// 	while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
+	// 		DescriptorFormatHex = "0"+ DescriptorFormatHex;
+	// 	System.out.println("last df:" + DescriptorFormatHex);
+	// 	DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
+	// 	System.out.println(DescriptorFinal2);
+	// 	CommMgr.getCommMgr().sendMsg(DescriptorFinal2, "PC2AN ");
+	// }
 }

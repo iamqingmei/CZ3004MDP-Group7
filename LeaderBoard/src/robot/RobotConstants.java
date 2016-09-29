@@ -10,8 +10,8 @@ public final class RobotConstants {
 	public static final DIRECTION STARTING_DIR = DIRECTION.NORTH;
 	public static final int STARTING_ROW = 1;
 	public static final int STARTING_COL = 1;
-	public static final int SENSOR_SHORT_RANGE = 8;
-	public static final int SENSOR_LONG_RANGE = 8;
+	public static final int SENSOR_SHORT_RANGE = 2;
+	public static final int SENSOR_LONG_RANGE = 5;
 	
 	public static final double INFINITE_COST = 9999; 
 
@@ -31,6 +31,21 @@ public final class RobotConstants {
 
 		public static DIRECTION fromString(String direction) {
 			return valueOf(direction.toUpperCase());
+		}
+
+		public static String printDir(DIRECTION d){
+			switch (d){
+				case NORTH:
+					return "N";
+				case EAST:
+					return "E";
+				case SOUTH:
+					return "S";
+				case WEST:
+					return "W";
+				default:
+					return "e";
+			}
 		}
 	};
 

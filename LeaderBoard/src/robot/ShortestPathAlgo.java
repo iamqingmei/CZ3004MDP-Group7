@@ -219,6 +219,7 @@ public class ShortestPathAlgo{
 				}
 			}
 			this.map.repaint();
+			this.map.mapDescriptor();
 		}
 		System.out.println(outputString);
 		return outputString;

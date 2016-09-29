@@ -1,5 +1,6 @@
 package communication;
 
+import java.util.concurrent.TimeUnit;
 import java.io.*;
 import java.net.*;
 
@@ -86,7 +87,13 @@ public class CommMgr{
 	}
 
 	public boolean sendMsg(String msg, String msgType){
-		//msg Type 
+		try{
+			TimeUnit.MILLISECONDS.sleep(1000);
+		}
+		catch(InterruptedException e)
+		{
+		     System.out.println("Miao!");
+		} 
 		try {
 			String outputMsg = msgType + msg + "\n";
 

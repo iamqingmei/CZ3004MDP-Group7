@@ -39,6 +39,7 @@ public class ExplorationAlgo{
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
+		exMap.mapDescriptor();
 		looping(1,1);
 
 		//continue to explore the Unexplored area
@@ -70,10 +71,11 @@ public class ExplorationAlgo{
 		System.out.println("robot facing: " + bot.getRobotCurDir());
 		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
-			System.out.println("send msg: " + CommMgr.getCommMgr().sendMsg("r","PC2PC"));
+			System.out.println("send msg: " + CommMgr.getCommMgr().sendMsg("r","PC2AR"));
 			bot.setSensors();
 			sensorData = bot.sense(exMap);
 			exMap.repaint();
+			exMap.mapDescriptor();
 			System.out.println("robot facing: " + bot.getRobotCurDir());
 		}
 	}
@@ -130,13 +132,14 @@ public class ExplorationAlgo{
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
 			System.out.println("move: " + nextMove);
-			System.out.println("send msg: " + CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove).toString(), "PC2PC"));
+			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR");
 			bot.moveRobot(nextMove);
 			bot.setSensors();
 			sensorData = bot.sense(exMap);
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
+			exMap.mapDescriptor();
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}
 
@@ -192,8 +195,8 @@ public class ExplorationAlgo{
 	private MOVE getNextMove(MOVE prevMov){
 		int botRow = bot.getRobotPosRow();
 		int botCol = bot.getRobotPosCol();
-		System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
-		System.out.println("bot current dir: " + bot.getRobotCurDir());
+		// System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
+		// System.out.println("bot current dir: " + bot.getRobotCurDir());
 		switch (bot.getRobotCurDir()){
 			case NORTH: 
 				if (nSideFree() && !wSideFree()){
@@ -214,16 +217,12 @@ public class ExplorationAlgo{
 				}
 			case EAST:
 				if (eSideFree() && !nSideFree() ){
-					System.out.println("here?!!!");
 					return MOVE.FORWARD;
 				}
 				else if (nSideFree()){
-					System.out.println("222?!!!");
 					if (prevMov!= MOVE.LEFT){
-						System.out.println("3333?!!!");
 						return MOVE.LEFT;
 					}
-					System.out.println("44444?!!!");
 					return MOVE.FORWARD;
 				}
 				else if (sSideFree() && !eSideFree()){

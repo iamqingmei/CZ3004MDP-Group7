@@ -27,47 +27,79 @@ public class Sensor {
 	public void sense(Map exMap, int distance){
 		switch(sensorDirection){
 			case NORTH:
-				for (int i=1; i<=distance+1; i++){
-					if (this.sensorPosRow + i == 20){ //touching north wall
-						return;
+				if (distance>this.range){ // no obstacle
+					for (int i=1; i<=this.range+1; i++){
+						if (this.sensorPosRow + i == 20){ //touching north wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).setIsExplored(true);
 					}
-					exMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).setIsExplored(true);
 				}
-				if (distance<this.range){ //obstacle detected
+				if (distance<=this.range){ //obstacle detected
+					for (int i=1; i<=distance+1; i++){
+						if (this.sensorPosRow + i == 20){ //touching north wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).setIsExplored(true);
+					}
 					exMap.setObstacle(this.sensorPosRow + distance+1, this.sensorPosCol);
 				}
 				return;
 			case SOUTH:
-				for (int i=1; i<=distance+1; i++){
-					if (this.sensorPosRow - i == -1){ //touching south wall
-						return;
+				if (distance>this.range){ // no obstacle
+					for (int i=1; i<=this.range+1; i++){
+						if (this.sensorPosRow - i == -1){ //touching south wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).setIsExplored(true);
 					}
-					exMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).setIsExplored(true);
 				}
-				if (distance<this.range){ //obstacle detected
+				if (distance<=this.range){ //obstacle detected
+					for (int i=1; i<=distance+1; i++){
+						if (this.sensorPosRow - i == -1){ //touching south wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).setIsExplored(true);
+					}
 					exMap.setObstacle(this.sensorPosRow - distance-1, this.sensorPosCol);
 				}
 				return;
 			case EAST:
-				for (int i=1; i<=distance+1; i++){
-					if (this.sensorPosCol + i == 15){ //touching east wall
-						return;
+				if (distance>this.range){ // no obstacle
+					for (int i=1; i<=this.range+1; i++){
+						if (this.sensorPosCol + i == 15){ //touching east wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow, this.sensorPosCol+i).setIsExplored(true);
 					}
-					exMap.getBlock(this.sensorPosRow, this.sensorPosCol + i).setIsExplored(true);
 				}
-				if (distance<this.range){ //obstacle detected
-					exMap.setObstacle(this.sensorPosRow,this.sensorPosCol+distance+1);
+				if (distance<=this.range){ //obstacle detected
+					for (int i=1; i<=distance+1; i++){
+						if (this.sensorPosCol + i == 15){ //touching east wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow, this.sensorPosCol + i).setIsExplored(true);
+					}
+					exMap.setObstacle(this.sensorPosRow, this.sensorPosCol +distance+1);
 				}
 				return;
 			case WEST:
-				for (int i=1; i<=distance+1; i++){
-					if (this.sensorPosCol - i == -1){ // touching west wall
-						return;
+				if (distance>this.range){ // no obstacle
+					for (int i=1; i<=this.range+1; i++){
+						if (this.sensorPosCol - i == -1){ // touching west wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow, this.sensorPosCol-i).setIsExplored(true);
 					}
-					exMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).setIsExplored(true);
 				}
-				if (distance<this.range){ //obstacle detected
-					exMap.setObstacle(this.sensorPosRow,this.sensorPosCol-distance-1);
+				if (distance<=this.range){ //obstacle detected
+					for (int i=1; i<=distance+1; i++){
+						if (this.sensorPosCol - i == -1){ // touching west wall
+							return;
+						}
+						exMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).setIsExplored(true);
+					}
+					exMap.setObstacle(this.sensorPosRow, this.sensorPosCol -distance-1);
 				}
 				return;
 		}

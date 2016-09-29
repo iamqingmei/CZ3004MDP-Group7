@@ -16,7 +16,7 @@ public class Robot{
 	private int posRow;
 	private int posCol;
 	private DIRECTION robotCurDir;
-	private int botSpeed = 300;
+	private int botSpeed = 50;
 	public Sensor longFront;
 	public Sensor shortRF;
 	public Sensor shortLF;
@@ -163,11 +163,13 @@ public class Robot{
 		String sensorData = CommMgr.getCommMgr().recvMsg();
 		
 		System.out.println("sensorData: "+ sensorData);
-		Integer sensorDataInt = Integer.parseInt(sensorData);
-		for (int i=4; i>-1;i--){
-			result[i] = sensorDataInt%10;
-			sensorDataInt=sensorDataInt/10;
-		}
+		
+		result[0] = Character.getNumericValue(sensorData.charAt(5));
+		result[1] = Character.getNumericValue(sensorData.charAt(7));
+		result[2] = Character.getNumericValue(sensorData.charAt(3));
+		result[3] = Character.getNumericValue(sensorData.charAt(9));
+		result[4] = Character.getNumericValue(sensorData.charAt(1));
+
 		longFront.sense(simExMap,result[0]);
 		shortRF.sense(simExMap,result[1]);
 		shortLF.sense(simExMap,result[2]);
