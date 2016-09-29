@@ -177,11 +177,6 @@ public class Simulator {
 		class FastestPath extends SwingWorker<Integer, String>{
 		    protected Integer doInBackground() throws Exception
 		    {
-		    	System.out.println("waiting for Andriod command");
-		    	String startF = CommMgr.getCommMgr().recvMsg();
-		    	while(!startF.equals("race")){
-		    		startF = CommMgr.getCommMgr().recvMsg();
-		    	}
 		    	System.out.println("start FastestPath");
 		        bot.setRobotPos(1,1);
 				simShortestPathMap.repaint();
@@ -192,10 +187,42 @@ public class Simulator {
 				// System.out.println(outputByteArray);
 				System.out.println("Fastest Path is : " + output);
 				CommMgr.getCommMgr().sendMsg(output.toString(), "PC2AR");
-				
 		        return 111;
 		    }
 		}
+
+		// for multithreading
+		//Only display the path, not sending anything
+		// class DisplayFastestPath extends SwingWorker<Integer, String>{
+		//     protected Integer doInBackground() throws Exception
+		//     {
+		//     	// System.out.println("waiting for Andriod command");
+		//     	// String startF = CommMgr.getCommMgr().recvMsg();
+		//     	// while(!startF.equals("race")){
+		//     	// 	startF = CommMgr.getCommMgr().recvMsg();
+		//     	// }
+		//     	System.out.println("start FastestPath");
+		//         bot.setRobotPos(1,1);
+		// 		simShortestPathMap.repaint();
+		// 		ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
+
+		// 		shortestPath.runShortestPath(simShortestPathMap, 18, 13);
+		//         return 111;
+		//     }
+		// }
+
+		// //Only display the path, not sending anything
+		// JButton btn_DisplayShortestPath = new JButton("Fastest Path");
+		// btn_DisplayShortestPath.setFont(new Font("Arial", Font.BOLD, 13));
+		// btn_DisplayShortestPath.setFocusPainted(false);
+		// btn_DisplayShortestPath.addMouseListener(new MouseAdapter() {
+		// 	public void mousePressed(MouseEvent e) {
+		// 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
+		// 	    cl.show(_mainCards, "MAIN");
+		// 	    new DisplayFastestPath().execute();
+		// 	}
+		// });
+		// _mainButtons.add(btn_DisplayShortestPath);
 
 		//Shortest Path button
 		JButton btn_ShortestPath = new JButton("Fastest Path");
@@ -232,16 +259,7 @@ public class Simulator {
 		});
 		_mainButtons.add(btn_recvMsg);
 
-		// for multithreading
-		class SendMsg extends SwingWorker<Integer, String>{
-		    protected Integer doInBackground() throws Exception
-		    {
-				CommMgr.getCommMgr().sendMsg("testing pc to pc", "PC2PC");
-		        return 333;
-		    }
-		}
-
-		//RecvMsg button
+		//send msg button
 		JButton btn_SendMsg = new JButton("Send Msg");
 		btn_SendMsg.setFont(new Font("Arial", Font.BOLD, 13));
 		btn_SendMsg.setFocusPainted(false);
@@ -249,75 +267,35 @@ public class Simulator {
 			public void mousePressed(MouseEvent e) {
 				CardLayout cl = ((CardLayout) _mainCards.getLayout());
 			    cl.show(_mainCards, "MAIN");
-			    new SendMsg().execute();
+
+			    JDialog d3=new JDialog(_appFrame,"Send Message",true);
+				d3.setSize(400,200);
+				d3.setLayout(new FlowLayout());
+				JTextField headTF = new JTextField(5);
+				JTextField msgTF = new JTextField(20);
+				JButton saveButton = new JButton("Send");
+				
+				saveButton.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+						String head = headTF.getText();
+						String msg = msgTF.getText();
+						CommMgr.getCommMgr().sendMsg(msg, head);
+					}
+				});
+				Box box1 = Box.createVerticalBox();
+		        box1.add(new JLabel("Enter msg head: "));
+		        box1.add(headTF);
+		        Box box2 = Box.createVerticalBox();
+		        box2.add(new JLabel("Enter msg body: "));
+		        box2.add(msgTF);
+
+		        d3.add(box1);
+		        d3.add(box2);
+		        d3.add(saveButton);
+		        d3.setVisible(true);
 			}
 		});
 		_mainButtons.add(btn_SendMsg);
 	}
 
-
-	// private static void mapDescriptor(){
-	// 	String DescriptorFormat = "11"; //pad the first 2 bits
-	// 	String DescriptorFinal = "";
-	// 	for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for explored area
-	// 		for(int c=0;c<MapConstants.MAP_COL;c++){
-	// 			if(simExMap.getBlock(r,c).getIsExplored() == true){					
-	// 				//System.out.println(i++);
-	// 				DescriptorFormat = DescriptorFormat + "1"; //grid explored
-	// 			}
-	// 			else
-	// 				DescriptorFormat = DescriptorFormat + "0"; //grid not explored
-	// 			if(DescriptorFormat.length()==16){
-	// 				int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 				String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 				while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
-	// 					DescriptorFormatHex = "0"+ DescriptorFormatHex;
-	// 				// System.out.println(DescriptorFormatHex);
-	// 				DescriptorFinal += DescriptorFormatHex;
-	// 				DescriptorFormat = "";//resets string after each column
-	// 			}
-	// 		}
-	// 	}
-	// 	DescriptorFormat = DescriptorFormat + "11";//pad the last 2 bits
-	// 	int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 	String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 	System.out.println(DescriptorFormatHex);
-	// 	DescriptorFinal += DescriptorFormatHex; //last 4 hexa digits
-	// 	System.out.println(DescriptorFinal);
-		
-	// 	DescriptorFormat = "";
-	// 	String DescriptorFinal2 ="";
-	// 	System.out.println("printing obstacles");
-	// 	for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for obstacles in map
-	// 		for(int c=0;c<MapConstants.MAP_COL;c++){
-	// 			if(simExMap.getBlock(r,c).getIsExplored() == true){
-	// 				if(simExMap.getBlock(r,c).getIsObstacle() == true)
-	// 					DescriptorFormat += "1";
-	// 				else
-	// 					DescriptorFormat += "0";
-	// 				if(DescriptorFormat.length()==16){
-	// 					// System.out.println(DescriptorFormat);
-	// 					DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 					DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 					while(DescriptorFormatHex.length()!= 4)
-	// 						DescriptorFormatHex = "0" + DescriptorFormatHex;//add back the zeros automatically removed by the computer
-	// 					// System.out.println(DescriptorFormatHex);
-	// 					DescriptorFinal2 += DescriptorFormatHex;
-	// 					DescriptorFormat = "";//resets string after each column
-	// 				}
-	// 			}
-	// 		}	
-	// 	}
-	// 	System.out.println(DescriptorFormat);
-	// 	while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
-	// 		DescriptorFormat += "1";
-	// 	DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 	DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 	while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
-	// 		DescriptorFormatHex = "0"+ DescriptorFormatHex;
-	// 	System.out.println("last df:" + DescriptorFormatHex);
-	// 	DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
-	// 	System.out.println(DescriptorFinal2);
-	// 	CommMgr.getCommMgr().sendMsg(DescriptorFinal2, "PC2AN ");
-	// }
 }

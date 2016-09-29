@@ -68,13 +68,13 @@ public class Robot{
 	}
 	
 	public void moveRobot(MOVE m){
-		try{
-			TimeUnit.MILLISECONDS.sleep(botSpeed);
-		}
-		catch(InterruptedException e)
-		{
-		     System.out.println("robot sleep error!");
-		}
+		// try{
+		// 	TimeUnit.MILLISECONDS.sleep(botSpeed);
+		// }
+		// catch(InterruptedException e)
+		// {
+		//      System.out.println("robot sleep error!");
+		// }
 		switch (m){
 			case FORWARD:
 				switch (robotCurDir){

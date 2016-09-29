@@ -219,7 +219,11 @@ public class ShortestPathAlgo{
 				}
 			}
 			this.map.repaint();
-			this.map.mapDescriptor();
+			this.map.mapDescriptor(); //send to android map and robot position
+			// if (explore == true){
+			// 	this.map.mapDescriptor();
+			// }
+			
 		}
 		System.out.println(outputString);
 		return outputString;
