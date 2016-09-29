@@ -225,30 +225,30 @@ public class ShortestPathAlgo{
 		return outputString;
 	}
 
-	private void printShortestPath(Stack<Block> actualPath){
-		Block temp;
-		System.out.println("looping " + testingCount +" times.");
-		//print our the path
-		System.out.println("the number of steps is :" + (actualPath.size() - 1));
-		System.out.println("the Path is: ");
-		while(!actualPath.isEmpty()){
-			temp = actualPath.pop();
-			System.out.print("("+ temp.getCol() + " ,"+ temp.getRow()+ ")");
-		}
-		System.out.println("\n");
-		// printGscores();
-	}
+	// private void printShortestPath(Stack<Block> actualPath){
+	// 	Block temp;
+	// 	System.out.println("looping " + testingCount +" times.");
+	// 	//print our the path
+	// 	System.out.println("the number of steps is :" + (actualPath.size() - 1));
+	// 	System.out.println("the Path is: ");
+	// 	while(!actualPath.isEmpty()){
+	// 		temp = actualPath.pop();
+	// 		System.out.print("("+ temp.getCol() + " ,"+ temp.getRow()+ ")");
+	// 	}
+	// 	System.out.println("\n");
+	// 	// printGscores();
+	// }
 
 	// printGscores is for testing uses
-	public	void printGscores(){
-		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
-			for (int j = 0; j < MapConstants.MAP_COL; j++) {
-				System.out.print(gScores[MapConstants.MAP_ROW - 1 -i][j]);
-				System.out.print(";");
-			}
-			System.out.println("\n");
-		}
-	}
+	// public	void printGscores(){
+	// 	for (int i = 0; i < MapConstants.MAP_ROW; i++) {
+	// 		for (int j = 0; j < MapConstants.MAP_COL; j++) {
+	// 			System.out.print(gScores[MapConstants.MAP_ROW - 1 -i][j]);
+	// 			System.out.print(";");
+	// 		}
+	// 		System.out.println("\n");
+	// 	}
+	// }
 	private Block minimumCostBlock(ArrayList<Block> theBlockList, double[][] gScores, int goalRow, int getCol){
 		int size = theBlockList.size();
 		double minCost = RobotConstants.INFINITE_COST;
@@ -320,7 +320,7 @@ public class ShortestPathAlgo{
 				return DIRECTION.NORTH;
 			}
 			else{ //same pos
-				System.out.println("2222!");
+				// System.out.println("2222!");
 				return botDir;
 			}
 		}

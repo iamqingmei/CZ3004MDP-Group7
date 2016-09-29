@@ -37,8 +37,6 @@ public class CommMgr{
 		System.out.println("Starts to set Connection");
 		try{
 			conn = new Socket(HOST, PORT);
-			//conn.connect(new InetSocketAddress(HOST, PORT), timeoutInMs);
-			//conn.setSoTimeout(timeoutInMs);
 
 			bos = new BufferedOutputStream(conn.getOutputStream());
 			osw = new OutputStreamWriter(bos);
@@ -92,19 +90,12 @@ public class CommMgr{
 		}
 		catch(InterruptedException e)
 		{
-		     System.out.println("Miao!");
+		     System.out.println("send msg sleeping error!!!!!!");
 		} 
 		try {
 			String outputMsg = msgType + msg + "\n";
 
-			//outputMsg = String.format("%-128s", outputMsg);
 			System.out.print("Sending out message: " + outputMsg);
-
-			// osw.write(outputMsg);
-			// osw.flush();
-
-			// pw.print(outputMsg);
-			// pw.flush();
 
 			bw.write(outputMsg);
 			bw.flush();

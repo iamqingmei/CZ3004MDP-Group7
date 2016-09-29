@@ -131,15 +131,15 @@ public class ExplorationAlgo{
 		do{
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
-			System.out.println("move: " + nextMove);
-			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR");
+			// System.out.println("move: " + nextMove);
+			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
-			bot.setSensors();
-			sensorData = bot.sense(exMap);
+			bot.setSensors(); 
+			sensorData = bot.sense(exMap); //wait for receive sensor data
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-			exMap.mapDescriptor();
+			exMap.mapDescriptor(); //send map layout and robot position to android 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}
 

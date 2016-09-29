@@ -73,7 +73,7 @@ public class Robot{
 		}
 		catch(InterruptedException e)
 		{
-		     System.out.println("Miao!");
+		     System.out.println("robot sleep error!");
 		}
 		switch (m){
 			case FORWARD:
