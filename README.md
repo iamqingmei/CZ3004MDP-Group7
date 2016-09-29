@@ -3,10 +3,10 @@
 Simulate the exploration and shortest path algo.
 
 how to run it:
-*clone the whole project to your computer
-*open cmd or terminal
-*set the current directory as /CZ3004MDP-Group7/Simulator
-*execute: java -cp ./bin simulation.Simulator
+1.clone the whole project to your computer
+2.open cmd or terminal
+3.set the current directory as /CZ3004MDP-Group7/Simulator
+4.execute: java -cp ./bin simulation.Simulator
 
 ##Leaderboard
 Added Communication manager to communicate with Rpi
@@ -18,10 +18,10 @@ after calculation, send the next move to robot
 The IP address and port can be changed in CommMgr.java file.
 
 how to run it:
-*clone the whole project to your computer
-*open cmd or terminal
-*set the current directory as /CZ3004MDP-Group7/LeaderBoard
-*execute: java -cp ./bin simulation.Simulator
+1.clone the whole project to your computer
+2.open cmd or terminal
+3.set the current directory as /CZ3004MDP-Group7/LeaderBoard
+4.execute: java -cp ./bin simulation.Simulator
 
 
  
