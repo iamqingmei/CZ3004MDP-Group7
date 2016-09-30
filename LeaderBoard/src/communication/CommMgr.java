@@ -75,6 +75,7 @@ public class CommMgr{
 				conn.close();
 				conn = null;
 			}
+			System.out.println("Connection closed!");
 		} catch (IOException e){
 			System.out.println("closeConnection --> IO Exception");
 		} catch (NullPointerException e){
