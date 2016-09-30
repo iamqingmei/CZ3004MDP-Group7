@@ -38,24 +38,14 @@ public class Simulator {
 
 	private static Robot bot;
 
-	private static Map simExMap = null;
-	private static Map simShortestPathMap = null;
-
-	//for time limited exploration
-	private static int timeLimited=10;
-
-	//for coverage limited exploration
-	private static long coverageLimited = 0;
-
-	
+	private static Map realMap = null;
 
 	public static void main(String[] args){
 		
 		bot = new Robot(1,1);
-		simShortestPathMap = new Map(bot);
 
-		simExMap = new Map(bot);
-		simExMap.setAllUnexplored();
+		realMap = new Map(bot);
+		realMap.setAllUnexplored();
 
 		displayEverythings();
 		CommMgr.getCommMgr().setConnection(60000);
@@ -87,7 +77,7 @@ public class Simulator {
 		// Main frame for displaying everything
 		_appFrame = new JFrame();
 		_appFrame.setTitle("MDP Group 7 Simulator");
-		_appFrame.setSize(new Dimension(800, 870));
+		_appFrame.setSize(new Dimension(600, 870));
 		_appFrame.setResizable(false);
 		
 		// Center the main frame in the middle of the screen
@@ -117,8 +107,7 @@ public class Simulator {
 	private static void initMainLayout() {
 		
 		// Initialize the Map for simulation
-		_mainCards.add(simShortestPathMap, "MAIN");
-		_mainCards.add(simExMap,"EXPLO");
+		_mainCards.add(realMap,"MAIN");
 		
 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
 	    cl.show(_mainCards, "MAIN");
@@ -150,12 +139,12 @@ public class Simulator {
 		    	}
 		    	System.out.println("start exploration");
 				// bot.setRobotPos(1,1);
-				simExMap.repaint();
+				realMap.repaint();
 				// CommMgr.getCommMgr().sendMsg("Start Exploration", "PC2PC ");
-				ExplorationAlgo exploration = new ExplorationAlgo(simExMap, simShortestPathMap, bot);
+				ExplorationAlgo exploration = new ExplorationAlgo(realMap, bot);
 				exploration.runExploration();
 
-				simExMap.mapDescriptor();
+				realMap.mapDescriptor();
 				return 222;
 			}
 		}
@@ -166,7 +155,7 @@ public class Simulator {
 		btn_Exploration.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				CardLayout cl = ((CardLayout) _mainCards.getLayout());
-			    cl.show(_mainCards, "EXPLO");
+			    cl.show(_mainCards, "MAIN");
 				new Exploration().execute();
 			}
 		});
@@ -179,10 +168,10 @@ public class Simulator {
 		    {
 		    	System.out.println("start FastestPath");
 		        bot.setRobotPos(1,1);
-				simShortestPathMap.repaint();
-				ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
+				realMap.repaint();
+				ShortestPathAlgo shortestPath = new ShortestPathAlgo(realMap, bot);
 
-				StringBuilder output = shortestPath.runShortestPath(simShortestPathMap, 18, 13);
+				StringBuilder output = shortestPath.runShortestPath(realMap, 18, 13);
 				// byte[] outputByteArray = String.valueOf(output).getBytes();
 				// System.out.println(outputByteArray);
 				System.out.println("Fastest Path is : " + output);

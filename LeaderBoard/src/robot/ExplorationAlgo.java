@@ -13,15 +13,14 @@ import robot.Robot;
 import robot.RobotConstants;
 
 public class ExplorationAlgo{
-	private Map exMap, realMap;
+	private Map exMap;
 	private Robot bot;
 	private ArrayList<Block> pathTaken;
 	private int exploredArea;
 	private int[] sensorData;
 
-	public ExplorationAlgo(Map explorationMap, Map rMap, Robot thebot){
+	public ExplorationAlgo(Map explorationMap, Robot thebot){
 		this.exMap = explorationMap;
-		this.realMap = rMap;
 		this.bot = thebot;
 	}
 
