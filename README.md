@@ -8,6 +8,11 @@ how to run it:<br />
 3.set the current directory as /CZ3004MDP-Group7/Simulator<br />
 4.execute: java -cp ./bin simulation.Simulator<br />
 
+how to compile it:<br />
+1. open cmd or terminal<br />
+2. set the current directory as /CZ3004MDP-Group7/Simulator<br />
+3. execute: javac -d bin src/map/MapConstants.java src/map/Map.java src/robot/RobotConstants.java src/map/Block.java src/robot/Robot.java src/robot/ShortestPathAlgo.java  src/robot/ExplorationAlgo.java src/robot/Sensor.java src/simulation/Simulator.java<br />
+
 ##Leaderboard
 Added Communication manager to communicate with Rpi<br />
 get the sensor data from robot<br />
@@ -22,6 +27,11 @@ how to run it:<br />
 2.open cmd or terminal<br />
 3.set the current directory as /CZ3004MDP-Group7/LeaderBoard<br />
 4.execute: java -cp ./bin simulation.Simulator<br />
+
+how to compile it:<br />
+1. open cmd or terminal<br />
+2. set the current directory as /CZ3004MDP-Group7/LeaderBoard<br />
+3. execute: javac -d bin src/map/MapConstants.java src/map/Map.java src/robot/RobotConstants.java src/map/Block.java src/robot/Robot.java src/robot/ShortestPathAlgo.java  src/robot/ExplorationAlgo.java src/robot/Sensor.java src/communication/CommMgr.java src/simulation/Simulator.java<br />
 
 
  
