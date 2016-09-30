@@ -246,26 +246,26 @@ public class Map extends JPanel {
 		System.out.println(DescriptorFinal);
 		
 		DescriptorFormat = "";
-		String DescriptorFinal2 ="";
+		String DescriptorFinal2 ="Grid: ";
 		// System.out.println("printing obstacles");
 		for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for obstacles in map
 			for(int c=0;c<MapConstants.MAP_COL;c++){
-				if(getBlock(r,c).getIsExplored() == true){
-					if(getBlock(r,c).getIsObstacle() == true)
-						DescriptorFormat += "1";
-					else
-						DescriptorFormat += "0";
-					if(DescriptorFormat.length()==16){
-						// System.out.println(DescriptorFormat);
-						DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-						DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-						while(DescriptorFormatHex.length()!= 4)
-							DescriptorFormatHex = "0" + DescriptorFormatHex;//add back the zeros automatically removed by the computer
-						// System.out.println(DescriptorFormatHex);
-						DescriptorFinal2 += DescriptorFormatHex;
-						DescriptorFormat = "";//resets string after each column
-					}
+
+				if(getBlock(r,c).getIsObstacle() == true)
+					DescriptorFormat += "1";
+				else
+					DescriptorFormat += "0";
+				if(DescriptorFormat.length()==16){
+					// System.out.println(DescriptorFormat);
+					DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
+					DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
+					while(DescriptorFormatHex.length()!= 4)
+						DescriptorFormatHex = "0" + DescriptorFormatHex;//add back the zeros automatically removed by the computer
+					// System.out.println(DescriptorFormatHex);
+					DescriptorFinal2 += DescriptorFormatHex;
+					DescriptorFormat = "";//resets string after each column
 				}
+
 			}	
 		}
 		// System.out.println(DescriptorFormat);
