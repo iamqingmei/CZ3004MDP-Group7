@@ -77,7 +77,7 @@ public class Simulator {
 		// Main frame for displaying everything
 		_appFrame = new JFrame();
 		_appFrame.setTitle("MDP Group 7 Simulator");
-		_appFrame.setSize(new Dimension(600, 870));
+		_appFrame.setSize(new Dimension(800, 870));
 		_appFrame.setResizable(false);
 		
 		// Center the main frame in the middle of the screen
@@ -285,6 +285,17 @@ public class Simulator {
 			}
 		});
 		_mainButtons.add(btn_SendMsg);
+
+		//RecvMsg button
+		JButton btn_disconnect = new JButton("disconnect");
+		btn_disconnect.setFont(new Font("Arial", Font.BOLD, 13));
+		btn_disconnect.setFocusPainted(false);
+		btn_disconnect.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				CommMgr.getCommMgr().closeConnection();
+			}
+		});
+		_mainButtons.add(btn_disconnect);
 	}
 
 }
