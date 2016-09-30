@@ -292,6 +292,7 @@ public class Simulator {
 		btn_disconnect.setFocusPainted(false);
 		btn_disconnect.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				CommMgr.getCommMgr().sendMsg("closed","");
 				CommMgr.getCommMgr().closeConnection();
 			}
 		});
