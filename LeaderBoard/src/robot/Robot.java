@@ -164,11 +164,19 @@ public class Robot{
 		
 		System.out.println("sensorData: "+ sensorData);
 		
-		result[0] = Character.getNumericValue(sensorData.charAt(5));
-		result[1] = Character.getNumericValue(sensorData.charAt(7));
-		result[2] = Character.getNumericValue(sensorData.charAt(3));
-		result[3] = Character.getNumericValue(sensorData.charAt(9));
-		result[4] = Character.getNumericValue(sensorData.charAt(1));
+		String sub = sensorData.substring(1);
+		String[] parts = sub.split(":");
+
+		result[0] = roundToGrid(Integer.parseInt(parts[2]));
+		result[1] = roundToGrid(Integer.parseInt(parts[3]));
+		result[2] = roundToGrid(Integer.parseInt(parts[1]));
+		result[3] = roundToGrid(Integer.parseInt(parts[4]));
+		result[4] = roundToGrid(Integer.parseInt(parts[0]));
+
+		System.out.println("sensorData in gird: ");
+		for (int i=0;i<5;i++){
+			System.out.printf("%d, ", result[i]);
+		}
 
 		longFront.sense(simExMap,result[0]);
 		shortRF.sense(simExMap,result[1]);
@@ -178,7 +186,13 @@ public class Robot{
 		return result;
 	}
 	
-	
+	private int roundToGrid(Integer cm){
+		int base = cm/10;
+		if (cm%10>=5){
+			return ++base;
+		}
+		return base;
+	}
 
 
 	private DIRECTION leftRightDirection(MOVE m){

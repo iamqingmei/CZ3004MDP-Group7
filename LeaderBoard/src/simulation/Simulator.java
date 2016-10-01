@@ -51,27 +51,9 @@ public class Simulator {
 		CommMgr.getCommMgr().setConnection(60000);
 		System.out.println("If it is connected: " + CommMgr.getCommMgr().isConnected());
 		
-		// for (int i=0;i<2;i++){
-		// CommMgr.getCommMgr().sendMsg("hello Andriod", "PC2AN ");
-		// 	try{
-		// 		TimeUnit.MILLISECONDS.sleep(5000);
-		// 	}
-		// 	catch(InterruptedException e)
-		// 	{
-		// 	     System.out.println("Miao!");
-		// 	}
-		// 	System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		// }
-		// CommMgr.getCommMgr().sendMsg(output.toString(), "PC2PC ");
-		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		// System.out.println("received: " + CommMgr.getCommMgr().recvMsg());
-		
-
-
-		
 	}
+
+	
 
 	private static void displayEverythings(){
 		// Main frame for displaying everything
