@@ -94,9 +94,9 @@ public class CommMgr{
 		     System.out.println("send msg sleeping error!!!!!!");
 		} 
 		try {
-			String outputMsg = msgType + msg + "\n";
+			String outputMsg = msgType + msg;
 
-			System.out.print("Sending out message: " + outputMsg);
+			System.out.println("Sending out message: " + outputMsg);
 
 			bw.write(outputMsg);
 			bw.flush();

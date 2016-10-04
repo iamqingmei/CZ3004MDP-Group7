@@ -70,6 +70,7 @@ public class ExplorationAlgo{
 		System.out.println("robot facing: " + bot.getRobotCurDir());
 		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
+			pressAnyKeyToContinue();
 			System.out.println("send msg: " + CommMgr.getCommMgr().sendMsg("r","PC2AR"));
 			bot.setSensors();
 			sensorData = bot.sense(exMap);
@@ -131,6 +132,7 @@ public class ExplorationAlgo{
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
 			// System.out.println("move: " + nextMove);
+			pressAnyKeyToContinue();
 			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
 			bot.setSensors(); 
@@ -322,5 +324,15 @@ public class ExplorationAlgo{
 		else{
 			return null;
 		}
+	}
+
+	private void pressAnyKeyToContinue(){ 
+        System.out.println("Press any key to continue...");
+        try
+        {
+            System.in.read();
+        }  
+        catch(Exception e)
+        {}  
 	}
 }

@@ -10,7 +10,7 @@ public final class RobotConstants {
 	public static final DIRECTION STARTING_DIR = DIRECTION.NORTH;
 	public static final int STARTING_ROW = 1;
 	public static final int STARTING_COL = 1;
-	public static final int SENSOR_SHORT_RANGE = 2;
+	public static final int SENSOR_SHORT_RANGE = 1;
 	public static final int SENSOR_LONG_RANGE = 5;
 	
 	public static final double INFINITE_COST = 9999; 
@@ -55,11 +55,11 @@ public final class RobotConstants {
 		public static String print(MOVE m) {
 			switch (m){
 				case FORWARD:
-					return "f";
+					return "F";
 				case RIGHT:
-					return "r";
+					return "R";
 				case LEFT:
-					return "l";
+					return "L";
 				case RETURN:
 					return "t";
 				default:

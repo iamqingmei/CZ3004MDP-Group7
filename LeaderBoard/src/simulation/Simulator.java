@@ -114,15 +114,17 @@ public class Simulator {
 		// for multithreading
 		class Exploration extends SwingWorker<Integer, String>{
 			protected Integer doInBackground() throws Exception{
+				// CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
 				System.out.println("waiting for Andriod command");
 				String startE = CommMgr.getCommMgr().recvMsg();
 		    	while(!startE.equals("explore")){
 		    		startE = CommMgr.getCommMgr().recvMsg();
 		    	}
 		    	System.out.println("start exploration");
+
 				// bot.setRobotPos(1,1);
 				realMap.repaint();
-				// CommMgr.getCommMgr().sendMsg("Start Exploration", "PC2PC ");
+				
 				ExplorationAlgo exploration = new ExplorationAlgo(realMap, bot);
 				exploration.runExploration();
 

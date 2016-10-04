@@ -243,7 +243,7 @@ public class Map extends JPanel {
 		String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
 		// System.out.println(DescriptorFormatHex);
 		DescriptorFinal += DescriptorFormatHex; //last 4 hexa digits
-		System.out.println(DescriptorFinal);
+		// System.out.println(DescriptorFinal);
 		
 		DescriptorFormat = "";
 		String DescriptorFinal2 ="Grid: ";
@@ -277,7 +277,7 @@ public class Map extends JPanel {
 			DescriptorFormatHex = "0"+ DescriptorFormatHex;
 		// System.out.println("last df:" + DescriptorFormatHex);
 		DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
-		System.out.println(DescriptorFinal2);
+		// System.out.println(DescriptorFinal2);
 		// CommMgr.getCommMgr().sendMsg(DescriptorFinal2, "PC2AN");
 
 		//pass the robot position to android

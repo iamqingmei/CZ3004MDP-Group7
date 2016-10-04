@@ -162,7 +162,7 @@ public class Robot{
 	
 		String sensorData = CommMgr.getCommMgr().recvMsg();
 		
-		System.out.println("sensorData: "+ sensorData);
+		// System.out.println("sensorData: "+ sensorData);
 		
 		String sub = sensorData.substring(1);
 		String[] parts = sub.split(":");
@@ -173,10 +173,10 @@ public class Robot{
 		result[3] = roundToGrid(Integer.parseInt(parts[4]));
 		result[4] = roundToGrid(Integer.parseInt(parts[0]));
 
-		System.out.println("sensorData in gird: ");
-		for (int i=0;i<5;i++){
-			System.out.printf("%d, ", result[i]);
-		}
+		// System.out.println("sensorData in gird: ");
+		// for (int i=0;i<5;i++){
+		// 	System.out.printf("%d, ", result[i]);
+		// }
 
 		longFront.sense(simExMap,result[0]);
 		shortRF.sense(simExMap,result[1]);
