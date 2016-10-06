@@ -127,13 +127,27 @@ public class Simulator {
 				
 				ExplorationAlgo exploration = new ExplorationAlgo(realMap, bot);
 				exploration.runExploration();
-
+				realMap.repaint();
 				realMap.mapDescriptor();
+
+				System.out.println("calculate FastestPath");
+		        bot.setRobotPos(1,1);
+				realMap.repaint();
+				ShortestPathAlgo sp = new ShortestPathAlgo(realMap, bot);
+				StringBuilder output = sp.runShortestPath(realMap, 18, 13);
+				// byte[] outputByteArray = String.valueOf(output).getBytes();
+				// System.out.println(outputByteArray);
+				System.out.println("Fastest Path is : " + output);
+				String startRace = CommMgr.getCommMgr().recvMsg();
+		    	while(!startRace.equals("race")){
+		    		startRace = CommMgr.getCommMgr().recvMsg();
+		    	}
+				CommMgr.getCommMgr().sendMsg(output.toString(), "PC2AR");
 				return 222;
 			}
 		}
 		// Exploration button
-		JButton btn_Exploration = new JButton("Exploration");
+		JButton btn_Exploration = new JButton("Start Leaderboard!");
 		btn_Exploration.setFont(new Font("Arial", Font.BOLD, 13));
 		btn_Exploration.setFocusPainted(false);
 		btn_Exploration.addMouseListener(new MouseAdapter() {
@@ -281,6 +295,17 @@ public class Simulator {
 			}
 		});
 		_mainButtons.add(btn_disconnect);
+
+		//RecvMsg button
+		JButton btn_mdf = new JButton("MDF String");
+		btn_mdf.setFont(new Font("Arial", Font.BOLD, 13));
+		btn_mdf.setFocusPainted(false);
+		btn_mdf.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				realMap.finalMap();
+			}
+		});
+		_mainButtons.add(btn_mdf);
 	}
 
 }
