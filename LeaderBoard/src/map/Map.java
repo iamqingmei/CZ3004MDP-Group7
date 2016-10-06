@@ -271,7 +271,7 @@ public class Map extends JPanel {
 		}
 		// System.out.println(DescriptorFormat);
 		while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
-			DescriptorFormat += "1";
+			DescriptorFormat = "0" + DescriptorFormat;
 		DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
 		DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
 		while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
@@ -301,8 +301,9 @@ public class Map extends JPanel {
 					//System.out.println(i++);
 					DescriptorFormat = DescriptorFormat + "1"; //grid explored
 				}
-				else
+				else{
 					DescriptorFormat = DescriptorFormat + "0"; //grid not explored
+				}
 				if(DescriptorFormat.length()==16){
 					int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
 					String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
@@ -318,9 +319,11 @@ public class Map extends JPanel {
 		int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
 		String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
 		// System.out.println(DescriptorFormatHex);
+		while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
+			DescriptorFormatHex = "0"+ DescriptorFormatHex;
 		DescriptorFinal += DescriptorFormatHex; //last 4 hexa digits
 
-		System.out.println("final 1:"+ DescriptorFinal);
+		System.out.println(DescriptorFinal);
 		
 		DescriptorFormat = "";
 		String DescriptorFinal2 ="";
@@ -330,8 +333,9 @@ public class Map extends JPanel {
 				if(getBlock(r,c).getIsExplored() == true){
 					if(getBlock(r,c).getIsObstacle() == true)
 						DescriptorFormat += "1";
-					else
+					else{
 						DescriptorFormat += "0";
+					}
 					if(DescriptorFormat.length()==16){
 						// System.out.println(DescriptorFormat);
 						DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
@@ -347,14 +351,16 @@ public class Map extends JPanel {
 		}
 		// System.out.println(DescriptorFormat);
 		while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
-			DescriptorFormat += "1";
+			DescriptorFormat = "0" + DescriptorFormat;
 		DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
 		DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
 		while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
 			DescriptorFormatHex = "0"+ DescriptorFormatHex;
 		// System.out.println("last df:" + DescriptorFormatHex);
 		DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
-		System.out.println("final 2:" + DescriptorFinal2);
+		System.out.println(DescriptorFinal2);
+
+		CommMgr.getCommMgr().sendMsg("String1:"+DescriptorFinal +" String2:" + DescriptorFinal2, "PC2AN");
 	}				
 		
 }
