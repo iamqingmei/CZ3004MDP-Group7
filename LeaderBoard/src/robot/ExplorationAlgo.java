@@ -32,9 +32,6 @@ public class ExplorationAlgo{
 		// sensorData[2] = shortLF
 		// sensorData[3] = shortR
 		// sensorData[4] = shortL
-		// for (int i = 0; i<5; i++){
-		// 	System.out.println(i + ": " + sensorData[i]);
-		// }
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
@@ -48,7 +45,6 @@ public class ExplorationAlgo{
 			System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
 			Block nearbyOb = nearbyObstacle(nearestUnexplored);
 			if (nearbyOb!=null){
-				// System.out.println("Nearby Obstacle: " + nearbyOb.getRow() + ", " + nearbyOb.getCol());
 				exploredGridNearOb(nearbyOb);
 			}
 			else{
@@ -57,7 +53,7 @@ public class ExplorationAlgo{
 		}
 		System.out.println("All grids are explored!");
 		//go back to start zone
-		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot);
+		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot,true);
 		goBackToStart.runShortestPath(exMap,1,1);
 
 		//after back to the start zone
@@ -210,8 +206,6 @@ public class ExplorationAlgo{
 	private MOVE getNextMove(MOVE prevMov){
 		int botRow = bot.getRobotPosRow();
 		int botCol = bot.getRobotPosCol();
-		// System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
-		// System.out.println("bot current dir: " + bot.getRobotCurDir());
 		switch (bot.getRobotCurDir()){
 			case NORTH: 
 				if (nSideFree() && !wSideFree()){

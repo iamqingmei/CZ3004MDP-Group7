@@ -39,9 +39,6 @@ public class ShortestPathAlgo{
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
 				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall() || !theMap.getBlock(i,j).getIsExplored()){
-					// System.out.println("block (" + i+ ", "+ j + ")");
-					// System.out.println("obstacle? : " + theMap.getBlock(i, j).getIsObstacle());
-					// System.out.println("Vwall?: " + theMap.getBlock(i,j).getIsVirtualWall());
 					gScores[i][j] = RobotConstants.INFINITE_COST;
 				}
 				else{
@@ -56,6 +53,7 @@ public class ShortestPathAlgo{
 		testingCount =0;
 	}
 
+	// the shortest path which will be used in exploration
 	public ShortestPathAlgo(Map theMap, Robot bot, boolean ex){
 		this.explore = ex;
 		thebot = bot;
@@ -72,9 +70,6 @@ public class ShortestPathAlgo{
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {
 				if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall() || !theMap.getBlock(i,j).getIsExplored()){
-					// System.out.println("block (" + i+ ", "+ j + ")");
-					// System.out.println("obstacle? : " + theMap.getBlock(i, j).getIsObstacle());
-					// System.out.println("Vwall?: " + theMap.getBlock(i,j).getIsVirtualWall());
 					gScores[i][j] = RobotConstants.INFINITE_COST;
 				}
 				else{
@@ -88,7 +83,6 @@ public class ShortestPathAlgo{
 		gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
 		testingCount =0;
 	}
-
 
 	public StringBuilder runShortestPath(Map theMap, int goalRow, int goalCol){
 		System.out.println("Start to find the shortest path from (" + current.getCol() + ", " + current.getRow() + ") to goal (" + goalRow + ", " + goalCol + ")");	
@@ -106,9 +100,7 @@ public class ShortestPathAlgo{
 			if(closed.contains(theMap.getBlock(goalRow, goalCol))){
 				//Path found
 				System.out.println("Path found!");
-				// printGscores();
 				path = getPath(theMap, goalRow, goalCol);
-				// printShortestPath(path);
 				return moveRobot(thebot,path, goalRow, goalCol);
 			}
 			/// set up its neighbors
@@ -168,7 +160,6 @@ public class ShortestPathAlgo{
 		}while(!open.isEmpty());
 		// Continue until there is no more available square in the open list (which means there is no path)  
 		System.out.println("Path not found!");
-		// printGscores();
 		return null;
 	}
 
@@ -201,14 +192,12 @@ public class ShortestPathAlgo{
 				targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
 				if (bot.getRobotCurDir() != targetDir){
 					m=getTargetMove(bot.getRobotCurDir(),targetDir);
-					outputString.append(m.print(m));
 					bot.moveRobot(m);
 					CommMgr.getCommMgr().sendMsg(m.print(m), "PC2AR");//send the move to robot
 					bot.setSensors();
 					bot.sense(this.map); //waiting for sensor data
 				}
 				else{ //alr pointing to the target direction
-					outputString.append("f");
 					bot.moveRobot(MOVE.FORWARD);
 					CommMgr.getCommMgr().sendMsg("F","PC2AR");
 					bot.setSensors();
@@ -252,14 +241,12 @@ public class ShortestPathAlgo{
 		double minCost = RobotConstants.INFINITE_COST;
 		Block result = null;
 		for (int i=size-1;i>=0;i--){
-//			if (gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())] != -1){
-				double gCost = gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())];
-				double cost = gCost + costH(theBlockList.get(i), goalRow, getCol);
-				if (cost<minCost){
-					minCost = cost;
-					result = theBlockList.get(i);
-				}
-//			}
+			double gCost = gScores[(theBlockList.get(i).getRow())][(theBlockList.get(i).getCol())];
+			double cost = gCost + costH(theBlockList.get(i), goalRow, getCol);
+			if (cost<minCost){
+				minCost = cost;
+				result = theBlockList.get(i);
+			}
 		}
 		return result;
 	}
@@ -318,7 +305,6 @@ public class ShortestPathAlgo{
 				return DIRECTION.NORTH;
 			}
 			else{ //same pos
-				// System.out.println("2222!");
 				return botDir;
 			}
 		}
