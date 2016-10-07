@@ -30,7 +30,7 @@ public class Robot{
 		longFront = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol,this.robotCurDir);
 		shortRF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol + 1,this.robotCurDir);
 		shortLF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol - 1,this.robotCurDir);
-		shortR = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortR = new Sensor(RobotConstants.SENSOR_LONG_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
 		shortL = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
 	}
 	
@@ -41,7 +41,7 @@ public class Robot{
 		longFront = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol,this.robotCurDir);
 		shortRF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol + 1,this.robotCurDir);
 		shortLF = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow + 1,this.posCol - 1,this.robotCurDir);
-		shortR = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
+		shortR = new Sensor(RobotConstants.SENSOR_LONG_RANGE,this.posRow+ 1, this.posCol + 1,leftRightDirection(MOVE.RIGHT));
 		shortL = new Sensor(RobotConstants.SENSOR_SHORT_RANGE,this.posRow+ 1, this.posCol - 1,leftRightDirection(MOVE.LEFT));
 	}
 	

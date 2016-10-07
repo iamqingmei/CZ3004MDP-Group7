@@ -216,13 +216,13 @@ public class ShortestPathAlgo{
 				}
 				this.map.repaint();
 				this.map.mapDescriptor(); 
-				try{
-					TimeUnit.MILLISECONDS.sleep(1000);
-				}
-				catch(InterruptedException e)
-				{
-				     System.out.println("send msg sleeping error!!!!!!");
-				} 
+				// try{
+				// 	TimeUnit.MILLISECONDS.sleep(500);
+				// }
+				// catch(InterruptedException e)
+				// {
+				//      System.out.println("send msg sleeping error!!!!!!");
+				// } 
 			}
 			return null;
 		}
