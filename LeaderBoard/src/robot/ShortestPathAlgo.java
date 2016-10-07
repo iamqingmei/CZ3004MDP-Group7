@@ -191,68 +191,61 @@ public class ShortestPathAlgo{
 		DIRECTION targetDir = bot.getRobotCurDir();
 		StringBuilder outputString = new StringBuilder("");
 		MOVE m;
-		while((bot.getRobotPosRow() != goalRow) || (bot.getRobotPosCol() != goalCol)){
-			if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
-				temp = path.pop();
-			}
-			System.out.println("move from" + bot.getRobotPosRow() + ", " + bot.getRobotPosCol() + " to " + temp.getRow() + " , " + temp.getCol());
-			targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
-			if (bot.getRobotCurDir() != targetDir){
-				// System.out.println("robot cur dir:" + bot.getRobotCurDir().toString());
-				// System.out.println("target dir:" + targetDir.toString());
-				m=getTargetMove(bot.getRobotCurDir(),targetDir);
-				// System.out.println("move:" + m.toString());
-				outputString.append(m.print(m));
-				bot.moveRobot(m);
-				if (explore == true){
-					bot.setSensors();
-					bot.sense(this.map);
+		// for exploration
+		if (explore == true){
+			while((bot.getRobotPosRow() != goalRow) || (bot.getRobotPosCol() != goalCol)){
+				if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
+					temp = path.pop();
 				}
-			}
-			else{ //alr pointing to the target direction
-				// System.out.println("move: FORWARD");
-				outputString.append("f");
-				bot.moveRobot(MOVE.FORWARD);
-				if (explore == true){
+				targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
+				if (bot.getRobotCurDir() != targetDir){
+					m=getTargetMove(bot.getRobotCurDir(),targetDir);
+					outputString.append(m.print(m));
+					bot.moveRobot(m);
+					CommMgr.getCommMgr().sendMsg(m.print(m), "PC2AR");//send the move to robot
 					bot.setSensors();
-					bot.sense(this.map);
+					bot.sense(this.map); //waiting for sensor data
 				}
+				else{ //alr pointing to the target direction
+					outputString.append("f");
+					bot.moveRobot(MOVE.FORWARD);
+					CommMgr.getCommMgr().sendMsg("F","PC2AR");
+					bot.setSensors();
+					bot.sense(this.map);//waiting for sensor data
+				}
+				this.map.repaint();
+				this.map.mapDescriptor(); 
+				try{
+					TimeUnit.MILLISECONDS.sleep(1000);
+				}
+				catch(InterruptedException e)
+				{
+				     System.out.println("send msg sleeping error!!!!!!");
+				} 
 			}
-			this.map.repaint();
-			this.map.mapDescriptor(); //send to android map and robot position
-			// if (explore == true){
-			// 	this.map.mapDescriptor();
-			// }
-			
+			return null;
 		}
-		System.out.println(outputString);
-		return outputString;
+		else{ //for the shortest path 
+			while((bot.getRobotPosRow() != goalRow) || (bot.getRobotPosCol() != goalCol)){
+				if (bot.getRobotPosRow() == temp.getRow() && bot.getRobotPosCol() ==temp.getCol()){
+					temp = path.pop();
+				}
+				targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
+				if (bot.getRobotCurDir() != targetDir){
+					m=getTargetMove(bot.getRobotCurDir(),targetDir);
+					outputString.append(m.print(m));
+					bot.moveRobot(m);
+				}
+				else{ //alr pointing to the target direction
+					outputString.append("f");
+					bot.moveRobot(MOVE.FORWARD);
+				}
+			}
+			return outputString;
+		}
 	}
 
-	// private void printShortestPath(Stack<Block> actualPath){
-	// 	Block temp;
-	// 	System.out.println("looping " + testingCount +" times.");
-	// 	//print our the path
-	// 	System.out.println("the number of steps is :" + (actualPath.size() - 1));
-	// 	System.out.println("the Path is: ");
-	// 	while(!actualPath.isEmpty()){
-	// 		temp = actualPath.pop();
-	// 		System.out.print("("+ temp.getCol() + " ,"+ temp.getRow()+ ")");
-	// 	}
-	// 	System.out.println("\n");
-	// 	// printGscores();
-	// }
-
-	// printGscores is for testing uses
-	// public	void printGscores(){
-	// 	for (int i = 0; i < MapConstants.MAP_ROW; i++) {
-	// 		for (int j = 0; j < MapConstants.MAP_COL; j++) {
-	// 			System.out.print(gScores[MapConstants.MAP_ROW - 1 -i][j]);
-	// 			System.out.print(";");
-	// 		}
-	// 		System.out.println("\n");
-	// 	}
-	// }
+	
 	private Block minimumCostBlock(ArrayList<Block> theBlockList, double[][] gScores, int goalRow, int getCol){
 		int size = theBlockList.size();
 		double minCost = RobotConstants.INFINITE_COST;

@@ -114,7 +114,7 @@ public class Simulator {
 		// for multithreading
 		class Exploration extends SwingWorker<Integer, String>{
 			protected Integer doInBackground() throws Exception{
-				CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
+				// CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
 				System.out.println("waiting for Andriod command");
 				String startE = CommMgr.getCommMgr().recvMsg();
 		    	while(!startE.equals("explore")){
@@ -129,7 +129,8 @@ public class Simulator {
 				exploration.runExploration();
 				realMap.repaint();
 				realMap.mapDescriptor();
-
+				realMap.finalMap();
+				
 				System.out.println("calculate FastestPath");
 		        bot.setRobotPos(1,1);
 				realMap.repaint();

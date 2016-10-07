@@ -323,7 +323,7 @@ public class Map extends JPanel {
 			DescriptorFormatHex = "0"+ DescriptorFormatHex;
 		DescriptorFinal += DescriptorFormatHex; //last 4 hexa digits
 
-		System.out.println(DescriptorFinal);
+		// System.out.println(DescriptorFinal);
 		
 		DescriptorFormat = "";
 		String DescriptorFinal2 ="";
@@ -358,7 +358,7 @@ public class Map extends JPanel {
 			DescriptorFormatHex = "0"+ DescriptorFormatHex;
 		// System.out.println("last df:" + DescriptorFormatHex);
 		DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
-		System.out.println(DescriptorFinal2);
+		// System.out.println(DescriptorFinal2);
 
 		CommMgr.getCommMgr().sendMsg("String1:"+DescriptorFinal +" String2:" + DescriptorFinal2, "PC2AN");
 	}				

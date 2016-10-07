@@ -48,7 +48,7 @@ public class ExplorationAlgo{
 			System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
 			Block nearbyOb = nearbyObstacle(nearestUnexplored);
 			if (nearbyOb!=null){
-				System.out.println("Nearby Obstacle: " + nearbyOb.getRow() + ", " + nearbyOb.getCol());
+				// System.out.println("Nearby Obstacle: " + nearbyOb.getRow() + ", " + nearbyOb.getCol());
 				exploredGridNearOb(nearbyOb);
 			}
 			else{
@@ -63,20 +63,27 @@ public class ExplorationAlgo{
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
 		turnRobotDir(DIRECTION.NORTH);
-		
+		return;
 	}
 
 	private void turnRobotDir(DIRECTION dir){
-		System.out.println("robot facing: " + bot.getRobotCurDir());
+		// System.out.println("robot facing: " + bot.getRobotCurDir());
 		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
-			pressAnyKeyToContinue();
-			System.out.println("send msg: " + CommMgr.getCommMgr().sendMsg("r","PC2AR"));
+			// pressAnyKeyToContinue();
+			CommMgr.getCommMgr().sendMsg("R","PC2AR");
 			bot.setSensors();
 			sensorData = bot.sense(exMap);
 			exMap.repaint();
 			exMap.mapDescriptor();
-			System.out.println("robot facing: " + bot.getRobotCurDir());
+			// System.out.println("robot facing: " + bot.getRobotCurDir());
+			try{
+				TimeUnit.MILLISECONDS.sleep(1000);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			} 
 		}
 	}
 	// return the explored gird which is near obstacle
@@ -110,8 +117,8 @@ public class ExplorationAlgo{
 		spa.runShortestPath(exMap,mark.getRow(),mark.getCol());
 		exploredArea = countExploredArea();
 		turnRobotDir(dir);
-		System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
-		System.out.println("Mark: " + mark.getRow() + ", " + mark.getCol());
+		// System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
+		// System.out.println("Mark: " + mark.getRow() + ", " + mark.getCol());
 		looping(mark.getRow(),mark.getCol());
 		return mark;
 	}
@@ -132,15 +139,22 @@ public class ExplorationAlgo{
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
 			// System.out.println("move: " + nextMove);
-			pressAnyKeyToContinue();
+			// pressAnyKeyToContinue();
 			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
 			bot.setSensors(); 
 			sensorData = bot.sense(exMap); //wait for receive sensor data
 			exploredArea = countExploredArea();
-			System.out.println("exploredArea: " + exploredArea);
+			// System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-			exMap.mapDescriptor(); //send map layout and robot position to android 
+			exMap.mapDescriptor(); //send map layout and robot position to android
+			try{
+				TimeUnit.MILLISECONDS.sleep(1000);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			} 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}
 

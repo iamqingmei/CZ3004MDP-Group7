@@ -85,14 +85,7 @@ public class CommMgr{
 		}
 	}
 
-	public boolean sendMsg(String msg, String msgType){
-		try{
-			TimeUnit.MILLISECONDS.sleep(1000);
-		}
-		catch(InterruptedException e)
-		{
-		     System.out.println("send msg sleeping error!!!!!!");
-		} 
+	public boolean sendMsg(String msg, String msgType){ 
 		try {
 			String outputMsg = msgType + msg;
 
