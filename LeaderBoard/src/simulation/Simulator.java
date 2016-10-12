@@ -114,7 +114,7 @@ public class Simulator {
 		// for multithreading
 		class Exploration extends SwingWorker<Integer, String>{
 			protected Integer doInBackground() throws Exception{
-				CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
+				// CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
 				System.out.println("waiting for Andriod command");
 				String startE = CommMgr.getCommMgr().recvMsg();
 		    	while(!startE.equals("explore")){

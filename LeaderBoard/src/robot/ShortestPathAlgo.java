@@ -192,14 +192,14 @@ public class ShortestPathAlgo{
 				targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
 				if (bot.getRobotCurDir() != targetDir){
 					m=getTargetMove(bot.getRobotCurDir(),targetDir);
-					bot.moveRobot(m);
 					CommMgr.getCommMgr().sendMsg(m.print(m), "PC2AR");//send the move to robot
+					bot.moveRobot(m);
 					bot.setSensors();
 					bot.sense(this.map); //waiting for sensor data
 				}
 				else{ //alr pointing to the target direction
-					bot.moveRobot(MOVE.FORWARD);
 					CommMgr.getCommMgr().sendMsg("F","PC2AR");
+					bot.moveRobot(MOVE.FORWARD);
 					bot.setSensors();
 					bot.sense(this.map);//waiting for sensor data
 				}

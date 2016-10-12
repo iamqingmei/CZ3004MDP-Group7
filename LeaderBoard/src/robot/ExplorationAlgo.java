@@ -74,7 +74,7 @@ public class ExplorationAlgo{
 			exMap.mapDescriptor();
 			// System.out.println("robot facing: " + bot.getRobotCurDir());
 			// try{
-			// 	TimeUnit.MILLISECONDS.sleep(500);
+			// 	TimeUnit.MILLISECONDS.sleep(800);
 			// }
 			// catch(InterruptedException e)
 			// {
@@ -144,13 +144,7 @@ public class ExplorationAlgo{
 			// System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
 			exMap.mapDescriptor(); //send map layout and robot position to android
-			// try{
-			// 	TimeUnit.MILLISECONDS.sleep(500);
-			// }
-			// catch(InterruptedException e)
-			// {
-			//      System.out.println("send msg sleeping error!!!!!!");
-			// } 
+			
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}
 

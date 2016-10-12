@@ -187,6 +187,9 @@ public class Robot{
 	}
 	
 	private int roundToGrid(Integer cm){
+		if (cm<0){
+			return 0;
+		}
 		int base = cm/10;
 		if (cm%10>=5){
 			return ++base;
