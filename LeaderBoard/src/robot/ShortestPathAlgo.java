@@ -203,6 +203,13 @@ public class ShortestPathAlgo{
 					bot.setSensors();
 					bot.sense(this.map);//waiting for sensor data
 				}
+				try{
+					TimeUnit.MILLISECONDS.sleep(500);
+				}
+				catch(InterruptedException e)
+				{
+				     System.out.println("send msg sleeping error!!!!!!");
+				} 
 				this.map.repaint();
 				this.map.mapDescriptor(); 
 				// try{

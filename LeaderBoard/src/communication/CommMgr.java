@@ -94,13 +94,13 @@ public class CommMgr{
 			bw.write(outputMsg);
 			bw.flush();
 
-			try{
-				TimeUnit.MILLISECONDS.sleep(500);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("send msg sleeping error!!!!!!");
-			} 
+			// try{
+			// 	TimeUnit.MILLISECONDS.sleep(500);
+			// }
+			// catch(InterruptedException e)
+			// {
+			//      System.out.println("send msg sleeping error!!!!!!");
+			// } 
 
 			return true;
 

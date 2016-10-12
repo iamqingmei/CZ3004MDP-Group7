@@ -33,9 +33,16 @@ public class ExplorationAlgo{
 		// sensorData[3] = shortR
 		// sensorData[4] = shortL
 		exploredArea = countExploredArea();
-		System.out.println("exploredArea: " + exploredArea);
+		// System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
 		exMap.mapDescriptor();
+		try{
+			TimeUnit.MILLISECONDS.sleep(500);
+		}
+		catch(InterruptedException e)
+		{
+		     System.out.println("send msg sleeping error!!!!!!");
+		} 
 		looping(1,1);
 
 		//continue to explore the Unexplored area
@@ -73,13 +80,13 @@ public class ExplorationAlgo{
 			exMap.repaint();
 			exMap.mapDescriptor();
 			// System.out.println("robot facing: " + bot.getRobotCurDir());
-			// try{
-			// 	TimeUnit.MILLISECONDS.sleep(800);
-			// }
-			// catch(InterruptedException e)
-			// {
-			//      System.out.println("send msg sleeping error!!!!!!");
-			// } 
+			try{
+				TimeUnit.MILLISECONDS.sleep(500);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			} 
 		}
 	}
 	// return the explored gird which is near obstacle
@@ -144,7 +151,13 @@ public class ExplorationAlgo{
 			// System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
 			exMap.mapDescriptor(); //send map layout and robot position to android
-			
+			try{
+				TimeUnit.MILLISECONDS.sleep(500);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			} 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}
 
