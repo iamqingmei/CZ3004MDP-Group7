@@ -121,6 +121,7 @@ public class Simulator {
 		    		startE = CommMgr.getCommMgr().recvMsg();
 		    	}
 		    	System.out.println("start exploration");
+		    	long start = System.currentTimeMillis();
 
 				// bot.setRobotPos(1,1);
 				realMap.repaint();
@@ -130,7 +131,9 @@ public class Simulator {
 				realMap.repaint();
 				realMap.mapDescriptor();
 				realMap.finalMap();
-				
+				long end = System.currentTimeMillis();
+				long duration = (end - start)/1000;
+				System.out.println("exploration spend: " + duration + "second");
 				System.out.println("calculate FastestPath");
 		        bot.setRobotPos(1,1);
 				realMap.repaint();
