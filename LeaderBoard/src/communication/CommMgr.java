@@ -103,7 +103,7 @@ public class CommMgr{
 			// } 
 
 			String ack = recvMsg();
-			while(ack=!"A"){
+			while(!ack.equals("A")){
 				System.out.println("NOT ACK!!!");
 				ack = recvMsg();
 			}
