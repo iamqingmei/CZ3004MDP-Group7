@@ -114,7 +114,7 @@ public class Simulator {
 		// for multithreading
 		class Exploration extends SwingWorker<Integer, String>{
 			protected Integer doInBackground() throws Exception{
-				// CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
+				CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
 				System.out.println("waiting for Andriod command");
 				String startE = CommMgr.getCommMgr().recvMsg();
 		    	while(!startE.equals("explore")){
@@ -238,18 +238,18 @@ public class Simulator {
 		    }
 		}
 
-		//RecvMsg button
-		JButton btn_emergency = new JButton("Emergency!");
-		btn_emergency.setFont(new Font("Arial", Font.BOLD, 13));
-		btn_emergency.setFocusPainted(false);
-		btn_emergency.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				CardLayout cl = ((CardLayout) _mainCards.getLayout());
-			    cl.show(_mainCards, "MAIN");
-			    ExplorationAlgo.emergencyCalibration = true;
-			}
-		});
-		_mainButtons.add(btn_emergency);
+		//emergency button
+		// JButton btn_emergency = new JButton("Emergency!");
+		// btn_emergency.setFont(new Font("Arial", Font.BOLD, 13));
+		// btn_emergency.setFocusPainted(false);
+		// btn_emergency.addMouseListener(new MouseAdapter() {
+		// 	public void mousePressed(MouseEvent e) {
+		// 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
+		// 	    cl.show(_mainCards, "MAIN");
+		// 	    ExplorationAlgo.emergencyCalibration = true;
+		// 	}
+		// });
+		// _mainButtons.add(btn_emergency);
 
 		//send msg button
 		JButton btn_SendMsg = new JButton("Send Msg");
