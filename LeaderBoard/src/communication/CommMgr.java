@@ -102,6 +102,11 @@ public class CommMgr{
 			//      System.out.println("send msg sleeping error!!!!!!");
 			// } 
 
+			String ack = recvMsg();
+			while(ack=!"A"){
+				System.out.println("NOT ACK!!!");
+				ack = recvMsg();
+			}
 			return true;
 
 		} catch (IOException e){
