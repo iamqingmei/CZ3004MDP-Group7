@@ -19,10 +19,18 @@ public class ExplorationAlgo{
 	private int exploredArea;
 	private int[] sensorData;
 
+	public static boolean emergencyCalibration = false;
+
 	public ExplorationAlgo(Map explorationMap, Robot thebot){
 		this.exMap = explorationMap;
 		this.bot = thebot;
 	}
+
+	// public void setEmergencyCalibration(boolean b){
+	// 	emergencyCalibration = b;
+	// }
+
+
 
 	public void runExploration(){
 		bot.setSensors();
@@ -37,7 +45,7 @@ public class ExplorationAlgo{
 		exMap.repaint();
 		exMap.mapDescriptor();
 		try{
-			TimeUnit.MILLISECONDS.sleep(500);
+			TimeUnit.MILLISECONDS.sleep(50);
 		}
 		catch(InterruptedException e)
 		{
@@ -46,22 +54,22 @@ public class ExplorationAlgo{
 		looping(1,1);
 
 		//continue to explore the Unexplored area
-		while (exploredArea!=300){
-			System.out.println("there are still unexplored areas!!!!");
-			Block nearestUnexplored = nearestUnexploredGrid();
-			System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
-			Block nearbyOb = nearbyObstacle(nearestUnexplored);
-			if (nearbyOb!=null){
-				exploredGridNearOb(nearbyOb);
-			}
-			else{
-				exploredGridNearOb(nearestUnexplored);
-			}
-		}
-		System.out.println("All grids are explored!");
-		//go back to start zone
-		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot,true);
-		goBackToStart.runShortestPath(exMap,1,1);
+		// while (exploredArea!=300){
+		// 	System.out.println("there are still unexplored areas!!!!");
+		// 	Block nearestUnexplored = nearestUnexploredGrid();
+		// 	System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
+		// 	Block nearbyOb = nearbyObstacle(nearestUnexplored);
+		// 	if (nearbyOb!=null){
+		// 		exploredGridNearOb(nearbyOb);
+		// 	}
+		// 	else{
+		// 		exploredGridNearOb(nearestUnexplored);
+		// 	}
+		// }
+		// System.out.println("All grids are explored!");
+		// //go back to start zone
+		// ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot,true);
+		// goBackToStart.runShortestPath(exMap,1,1);
 
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
@@ -74,6 +82,11 @@ public class ExplorationAlgo{
 		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
 			// pressAnyKeyToContinue();
+			if (emergencyCalibration == true){
+				System.out.println("Emergency Calibration!!!!");
+				CommMgr.getCommMgr().sendMsg("M","PC2AR");
+				emergencyCalibration = false;
+			}
 			CommMgr.getCommMgr().sendMsg("R","PC2AR");
 			bot.setSensors();
 			sensorData = bot.sense(exMap);
@@ -81,7 +94,7 @@ public class ExplorationAlgo{
 			exMap.mapDescriptor();
 			// System.out.println("robot facing: " + bot.getRobotCurDir());
 			try{
-				TimeUnit.MILLISECONDS.sleep(500);
+				TimeUnit.MILLISECONDS.sleep(50);
 			}
 			catch(InterruptedException e)
 			{
@@ -143,6 +156,11 @@ public class ExplorationAlgo{
 			nextMove = getNextMove(prevMov);
 			// System.out.println("move: " + nextMove);
 			// pressAnyKeyToContinue();
+			if (emergencyCalibration == true){
+				System.out.println("Emergency Calibration!!!!");
+				CommMgr.getCommMgr().sendMsg("M","PC2AR");
+				emergencyCalibration = false;
+			}
 			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
 			bot.setSensors(); 
@@ -152,7 +170,7 @@ public class ExplorationAlgo{
 			exMap.repaint();
 			exMap.mapDescriptor(); //send map layout and robot position to android
 			try{
-				TimeUnit.MILLISECONDS.sleep(500);
+				TimeUnit.MILLISECONDS.sleep(50);
 			}
 			catch(InterruptedException e)
 			{

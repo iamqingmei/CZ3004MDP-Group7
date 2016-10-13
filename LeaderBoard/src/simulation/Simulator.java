@@ -134,19 +134,20 @@ public class Simulator {
 				long end = System.currentTimeMillis();
 				long duration = (end - start)/1000;
 				System.out.println("exploration spend: " + duration + "second");
-				System.out.println("calculate FastestPath");
-		        bot.setRobotPos(1,1);
-				realMap.repaint();
+
+				System.out.println("start to calculate FastestPath");
 				ShortestPathAlgo sp = new ShortestPathAlgo(realMap, bot);
 				StringBuilder output = sp.runShortestPath(realMap, 18, 13);
+
 				// byte[] outputByteArray = String.valueOf(output).getBytes();
 				// System.out.println(outputByteArray);
+				
 				System.out.println("Fastest Path is : " + output);
 				String startRace = CommMgr.getCommMgr().recvMsg();
 		    	while(!startRace.equals("race")){
 		    		startRace = CommMgr.getCommMgr().recvMsg();
 		    	}
-				CommMgr.getCommMgr().sendMsg(output.toString(), "PC2AR");
+				CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
 				return 222;
 			}
 		}
@@ -177,7 +178,7 @@ public class Simulator {
 				// byte[] outputByteArray = String.valueOf(output).getBytes();
 				// System.out.println(outputByteArray);
 				System.out.println("Fastest Path is : " + output);
-				CommMgr.getCommMgr().sendMsg(output.toString(), "PC2AR");
+				CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
 		        return 111;
 		    }
 		}
@@ -238,17 +239,17 @@ public class Simulator {
 		}
 
 		//RecvMsg button
-		JButton btn_recvMsg = new JButton("Receive Msg");
-		btn_recvMsg.setFont(new Font("Arial", Font.BOLD, 13));
-		btn_recvMsg.setFocusPainted(false);
-		btn_recvMsg.addMouseListener(new MouseAdapter() {
+		JButton btn_emergency = new JButton("Emergency!");
+		btn_emergency.setFont(new Font("Arial", Font.BOLD, 13));
+		btn_emergency.setFocusPainted(false);
+		btn_emergency.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				CardLayout cl = ((CardLayout) _mainCards.getLayout());
 			    cl.show(_mainCards, "MAIN");
-			    new RecvMsg().execute();
+			    ExplorationAlgo.emergencyCalibration = true;
 			}
 		});
-		_mainButtons.add(btn_recvMsg);
+		_mainButtons.add(btn_emergency);
 
 		//send msg button
 		JButton btn_SendMsg = new JButton("Send Msg");

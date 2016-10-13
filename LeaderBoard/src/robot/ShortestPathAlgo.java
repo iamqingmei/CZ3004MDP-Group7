@@ -192,6 +192,11 @@ public class ShortestPathAlgo{
 				targetDir = getTargetDir(bot.getRobotPosRow(), bot.getRobotPosCol(), bot.getRobotCurDir(), temp);
 				if (bot.getRobotCurDir() != targetDir){
 					m=getTargetMove(bot.getRobotCurDir(),targetDir);
+					if (ExplorationAlgo.emergencyCalibration == true){
+						System.out.println("Emergency Calibration!!!!");
+						CommMgr.getCommMgr().sendMsg("M","PC2AR");
+						ExplorationAlgo.emergencyCalibration = false;
+					}
 					CommMgr.getCommMgr().sendMsg(m.print(m), "PC2AR");//send the move to robot
 					bot.moveRobot(m);
 					bot.setSensors();
@@ -204,7 +209,7 @@ public class ShortestPathAlgo{
 					bot.sense(this.map);//waiting for sensor data
 				}
 				try{
-					TimeUnit.MILLISECONDS.sleep(500);
+					TimeUnit.MILLISECONDS.sleep(50);
 				}
 				catch(InterruptedException e)
 				{
@@ -212,13 +217,7 @@ public class ShortestPathAlgo{
 				} 
 				this.map.repaint();
 				this.map.mapDescriptor(); 
-				// try{
-				// 	TimeUnit.MILLISECONDS.sleep(500);
-				// }
-				// catch(InterruptedException e)
-				// {
-				//      System.out.println("send msg sleeping error!!!!!!");
-				// } 
+				
 			}
 			return null;
 		}
