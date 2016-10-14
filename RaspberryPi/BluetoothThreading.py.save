@@ -1,0 +1,75 @@
+from bluetooth import *
+import logging
+import threading
+
+class BluetoothThreading:
+	def __init__(self):
+		self.UUID = "a1513d56-2b38-421d-bee3-4286f12f9866"
+		self.client_sock = BluetoothSocket ( RFCOMM )
+		self.btAdd = "08:60:6E:A4:E4:D4"
+		self.mutex = threading.Lock()
+		self.isConnected = False
+	def connect(self):
+		self.mutex.acquire()
+		try:
+			logging.debug("Scanning for bluetooth device")
+			service_match = find_service(uuid=self.UUID, address=self.btAdd)
+			while len(service_match) == 0:
+				service_match = find_service(uuid=self.UUID, address=self.btAdd)
+			first_match = service_match[0]
+			host = first_match["host"]
+			port = first_match["port"]
+			self.client_sock.setblocking(1)
+			self.client_sock.connect((host,port))
+			self.isConnected = True
+			logging.log(5,'Bluetooth device not found')
+			logging.log(5,'Bluetooth device not found')
+		except bluetooth.BluetoothError:
+		finally:
+			self.mutex.release()
+	def close(self):
+		self.mutex.acquire()
+		try:
+			self.client_sock.setblocking(1)
+			self.client_sock.close()
+			self.isConnected = False
+			logging.info('Bluetooth disconnected')
+		finally:
+			self.mutex.release()
+	def send(self,data):
+		self.mutex.acquire()
+		try:
+			if self.isConnected == False:
+				logging.warning('Bluetooth not connected. No data sent.')
+				return None
+			self.client_sock.setblocking(1)
+			self.client_sock.send(str(data))
+			logging.info('Bluetooth sent data: '+str(data))
+		finally:
+			self.mutex.release()
+	def receive(self):
+		self.mutex.acquire()
+		try:
+			if self.isConnected == False:
+				logging.warning('Bluetooth not connected. No data received.')
+				return None
+			self.client_sock.setblocking(1)
+			result = ''
+			data = self.client_sock.recv(4096)
+			result += data
+			while(data!='}'):
+				data = self.client_sock.recv(4096)
+				result += data
+			logging.info('Bluetooth received data: '+result)
+			return result
+		except IOError:
+			logging.log(5,'Bluetooth non-blocking receive')
+			return ''
+		finally:
+			self.mutex.release()
+	def connected(self):
+		self.mutex.acquire()
+		try:
+			return self.isConnected
+		finally:
+			self.mutex.release()

@@ -1,0 +1,158 @@
+import Queue
+import logging
+import threading
+import WifiThreading
+import ArduinoThreading
+import BluetoothThreading
+import socket
+import serial
+import bluetooth
+import time
+#from serial import SerialException
+
+#Message Queue
+incomingMessageQueue = Queue.Queue()
+outgoingMessageQueue = Queue.Queue()
+
+#Initialize Threads
+wifi = WifiThreading.WifiThreading("192.168.7.1",8080)
+arduino = ArduinoThreading.ArduinoThreading()
+android = BluetoothThreading.BluetoothThreading()
+
+########################################################
+class wifiThread (threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+
+	def run(self):
+		while(True):
+			try:
+				wifi.connect()
+				if (wifi.connected()):
+					receiveData = wifi.receive()
+					if(receiveData != ""):
+						incomingMessageQueue.put(receiveData, True)
+					elif(receiveData == ""):
+						time.sleep(1)
+			except socket.error:
+				print "Connection with wifi failed, retrying"
+				time.sleep(1)
+			except ValueError as ErrorMsg:
+				print ErrorMsg
+
+class arduinoThread(threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+
+	def run(self):
+		while(True):
+			try:
+				arduino.connect()
+				while(True):
+					print "receiving data from arduino"
+					receiveData = arduino.receive()
+					while(receiveData == ""):
+						print "No data received from arduino"
+						time.sleep(1)
+						receiveData = arduino.receive()
+					print "data received from arduino"
+
+					print "Arduino thread receive: " + receiveData
+				
+					incomingMessageQueue.put(receiveData, True)
+
+			except serial.SerialException:
+				print "connecting to arduino failed, retrying"
+				time.sleep(1)
+			except Exception as ErrorMsg:
+				print ErrorMsg
+
+class androidThread (threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+
+	def run(self):
+		while(True):
+			try:
+				android.connect()
+				
+				#if(android.connected()):
+				print "receiving data from android"
+				receiveData = android.receive()
+				if(receiveData != ""):
+					incomingMessageQueue.put(receiveData, True)
+					print "data received from android"
+				elif(receiveData == ""):
+					print "No data received from android"
+
+			except bluetooth.BluetoothError:
+				print "connecting to android failed, retrying"
+				time.sleep(1)
+			except ValueError as ErrorMsg:
+				print ErrorMsg
+				time.sleep(1)
+			except Exception as ErrorMsg:
+				print ErrorMsg
+				time.sleep(1)
+
+class incomingMessageThread(threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+
+	def run(self):
+		while(True):
+			try:
+				incomingMessage = incomingMessageQueue.get(1)
+				print 'Incoming message: ' + incomingMessage
+				outgoingMessageQueue.put(incomingMessage, True)
+			except Exception as ErrorMsg:
+				logging.error(ErrorMsg)
+
+class outgoingMessageThread(threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+
+	def run(self):
+		while(True):
+			try:
+				outgoingMessage = "PC2PC99990\n"#outgoingMessageQueue.get(1)
+				receiver = outgoingMessage[3:5]
+				data = outgoingMessage[5:]
+æ
+				if receiver == "PC" :
+					print "Sending message to PC: " + data
+					wifi.send(data)
+					print "Message sent to PC"
+				elif receiver == "AN" :
+					logging.log(5,'Sending message to android')
+					android.send(data)
+					logging.log(5,'Message sent to android')
+				elif receiver == "AR" :
+					logging.log(5,'Sending message to arduino')
+					arduino.send(data)
+					logging.log(5,'Message sent to arduino')
+					pass
+
+#				outgoingMessageQueue.task_done()
+
+			except BaseException as ErrorMsg:
+				logging.error(ErrorMsg)
+			except Exception as ErrorMsg:
+				logging.error(ErrorMsg)	
+
+
+###################################################
+
+wifiThread = wifiThread()
+#arduinoThread = arduinoThread()
+#androidThread = androidThread()
+
+incomingMessageThread = incomingMessageThread()
+outgoingMessageThread = outgoingMessageThread()
+
+wifiThread.start()
+#arduinoThread.start()
+#androidThread.start()
+
+incomingMessageThread.start()
+outgoingMessageThread.start()
