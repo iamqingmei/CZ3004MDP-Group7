@@ -114,7 +114,7 @@ public class Simulator {
 		// for multithreading
 		class Exploration extends SwingWorker<Integer, String>{
 			protected Integer doInBackground() throws Exception{
-				CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
+				// CommMgr.getCommMgr().sendMsg("explore", "PC2PC");
 				System.out.println("waiting for Andriod command");
 				String startE = CommMgr.getCommMgr().recvMsg();
 		    	while(!startE.equals("explore")){
@@ -238,18 +238,63 @@ public class Simulator {
 		    }
 		}
 
-		//emergency button
-		// JButton btn_emergency = new JButton("Emergency!");
-		// btn_emergency.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_emergency.setFocusPainted(false);
-		// btn_emergency.addMouseListener(new MouseAdapter() {
-		// 	public void mousePressed(MouseEvent e) {
-		// 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
-		// 	    cl.show(_mainCards, "MAIN");
-		// 	    ExplorationAlgo.emergencyCalibration = true;
-		// 	}
-		// });
-		// _mainButtons.add(btn_emergency);
+		// add obstacle button
+		JButton btn_obstacle = new JButton("Obstacle");
+		btn_obstacle.setFont(new Font("Arial", Font.BOLD, 13));
+		btn_obstacle.setFocusPainted(false);
+		btn_obstacle.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				CardLayout cl = ((CardLayout) _mainCards.getLayout());
+			    cl.show(_mainCards, "MAIN");
+
+			    JDialog d3=new JDialog(_appFrame,"Add/Remove Obstacles!",true);
+				d3.setSize(350,200);
+				d3.setLayout(new FlowLayout());
+				JTextField rowTF = new JTextField(2);
+				JTextField columnTF = new JTextField(2);
+				JButton addButton = new JButton("Add");
+				JButton removeButton = new JButton("Remove");
+
+				
+				addButton.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+						int r = Integer.parseInt(rowTF.getText());
+						int c = Integer.parseInt(columnTF.getText());
+						realMap.getBlock(r,c).setIsExplored(true);
+						realMap.getBlock(r,c).setObstacle();
+						System.out.println("obstacle at " + r + "," + c + " is added");
+						realMap.repaint();
+						realMap.mapDescriptor();
+					}
+				});
+
+				removeButton.addMouseListener(new MouseAdapter(){
+					public void mousePressed(MouseEvent e) {
+						int r = Integer.parseInt(rowTF.getText());
+						int c = Integer.parseInt(columnTF.getText());
+						realMap.getBlock(r,c).setIsExplored(true);
+						realMap.getBlock(r,c).setObstacle(false);
+						System.out.println("obstacle at " + r + "," + c + " is removed");
+						realMap.repaint();
+						realMap.mapDescriptor();
+					}
+				});
+
+				Box box1 = Box.createVerticalBox();
+		        box1.add(new JLabel("Enter row number: "));
+		        box1.add(rowTF);
+		        Box box2 = Box.createVerticalBox();
+		        box2.add(new JLabel("Enter column numer: "));
+		        box2.add(columnTF);
+
+		        d3.add(box1);
+		        d3.add(box2);
+		        d3.add(addButton);
+		        d3.add(removeButton);
+		        d3.setVisible(true);
+			}
+		});
+		_mainButtons.add(btn_obstacle);
 
 		//send msg button
 		JButton btn_SendMsg = new JButton("Send Msg");

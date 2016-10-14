@@ -24,6 +24,10 @@ public class Block {
 		isObstacle = true;
 	}
 	
+	public void setObstacle(boolean b){
+		isObstacle = b;
+	}
+	
 	public boolean getIsObstacle(){
 		return this.isObstacle;
 	}
@@ -51,6 +55,7 @@ public class Block {
 	public void setIsExplored(boolean b){
 		this.isExplored = b;
 	}
+
 
 	
 }

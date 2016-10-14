@@ -15,6 +15,8 @@ int col = 15;
 int shortSensorRange = 1;
 int longSensorRange = 4;
 //declare map,robot,sensor
+// 0 : free
+// 1 : obstacle
 int map[row][col];
 int robotRow = 1;
 int robotCol = 1;
