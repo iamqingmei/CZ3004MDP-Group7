@@ -76,7 +76,7 @@ void setup() {
 }
 
 void loop() {
-md.setSpeeds (400,400);
+  md.setSpeeds (400,400);
   // move_forward_ramp(10);
   // Obstacle Avoidance
   // avoid_obstacle();
