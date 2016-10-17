@@ -262,31 +262,6 @@ public class Simulator {
 		});
 		_mainButtons.add(btn_TimeExploration);
 		
-		class addObstacle extends SwingWorker<Integer, String>{
-		    protected Integer doInBackground() throws Exception{
-				int r = 13;
-				int c = 6;
-				simExMap.getBlock(r,c).setIsExplored(true);
-				simExMap.getBlock(r,c).setObstacle();
-				System.out.println("obstacle at " + r + "," + c + " is added");
-				simExMap.repaint();
-				// realMap.mapDescriptor();
-				return 3333;
-			}
-		}
-
-		class removeObstacle extends SwingWorker<Integer, String>{
-		    protected Integer doInBackground() throws Exception{
-		    	int r = 13;
-				int c = 6;
-				simExMap.getBlock(r,c).setIsExplored(true);
-				simExMap.getBlock(r,c).setObstacle(false);
-				System.out.println("obstacle at " + r + "," + c + " is removed");
-				simExMap.repaint();
-				// realMap.mapDescriptor();
-				return 4444;
-		    }
-		}
 
 		// add obstacle button
 		JButton btn_obstacle = new JButton("Obstacle");
@@ -305,20 +280,25 @@ public class Simulator {
 				JButton addButton = new JButton("Add");
 				JButton removeButton = new JButton("Remove");
 
-				
 				addButton.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
-						// int r = Integer.parseInt(rowTF.getText());
-						// int c = Integer.parseInt(columnTF.getText());
-						new addObstacle().execute();
+						int r = Integer.parseInt(rowTF.getText());
+						int c = Integer.parseInt(columnTF.getText());
+						simExMap.getBlock(r,c).setIsExplored(true);
+						simExMap.getBlock(r,c).setObstacle();
+						System.out.println("obstacle at " + r + "," + c + " is added");
+						simExMap.repaint();
 					}
 				});
 
 				removeButton.addMouseListener(new MouseAdapter(){
 					public void mousePressed(MouseEvent e) {
-						// int r = Integer.parseInt(rowTF.getText());
-						// int c = Integer.parseInt(columnTF.getText());
-						new removeObstacle().execute();
+						int r = Integer.parseInt(rowTF.getText());
+						int c = Integer.parseInt(columnTF.getText());
+						simExMap.getBlock(r,c).setIsExplored(true);
+						simExMap.getBlock(r,c).setObstacle(false);
+						System.out.println("obstacle at " + r + "," + c + " is removed");
+						simExMap.repaint();
 					}
 				});
 
