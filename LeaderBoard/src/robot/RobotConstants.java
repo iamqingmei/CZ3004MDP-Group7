@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public final class RobotConstants {
 	public static final double MOVE_COST = 1;
-	public static final double TURN_COST = 20;
+	public static final double TURN_COST = 0.9;
 	public static final int GOAL_ROW = 18;
 	public static final int GOAL_COL = 13;
 	public static final DIRECTION STARTING_DIR = DIRECTION.NORTH;
