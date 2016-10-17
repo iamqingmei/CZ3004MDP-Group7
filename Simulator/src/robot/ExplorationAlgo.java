@@ -14,7 +14,7 @@ import robot.RobotConstants;
 public class ExplorationAlgo{
 	private Map exMap, realMap;
 	private Robot bot;
-	private ArrayList<Block> pathTaken;
+	private ArrayList<Block> pathTaken= new ArrayList<Block>();
 	private int exploredArea;
 	private int[] sensorData;
 
@@ -62,6 +62,8 @@ public class ExplorationAlgo{
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
 		turnRobotDir(DIRECTION.NORTH);
+
+		// printPathTaken();
 		
 	}
 
@@ -127,6 +129,7 @@ public class ExplorationAlgo{
 		MOVE nextMove = null;
 		MOVE prevMov = null;
 		do{
+			pathTaken.add(exMap.getBlock(bot.getRobotPosRow(),bot.getRobotPosCol()));
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
 			System.out.println("move: " + nextMove);
@@ -485,6 +488,13 @@ public class ExplorationAlgo{
 		}
 		else{
 			return null;
+		}
+	}
+
+	private void printPathTaken(){
+		int n = pathTaken.size();
+		for (int i=0;i<n;i++){
+			System.out.print("(" + pathTaken.get(i).getRow() + "," + pathTaken.get(i).getCol() + "), ");
 		}
 	}
 }

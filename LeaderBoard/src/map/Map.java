@@ -320,6 +320,7 @@ public class Map extends JPanel {
 		CommMgr.getCommMgr().sendMsg(DescriptorFinal2+robotString, "PC2AN");
 	}
 
+	//sending out MDF string
 	public void finalMap(){
 		String DescriptorFormat = "11"; //pad the first 2 bits
 		String DescriptorFinal = "";

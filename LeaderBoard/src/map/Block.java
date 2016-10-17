@@ -6,6 +6,9 @@ public class Block {
 	private boolean isExplored = true;
 	private int row; //which row where the block is
 	private int col; //which col where the block is
+
+	//the path taken by the robot will be treated as confirm free
+	private boolean confirmFree=false;
 	
 	public Block(){
 		isObstacle = false;
@@ -21,6 +24,10 @@ public class Block {
 	}
 	
 	public void setObstacle(boolean b){
+		if (this.confirmFree == true){
+			isObstacle=false;
+			return;
+		}
 		isObstacle = b;
 	}
 	
@@ -52,6 +59,15 @@ public class Block {
 		this.isExplored = b;
 	}
 
+	public void setConfirmFree(boolean b){
+		if (b==true){
+			this.isObstacle=false;
+		}
+		this.confirmFree=b;
+	}
 
+	public boolean getConfirmFree(){
+		return this.confirmFree;
+	}
 	
 }

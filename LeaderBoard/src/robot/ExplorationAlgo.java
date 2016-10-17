@@ -12,10 +12,11 @@ import robot.RobotConstants.MOVE;
 import robot.Robot;
 import robot.RobotConstants;
 
+
 public class ExplorationAlgo{
 	private Map exMap;
 	private Robot bot;
-	private ArrayList<Block> pathTaken;
+	// private ArrayList<Block> pathTaken= new ArrayList<Block>();
 	private int exploredArea;
 	private int[] sensorData;
 
@@ -45,7 +46,7 @@ public class ExplorationAlgo{
 		exMap.repaint();
 		exMap.mapDescriptor();
 		try{
-			TimeUnit.MILLISECONDS.sleep(50);
+			TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 		}
 		catch(InterruptedException e)
 		{
@@ -54,7 +55,7 @@ public class ExplorationAlgo{
 		looping(1,1);
 
 		//continue to explore the Unexplored area
-		// while (exploredArea!=300){
+		// while (exploredArea!= MapConstants.MAP_SIZE){
 		// 	System.out.println("there are still unexplored areas!!!!");
 		// 	Block nearestUnexplored = nearestUnexploredGrid();
 		// 	System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
@@ -67,6 +68,7 @@ public class ExplorationAlgo{
 		// 	}
 		// }
 		// System.out.println("All grids are explored!");
+
 		//go back to start zone
 		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot,true);
 		goBackToStart.runShortestPath(exMap,1,1);
@@ -94,7 +96,7 @@ public class ExplorationAlgo{
 			exMap.mapDescriptor();
 			// System.out.println("robot facing: " + bot.getRobotCurDir());
 			try{
-				TimeUnit.MILLISECONDS.sleep(50);
+				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 			}
 			catch(InterruptedException e)
 			{
@@ -152,6 +154,8 @@ public class ExplorationAlgo{
 		MOVE nextMove = null;
 		MOVE prevMov = null;
 		do{
+			//the path taken is confirmed free
+			pathTakenIsConfirmedFree();
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
 			// System.out.println("move: " + nextMove);
@@ -170,13 +174,14 @@ public class ExplorationAlgo{
 			exMap.repaint();
 			exMap.mapDescriptor(); //send map layout and robot position to android
 			try{
-				TimeUnit.MILLISECONDS.sleep(50);
+				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 			}
 			catch(InterruptedException e)
 			{
 			     System.out.println("send msg sleeping error!!!!!!");
 			}
-			if (exploredArea==300){
+			if (exploredArea==MapConstants.MAP_SIZE){
+				//return when the whole map is explored
 				return;
 			} 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
@@ -382,5 +387,26 @@ public class ExplorationAlgo{
         }  
         catch(Exception e)
         {}  
+	}
+
+	// private void printPathTaken(){
+	// 	int n = pathTaken.size();
+	// 	for (int i=0;i<n;i++){
+	// 		System.out.print("(" + pathTaken.get(i).getRow() + "," + pathTaken.get(i).getCol() + "), ");
+	// 	}
+	// }
+
+	private void pathTakenIsConfirmedFree(){
+		int r = bot.getRobotPosRow();
+		int c = bot.getRobotPosCol();
+		exMap.getBlock(r,c).setConfirmFree(true);
+		exMap.getBlock(r+1,c).setConfirmFree(true);
+		exMap.getBlock(r-1,c).setConfirmFree(true);
+		exMap.getBlock(r,c+1).setConfirmFree(true);
+		exMap.getBlock(r+1,c+1).setConfirmFree(true);
+		exMap.getBlock(r-1,c+1).setConfirmFree(true);
+		exMap.getBlock(r,c-1).setConfirmFree(true);
+		exMap.getBlock(r+1,c-1).setConfirmFree(true);
+		exMap.getBlock(r-1,c-1).setConfirmFree(true);
 	}
 }

@@ -137,7 +137,7 @@ public class Simulator {
 
 				System.out.println("start to calculate FastestPath");
 				ShortestPathAlgo sp = new ShortestPathAlgo(realMap, bot);
-				StringBuilder output = sp.runShortestPath(realMap, 18, 13);
+				StringBuilder output = sp.runShortestPath(realMap, MapConstants.GOAL_ROW, MapConstants.GOAL_COL);
 
 				// byte[] outputByteArray = String.valueOf(output).getBytes();
 				// System.out.println(outputByteArray);

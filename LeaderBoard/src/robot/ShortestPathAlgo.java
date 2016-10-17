@@ -209,7 +209,7 @@ public class ShortestPathAlgo{
 					bot.sense(this.map);//waiting for sensor data
 				}
 				try{
-					TimeUnit.MILLISECONDS.sleep(50);
+					TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 				}
 				catch(InterruptedException e)
 				{
