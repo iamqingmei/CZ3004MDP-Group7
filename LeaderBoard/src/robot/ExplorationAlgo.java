@@ -247,6 +247,9 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("north error!");
+					if (nSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			case EAST:
@@ -264,6 +267,9 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("east error!");
+					if (eSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			case SOUTH:
@@ -281,6 +287,9 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("south error!");
+					if (sSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			case WEST:
@@ -298,6 +307,9 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("west error!");
+					if (wSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			default:

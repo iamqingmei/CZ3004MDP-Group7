@@ -233,7 +233,7 @@ public class ShortestPathAlgo{
 					bot.moveRobot(m);
 				}
 				else{ //alr pointing to the target direction
-					outputString.append("f");
+					outputString.append("F");
 					bot.moveRobot(MOVE.FORWARD);
 				}
 			}

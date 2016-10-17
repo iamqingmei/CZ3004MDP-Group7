@@ -23,6 +23,9 @@ public class Block {
 	public void setObstacle(){
 		isObstacle = true;
 	}
+	public void setObstacle(boolean b){
+		isObstacle = b;
+	}
 	
 	public boolean getIsObstacle(){
 		return this.isObstacle;

@@ -209,20 +209,23 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("north error!");
+					if (nSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			case EAST:
 				if (eSideFree() && !nSideFree() ){
-					System.out.println("here?!!!");
+					// System.out.println("here?!!!");
 					return MOVE.FORWARD;
 				}
 				else if (nSideFree()){
-					System.out.println("222?!!!");
+					// System.out.println("222?!!!");
 					if (prevMov!= MOVE.LEFT){
-						System.out.println("3333?!!!");
+						// System.out.println("3333?!!!");
 						return MOVE.LEFT;
 					}
-					System.out.println("44444?!!!");
+					// System.out.println("44444?!!!");
 					return MOVE.FORWARD;
 				}
 				else if (sSideFree() && !eSideFree()){
@@ -230,6 +233,9 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("east error!");
+					if (eSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			case SOUTH:
@@ -247,6 +253,9 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("south error!");
+					if (sSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			case WEST:
@@ -264,11 +273,14 @@ public class ExplorationAlgo{
 				}
 				else{
 					System.out.println("west error!");
+					if (wSideFree()){
+						return MOVE.FORWARD;
+					}
 					return MOVE.RIGHT;
 				}
 			default:
 				System.out.println("default error!");
-				return MOVE.RIGHT;
+				return MOVE.FORWARD;
 		}
 	}
 

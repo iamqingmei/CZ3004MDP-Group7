@@ -72,7 +72,7 @@ public class Simulator {
 		// Main frame for displaying everything
 		_appFrame = new JFrame();
 		_appFrame.setTitle("MDP Group 7 Simulator");
-		_appFrame.setSize(new Dimension(800, 870));
+		_appFrame.setSize(new Dimension(900, 870));
 		_appFrame.setResizable(false);
 		
 		// Center the main frame in the middle of the screen
@@ -261,6 +261,82 @@ public class Simulator {
 			}
 		});
 		_mainButtons.add(btn_TimeExploration);
+		
+		class addObstacle extends SwingWorker<Integer, String>{
+		    protected Integer doInBackground() throws Exception{
+				int r = 13;
+				int c = 6;
+				simExMap.getBlock(r,c).setIsExplored(true);
+				simExMap.getBlock(r,c).setObstacle();
+				System.out.println("obstacle at " + r + "," + c + " is added");
+				simExMap.repaint();
+				// realMap.mapDescriptor();
+				return 3333;
+			}
+		}
+
+		class removeObstacle extends SwingWorker<Integer, String>{
+		    protected Integer doInBackground() throws Exception{
+		    	int r = 13;
+				int c = 6;
+				simExMap.getBlock(r,c).setIsExplored(true);
+				simExMap.getBlock(r,c).setObstacle(false);
+				System.out.println("obstacle at " + r + "," + c + " is removed");
+				simExMap.repaint();
+				// realMap.mapDescriptor();
+				return 4444;
+		    }
+		}
+
+		// add obstacle button
+		JButton btn_obstacle = new JButton("Obstacle");
+		btn_obstacle.setFont(new Font("Arial", Font.BOLD, 13));
+		btn_obstacle.setFocusPainted(false);
+		btn_obstacle.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				CardLayout cl = ((CardLayout) _mainCards.getLayout());
+			    cl.show(_mainCards, "EXPLO");
+
+			    JDialog d3=new JDialog(_appFrame,"Add/Remove Obstacles!",true);
+				d3.setSize(350,200);
+				d3.setLayout(new FlowLayout());
+				JTextField rowTF = new JTextField(2);
+				JTextField columnTF = new JTextField(2);
+				JButton addButton = new JButton("Add");
+				JButton removeButton = new JButton("Remove");
+
+				
+				addButton.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+						// int r = Integer.parseInt(rowTF.getText());
+						// int c = Integer.parseInt(columnTF.getText());
+						new addObstacle().execute();
+					}
+				});
+
+				removeButton.addMouseListener(new MouseAdapter(){
+					public void mousePressed(MouseEvent e) {
+						// int r = Integer.parseInt(rowTF.getText());
+						// int c = Integer.parseInt(columnTF.getText());
+						new removeObstacle().execute();
+					}
+				});
+
+				Box box1 = Box.createVerticalBox();
+		        box1.add(new JLabel("Enter row number: "));
+		        box1.add(rowTF);
+		        Box box2 = Box.createVerticalBox();
+		        box2.add(new JLabel("Enter column numer: "));
+		        box2.add(columnTF);
+
+		        d3.add(box1);
+		        d3.add(box2);
+		        d3.add(addButton);
+		        d3.add(removeButton);
+		        d3.setVisible(true);
+			}
+		});
+		_mainButtons.add(btn_obstacle);
 
 		// for multithreading
 		class coverageExploration extends SwingWorker<Integer, String>{
