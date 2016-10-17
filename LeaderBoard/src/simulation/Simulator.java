@@ -261,7 +261,7 @@ public class Simulator {
 						int r = Integer.parseInt(rowTF.getText());
 						int c = Integer.parseInt(columnTF.getText());
 						realMap.getBlock(r,c).setIsExplored(true);
-						realMap.getBlock(r,c).setObstacle();
+						realMap.setObstacle(r,c,true);
 						System.out.println("obstacle at " + r + "," + c + " is added");
 						realMap.repaint();
 						realMap.mapDescriptor();
@@ -273,7 +273,7 @@ public class Simulator {
 						int r = Integer.parseInt(rowTF.getText());
 						int c = Integer.parseInt(columnTF.getText());
 						realMap.getBlock(r,c).setIsExplored(true);
-						realMap.getBlock(r,c).setObstacle(false);
+						realMap.setObstacle(r,c,false);
 						System.out.println("obstacle at " + r + "," + c + " is removed");
 						realMap.repaint();
 						realMap.mapDescriptor();

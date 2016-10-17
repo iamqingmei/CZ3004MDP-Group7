@@ -285,7 +285,7 @@ public class Simulator {
 						int r = Integer.parseInt(rowTF.getText());
 						int c = Integer.parseInt(columnTF.getText());
 						simExMap.getBlock(r,c).setIsExplored(true);
-						simExMap.getBlock(r,c).setObstacle();
+						simExMap.setObstacle(r,c,true);
 						System.out.println("obstacle at " + r + "," + c + " is added");
 						simExMap.repaint();
 					}
@@ -296,7 +296,7 @@ public class Simulator {
 						int r = Integer.parseInt(rowTF.getText());
 						int c = Integer.parseInt(columnTF.getText());
 						simExMap.getBlock(r,c).setIsExplored(true);
-						simExMap.getBlock(r,c).setObstacle(false);
+						simExMap.setObstacle(r,c,false);
 						System.out.println("obstacle at " + r + "," + c + " is removed");
 						simExMap.repaint();
 					}
@@ -376,7 +376,7 @@ public class Simulator {
 						decInt = Character.getNumericValue(asciiInt);
 						// System.out.println(decInt);
 						if(decInt == 1)
-							m.setObstacle(r, c);
+							m.setObstacle(r, c,true);
 						else if(decInt != 0)//when character in text file is not part of the map eg.spaces etc
 							c--;//empty block has to be assigned 1 or 0 to indicate obstacle
 					}

@@ -42,7 +42,7 @@ public class Sensor {
 						}
 						exMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).setIsExplored(true);
 					}
-					exMap.setObstacle(this.sensorPosRow + distance+1, this.sensorPosCol);
+					exMap.setObstacle(this.sensorPosRow + distance+1, this.sensorPosCol,true);
 				}
 				return;
 			case SOUTH:
@@ -61,7 +61,7 @@ public class Sensor {
 						}
 						exMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).setIsExplored(true);
 					}
-					exMap.setObstacle(this.sensorPosRow - distance-1, this.sensorPosCol);
+					exMap.setObstacle(this.sensorPosRow - distance-1, this.sensorPosCol,true);
 				}
 				return;
 			case EAST:
@@ -80,7 +80,7 @@ public class Sensor {
 						}
 						exMap.getBlock(this.sensorPosRow, this.sensorPosCol + i).setIsExplored(true);
 					}
-					exMap.setObstacle(this.sensorPosRow, this.sensorPosCol +distance+1);
+					exMap.setObstacle(this.sensorPosRow, this.sensorPosCol +distance+1,true);
 				}
 				return;
 			case WEST:
@@ -99,7 +99,7 @@ public class Sensor {
 						}
 						exMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).setIsExplored(true);
 					}
-					exMap.setObstacle(this.sensorPosRow, this.sensorPosCol -distance-1);
+					exMap.setObstacle(this.sensorPosRow, this.sensorPosCol -distance-1,true);
 				}
 				return;
 		}

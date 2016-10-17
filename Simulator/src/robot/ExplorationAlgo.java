@@ -136,6 +136,9 @@ public class ExplorationAlgo{
 			exploredArea = countExploredArea();
 			System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
+			if (exploredArea==300){
+				return;
+			}
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}
 

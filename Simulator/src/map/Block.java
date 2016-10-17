@@ -20,9 +20,6 @@ public class Block {
 		isExplored = true;
 	}
 	
-	public void setObstacle(){
-		isObstacle = true;
-	}
 	public void setObstacle(boolean b){
 		isObstacle = b;
 	}

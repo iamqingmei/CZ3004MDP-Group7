@@ -67,9 +67,9 @@ public class ExplorationAlgo{
 		// 	}
 		// }
 		// System.out.println("All grids are explored!");
-		// //go back to start zone
-		// ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot,true);
-		// goBackToStart.runShortestPath(exMap,1,1);
+		//go back to start zone
+		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot,true);
+		goBackToStart.runShortestPath(exMap,1,1);
 
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
@@ -175,6 +175,9 @@ public class ExplorationAlgo{
 			catch(InterruptedException e)
 			{
 			     System.out.println("send msg sleeping error!!!!!!");
+			}
+			if (exploredArea==300){
+				return;
 			} 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
 	}

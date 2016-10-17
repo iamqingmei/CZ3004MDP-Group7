@@ -33,7 +33,7 @@ public class Sensor {
 					}
 					exMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow + i, this.sensorPosCol).getIsObstacle()){
-						exMap.setObstacle(this.sensorPosRow + i, this.sensorPosCol);
+						exMap.setObstacle(this.sensorPosRow + i, this.sensorPosCol,true);
 						return i;
 					}
 				}
@@ -45,7 +45,7 @@ public class Sensor {
 					}
 					exMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow - i, this.sensorPosCol).getIsObstacle()){
-						exMap.setObstacle(this.sensorPosRow - i, this.sensorPosCol);
+						exMap.setObstacle(this.sensorPosRow - i, this.sensorPosCol,true);
 						return i;
 					}
 				}
@@ -57,7 +57,7 @@ public class Sensor {
 					}
 					exMap.getBlock(this.sensorPosRow, this.sensorPosCol + i).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow, this.sensorPosCol + i).getIsObstacle()){
-						exMap.setObstacle(this.sensorPosRow, this.sensorPosCol + i);
+						exMap.setObstacle(this.sensorPosRow, this.sensorPosCol + i,true);
 						return i;
 					}
 				}
@@ -70,7 +70,7 @@ public class Sensor {
 					}
 					exMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).setIsExplored(true);
 					if (realMap.getBlock(this.sensorPosRow, this.sensorPosCol - i).getIsObstacle()){
-						exMap.setObstacle(this.sensorPosRow, this.sensorPosCol - i);
+						exMap.setObstacle(this.sensorPosRow, this.sensorPosCol - i,true);
 						return i;
 					}
 				}
