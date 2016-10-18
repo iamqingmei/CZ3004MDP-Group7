@@ -81,7 +81,29 @@ public class ExplorationAlgo{
 
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
-		turnRobotDir(DIRECTION.NORTH);
+		// turnRobotDir(DIRECTION.NORTH);
+		while(bot.getRobotCurDir() != DIRECTION.NORTH){
+			bot.moveRobot(MOVE.RIGHT);
+			// pressAnyKeyToContinue();
+			try{
+				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			}
+			CommMgr.getCommMgr().sendMsg("R","PC2AR");
+			exMap.repaint();
+			try{
+				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			}
+			exMap.mapDescriptor();
+			// System.out.println("robot facing: " + bot.getRobotCurDir());
+		}
 		return;
 	}
 
@@ -90,11 +112,6 @@ public class ExplorationAlgo{
 		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
 			// pressAnyKeyToContinue();
-			if (emergencyCalibration == true){
-				System.out.println("Emergency Calibration!!!!");
-				CommMgr.getCommMgr().sendMsg("M","PC2AR");
-				emergencyCalibration = false;
-			}
 			CommMgr.getCommMgr().sendMsg("R","PC2AR");
 			bot.setSensors();
 			sensorData = bot.sense(exMap);
@@ -166,11 +183,6 @@ public class ExplorationAlgo{
 			nextMove = getNextMove(prevMov);
 			// System.out.println("move: " + nextMove);
 			// pressAnyKeyToContinue();
-			if (emergencyCalibration == true){
-				System.out.println("Emergency Calibration!!!!");
-				CommMgr.getCommMgr().sendMsg("M","PC2AR");
-				emergencyCalibration = false;
-			}
 			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
 			bot.setSensors(); 
