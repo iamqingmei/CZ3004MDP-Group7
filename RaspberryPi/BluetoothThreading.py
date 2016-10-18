@@ -9,6 +9,7 @@ class BluetoothThreading:
 		self.btAdd = "08:60:6E:A4:E4:D4"
 		#self.mutex = threading.Lock()
 		self.isConnected = False
+
 	def connect(self):
 		#self.mutex.acquire()
 		while(1):
@@ -30,6 +31,7 @@ class BluetoothThreading:
 				pass
 			#finally:
 				#self.mutex.release()
+
 	def close(self):
 		#self.mutex.acquire()
 		try:
@@ -41,7 +43,8 @@ class BluetoothThreading:
 			pass
 		#finally:
 			#self.mutex.release()
-	def send(self,data):
+
+	def send(self, data):
 		#self.mutex.acquire()
 		try:
 			if self.isConnected == False:
@@ -53,6 +56,7 @@ class BluetoothThreading:
 			pass
 		#finally:
 			#self.mutex.release()
+
 	def receive(self):
 		#self.mutex.acquire()
 		try:
@@ -70,6 +74,7 @@ class BluetoothThreading:
 			return ""
 		#finally:
 			#self.mutex.release()
+
 	def connected(self):
 		#self.mutex.acquire()
 		try:

@@ -54,7 +54,6 @@ class ArduinoThreading:
 	def send(self,data):
 		#self.mutex.acquire()
 		try:
-			print "Arduino send() try"
 			self.ser.write(data.encode('utf-8'))
 			print "Command sent to Arduino: " + str(data)
 		except: 

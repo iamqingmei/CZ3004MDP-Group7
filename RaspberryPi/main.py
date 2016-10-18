@@ -8,6 +8,7 @@ import socket
 import serial
 import bluetooth
 import time
+import re
 
 #Message Queue
 incomingMessageQueue = Queue.Queue()
@@ -23,7 +24,6 @@ class wifiThread (threading.Thread):
 		threading.Thread.__init__(self)
 
 	def run(self):
-		
 		while True:
 			wifi.connect()
 			if (wifi.connected()):
@@ -48,7 +48,12 @@ class arduinoThread(threading.Thread):
 				if(arduino.connected()):
 					receiveData = arduino.receive()
 					if(receiveData != ""):
-						incomingMessageQueue.put(receiveData)
+						correctSensor = re.search(r'\|-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+',receiveData)
+						if correctSensor:
+							incomingMessageQueue.put(receiveData)
+						else:
+							print "Incorrect sensor data received. Requesting new reading."
+							incomingMessageQueue.put("AR2ARS")
 					else:
 						time.sleep(0.001)
 			except serial.SerialException:
@@ -100,7 +105,6 @@ class outgoingMessageThread(threading.Thread):
 				sender = outgoingMessage[:2]
 				receiver = outgoingMessage[3:5]
 				data = outgoingMessage[5:]
-
 				if receiver == "PC" :
 #					if sender == "AN"
 #						print "Sending Ack to AN"
@@ -120,9 +124,7 @@ class outgoingMessageThread(threading.Thread):
 				elif receiver == "AR" :
 					print "Sending message from " + sender + " to Arduino: " + data
 					arduino.send(data)
-					#print "Back to main()"
 					print "Message sent to Arduino"
-
 				outgoingMessageQueue.task_done()
 
 			except BaseException as ErrorMsg:

@@ -17,6 +17,7 @@ class WifiThreading:
 		self.conn = None
 		self.address = None
 		#self.mutex = threading.Lock()
+
 	def connected(self):
 		#self.mutex.acquire()
 		try:
@@ -25,6 +26,7 @@ class WifiThreading:
 			pass
 		#finally:
 			#self.mutex.release()
+
 	def connect(self):
 		#self.mutex.acquire()
 		try:
@@ -60,6 +62,7 @@ class WifiThreading:
 			pass
 		#finally:
 			#self.mutex.release()
+
 	def send(self, data):
 		#print "WIFI Acquiring mutex"
 		#self.mutex.acquire()
@@ -75,6 +78,7 @@ class WifiThreading:
 			print ErrorMsg
 		#finally:
 			#self.mutex.release()
+
 	def receive(self):
 		#self.mutex.acquire()
 		try:
