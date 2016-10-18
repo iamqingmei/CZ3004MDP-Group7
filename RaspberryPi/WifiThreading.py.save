@@ -21,7 +21,7 @@ class WifiThreading:
 		#self.mutex.acquire()
 		try:
 			return self.isConnected
-		except: 
+		except:
 			pass
 		#finally:
 			#self.mutex.release()
@@ -38,6 +38,7 @@ class WifiThreading:
 
 				self.socket.listen(10)
 				print "Socket Now Listening"
+				
 				self.socket.setblocking(1)
 				(self.conn, self.address) = self.socket.accept()
 				print "Connected with:" + self.address[0] + ":" + str(self.address[1])
@@ -89,7 +90,7 @@ class WifiThreading:
 				print "Message received from PC: " + result[5:]
 			return result
 		except Exception as ErrorMsg:
-			return ""
+			return "
 		#finally:
 			#self.mutex.release()
 

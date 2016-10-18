@@ -26,7 +26,6 @@ class wifiThread (threading.Thread):
 		
 		while True:
 			wifi.connect()
-			
 			if (wifi.connected()):
 				receiveData = wifi.receive()
 				if(receiveData != ""):
@@ -65,12 +64,12 @@ class androidThread (threading.Thread):
 		while True:
 			try:
 				android.connect()
-				
-				receiveData = android.receive()
-				if(receiveData != ""):
-					incomingMessageQueue.put(receiveData)
-				else:
-					time.sleep(0.001)
+				if(android.connected()):
+					receiveData = android.receive()
+					if(receiveData != ""):
+						incomingMessageQueue.put(receiveData)
+					else:
+						time.sleep(0.001)
 			except bluetooth.BluetoothError:
 				print "Connecting to Nexus 7 failed, retrying"
 			except ValueError as ErrorMsg:
@@ -121,6 +120,7 @@ class outgoingMessageThread(threading.Thread):
 				elif receiver == "AR" :
 					print "Sending message from " + sender + " to Arduino: " + data
 					arduino.send(data)
+					#print "Back to main()"
 					print "Message sent to Arduino"
 
 				outgoingMessageQueue.task_done()
@@ -128,7 +128,7 @@ class outgoingMessageThread(threading.Thread):
 			except BaseException as ErrorMsg:
 				pass
 			except Exception as ErrorMsg:
-				time.sleep(0.01)
+				time.sleep(0.001)
 
 wifiThread = wifiThread()
 arduinoThread = arduinoThread()
@@ -144,9 +144,9 @@ androidThread.start()
 incomingMessageThread.start()
 outgoingMessageThread.start()
 
-#wifiThread.join()
-#arduinoThread.join()
+wifiThread.join()
+arduinoThread.join()
 androidThread.join()
 
-#incomingMessageThread.join()
-#outgoingMessageThread.join()
+incomingMessageThread.join()
+outgoingMessageThread.join()

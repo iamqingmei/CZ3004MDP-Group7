@@ -7,10 +7,10 @@ class BluetoothThreading:
 		self.UUID = "00001101-0000-1000-8000-00805F9B34FB"
 		self.client_sock = BluetoothSocket ( RFCOMM )
 		self.btAdd = "08:60:6E:A4:E4:D4"
-		self.mutex = threading.Lock()
+		#self.mutex = threading.Lock()
 		self.isConnected = False
 	def connect(self):
-		self.mutex.acquire()
+		#self.mutex.acquire()
 		while(1):
 			try:
 				if self.isConnected == True:
@@ -26,29 +26,35 @@ class BluetoothThreading:
 					self.isConnected = True
 				except BluetoothError as ErrorMsg:
 					pass
-			finally:
-				self.mutex.release()
+			except:
+				pass
+			#finally:
+				#self.mutex.release()
 	def close(self):
-		self.mutex.acquire()
+		#self.mutex.acquire()
 		try:
 			self.client_sock.setblocking(1)
 			self.client_sock.close()
 			self.isConnected = False
 			print "Bluetooth disconnected"
-		finally:
-			self.mutex.release()
+		except:
+			pass
+		#finally:
+			#self.mutex.release()
 	def send(self,data):
-		self.mutex.acquire()
+		#self.mutex.acquire()
 		try:
 			if self.isConnected == False:
 				print "Bluetooth not connected. No data sent."
 				return None
 			self.client_sock.setblocking(1)
 			self.client_sock.send(data.encode('utf-8'))
-		finally:
-			self.mutex.release()
+		except:
+			pass
+		#finally:
+			#self.mutex.release()
 	def receive(self):
-		self.mutex.acquire()
+		#self.mutex.acquire()
 		try:
 			if self.isConnected == False:
 				print "Bluetooth not connected. No data received."
@@ -62,11 +68,13 @@ class BluetoothThreading:
 			return result
 		except IOError:
 			return ""
-		finally:
-			self.mutex.release()
+		#finally:
+			#self.mutex.release()
 	def connected(self):
-		self.mutex.acquire()
+		#self.mutex.acquire()
 		try:
 			return self.isConnected
-		finally:
-			self.mutex.release()
+		except:
+			pass
+		#finally:
+			#self.mutex.release()
