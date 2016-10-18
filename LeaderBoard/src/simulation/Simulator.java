@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import map.Map; 
 import map.Block;
 import robot.Robot;
+import robot.RobotConstants;
 import robot.RobotConstants.MOVE;
 import robot.RobotConstants.DIRECTION;
 import robot.ShortestPathAlgo;
@@ -46,6 +47,10 @@ public class Simulator {
 
 		realMap = new Map(bot);
 		realMap.setAllUnexplored();
+
+		//goal zone and start zone is confirmed free
+		zoneConfirmFree(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
+		zoneConfirmFree(RobotConstants.STARTING_ROW,RobotConstants.STARTING_COL);
 
 		displayEverythings();
 		CommMgr.getCommMgr().setConnection(60000);
@@ -356,6 +361,18 @@ public class Simulator {
 			}
 		});
 		_mainButtons.add(btn_mdf);
+	}
+
+	private static void zoneConfirmFree(int r, int c){
+		realMap.getBlock(r,c).setConfirmFree(true);
+		realMap.getBlock(r+1,c).setConfirmFree(true);
+		realMap.getBlock(r-1,c).setConfirmFree(true);
+		realMap.getBlock(r,c+1).setConfirmFree(true);
+		realMap.getBlock(r+1,c+1).setConfirmFree(true);
+		realMap.getBlock(r-1,c+1).setConfirmFree(true);
+		realMap.getBlock(r,c-1).setConfirmFree(true);
+		realMap.getBlock(r+1,c-1).setConfirmFree(true);
+		realMap.getBlock(r-1,c-1).setConfirmFree(true);
 	}
 
 }

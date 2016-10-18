@@ -52,7 +52,7 @@ public class ExplorationAlgo{
 		{
 		     System.out.println("send msg sleeping error!!!!!!");
 		} 
-		looping(1,1);
+		looping(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
 
 		//continue to explore the Unexplored area
 		// while (exploredArea!= MapConstants.MAP_SIZE){
@@ -70,8 +70,11 @@ public class ExplorationAlgo{
 		// System.out.println("All grids are explored!");
 
 		//go back to start zone
-		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot,true);
-		goBackToStart.runShortestPath(exMap,1,1);
+		System.out.println("start to calculate the FastestPath to go back to start zone");
+		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot);
+		StringBuilder output = goBackToStart.runShortestPath(exMap,1,1);
+		System.out.println("Fastest Path is : " + output);
+		CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
 
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
@@ -184,7 +187,7 @@ public class ExplorationAlgo{
 				//return when the whole map is explored
 				return;
 			} 
-		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r); //back to the START zone
+		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r);
 	}
 
 	private int countExploredArea(){

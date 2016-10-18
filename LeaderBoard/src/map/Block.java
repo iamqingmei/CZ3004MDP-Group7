@@ -25,6 +25,7 @@ public class Block {
 	
 	public void setObstacle(boolean b){
 		if (this.confirmFree == true){
+			System.out.println("Ooops, be careful, robot!");
 			isObstacle=false;
 			return;
 		}
