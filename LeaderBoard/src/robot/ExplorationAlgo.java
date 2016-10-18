@@ -52,7 +52,8 @@ public class ExplorationAlgo{
 		{
 		     System.out.println("send msg sleeping error!!!!!!");
 		} 
-		looping(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
+		// looping(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
+		looping(RobotConstants.STARTING_ROW,RobotConstants.STARTING_COL);
 
 		//continue to explore the Unexplored area
 		// while (exploredArea!= MapConstants.MAP_SIZE){
@@ -74,7 +75,9 @@ public class ExplorationAlgo{
 		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot);
 		StringBuilder output = goBackToStart.runShortestPath(exMap,1,1);
 		System.out.println("Fastest Path is : " + output);
-		CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
+		if (output.length() != 0){
+		    CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
+		}
 
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)

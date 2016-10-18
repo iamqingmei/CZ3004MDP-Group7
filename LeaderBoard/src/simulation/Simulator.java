@@ -152,7 +152,9 @@ public class Simulator {
 		    	while(!startRace.equals("race")){
 		    		startRace = CommMgr.getCommMgr().recvMsg();
 		    	}
-				CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
+		    	if (output.length() != 0){
+		    		CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
+		    	}
 				return 222;
 			}
 		}
