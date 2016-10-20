@@ -181,7 +181,7 @@ public class Robot{
 		longFront.sense(simExMap,result[0]);
 		shortRF.sense(simExMap,result[1]);
 		shortLF.sense(simExMap,result[2]);
-		shortR.sense(simExMap,result[3]);
+		shortR.sense(simExMap,result[3],true);
 		shortL.sense(simExMap,result[4]);
 		return result;
 	}
