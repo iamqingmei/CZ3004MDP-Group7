@@ -38,7 +38,7 @@ public class ExplorationAlgo{
 
 	public void runExploration(){
 		start = System.currentTimeMillis();
-		end = start + 330*1000; // 60 seconds * 1000 ms/sec
+		end = start + 330*1000; // 330 seconds * 1000 ms/sec
 		pathTakenIsConfirmedFree();
 		bot.setSensors();
 		sensorData = bot.sense(exMap);
