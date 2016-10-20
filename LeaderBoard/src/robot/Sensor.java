@@ -122,7 +122,7 @@ public class Sensor {
 		return;
 	}
 
-	public void sense(Map exMap, int distance, boolean rightLongSensor){
+	public void sense(Map exMap, int distance, boolean noConfirmFree){
 		switch(sensorDirection){
 			case NORTH:
 				if (distance>this.range){ // no obstacle
