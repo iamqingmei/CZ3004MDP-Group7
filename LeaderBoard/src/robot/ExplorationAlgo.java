@@ -34,6 +34,7 @@ public class ExplorationAlgo{
 
 
 	public void runExploration(){
+		pathTakenIsConfirmedFree();
 		bot.setSensors();
 		sensorData = bot.sense(exMap);
 		// sensorData[0] = longFront
@@ -114,6 +115,7 @@ public class ExplorationAlgo{
 			// pressAnyKeyToContinue();
 			CommMgr.getCommMgr().sendMsg("R","PC2AR");
 			bot.setSensors();
+			pathTakenIsConfirmedFree();
 			sensorData = bot.sense(exMap);
 			exMap.repaint();
 			exMap.mapDescriptor();
@@ -178,7 +180,6 @@ public class ExplorationAlgo{
 		MOVE prevMov = null;
 		do{
 			//the path taken is confirmed free
-			pathTakenIsConfirmedFree();
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
 			// System.out.println("move: " + nextMove);
@@ -186,6 +187,7 @@ public class ExplorationAlgo{
 			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
 			bot.setSensors(); 
+			pathTakenIsConfirmedFree();
 			sensorData = bot.sense(exMap); //wait for receive sensor data
 			exploredArea = countExploredArea();
 			// System.out.println("exploredArea: " + exploredArea);
