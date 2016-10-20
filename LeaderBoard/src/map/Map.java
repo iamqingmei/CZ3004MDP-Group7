@@ -379,15 +379,16 @@ public class Map extends JPanel {
 			}	
 		}
 		// System.out.println(DescriptorFormat);
-		while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
-			DescriptorFormat = "0" + DescriptorFormat;
-		DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-		DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-		while(DescriptorFormatHex.length()!= 1) // pad 0s in front according to string length
-			DescriptorFormatHex = DescriptorFormatHex + "0";
-		// System.out.println("last df:" + DescriptorFormatHex);
-		DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
-
+		if (DescriptorFormat.length() !=0){
+			while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
+				DescriptorFormat = "0" + DescriptorFormat;
+			DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
+			DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
+			while(DescriptorFormatHex.length()!= 1) // pad 0s in front according to string length
+				DescriptorFormatHex = DescriptorFormatHex + "0";
+			// System.out.println("last df:" + DescriptorFormatHex);
+			DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
+		}
 		CommMgr.getCommMgr().sendMsg("String1:"+DescriptorFinal +" String2:" + DescriptorFinal2, "PC2AN");
 	}								
 }
