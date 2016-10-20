@@ -19,6 +19,9 @@ public class ExplorationAlgo{
 	// private ArrayList<Block> pathTaken= new ArrayList<Block>();
 	private int exploredArea;
 	private int[] sensorData;
+	private long start = 0;
+	private long end = 0;
+
 
 	public static boolean emergencyCalibration = false;
 
@@ -34,6 +37,8 @@ public class ExplorationAlgo{
 
 
 	public void runExploration(){
+		start = System.currentTimeMillis();
+		end = start + 330*1000; // 60 seconds * 1000 ms/sec
 		pathTakenIsConfirmedFree();
 		bot.setSensors();
 		sensorData = bot.sense(exMap);
@@ -77,6 +82,7 @@ public class ExplorationAlgo{
 		StringBuilder output = goBackToStart.runShortestPath(exMap,1,1);
 		System.out.println("Fastest Path is : " + output);
 		if (output.length() != 0){
+			//only send out the string when it is not empty
 		    CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
 		}
 
@@ -202,6 +208,10 @@ public class ExplorationAlgo{
 			}
 			if (exploredArea==MapConstants.MAP_SIZE){
 				//return when the whole map is explored
+				return;
+			}
+			if (System.currentTimeMillis() > end){
+				System.out.println("Time is up! Directly go back to start zone");
 				return;
 			} 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r);
