@@ -261,7 +261,8 @@ public class Simulator {
 				JTextField columnTF = new JTextField(2);
 				JButton addButton = new JButton("Add");
 				JButton removeButton = new JButton("Remove");
-				JButton printObButton = new JButton("Print");
+				JButton printObButton = new JButton("Print Obstacles");
+				JButton printVirtualWall = new JButton("Print Virtual Wall");
 
 				
 				addButton.addMouseListener(new MouseAdapter() {
@@ -300,6 +301,18 @@ public class Simulator {
 					}
 				});
 
+				printVirtualWall.addMouseListener(new MouseAdapter(){
+					public void mousePressed(MouseEvent e){
+						for (int i=0; i < MapConstants.MAP_ROW; i++){
+							for (int j=0; j< MapConstants.MAP_COL; j++){
+								if (realMap.getBlock(i,j).getIsVirtualWall()){
+									System.out.println("Virtual wall at " + i + "," + j);
+								}
+							}
+						}
+					}
+				});
+
 				Box box1 = Box.createVerticalBox();
 		        box1.add(new JLabel("Enter row number: "));
 		        box1.add(rowTF);
@@ -312,6 +325,7 @@ public class Simulator {
 		        d3.add(addButton);
 		        d3.add(removeButton);
 		        d3.add(printObButton);
+		        d3.add(printVirtualWall);
 		        d3.setVisible(true);
 			}
 		});
