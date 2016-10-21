@@ -35,6 +35,14 @@ public class ShortestPathAlgo{
 		curDir = bot.getRobotCurDir();
 		gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
 
+		//initialize the virtual wall
+		for (int i=0;i< MapConstants.MAP_ROW;i++){
+			for (int j=0;j<MapConstants.MAP_COL;j++){
+				if (theMap.getBlock(i,j).getIsObstacle()){
+					theMap.setVirtualWall(i,j,true);
+				}
+			}
+		}
 		//initialize gScores arrays
 		for (int i = 0; i < MapConstants.MAP_ROW; i++) {
 			for (int j = 0; j < MapConstants.MAP_COL; j++) {

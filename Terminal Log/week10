@@ -1,0 +1,457 @@
+Last login: Fri Oct 21 08:54:53 on ttys001
+Ageha@Qingmeis-MacBook-Air [08:57:54] [~] 
+-> % cd Documents/CZ3004MDP-Group7/LeaderBoard 
+Ageha@Qingmeis-MacBook-Air [08:57:59] [~/Documents/CZ3004MDP-Group7/LeaderBoard] [master *]
+-> % ./runLeaderBoard.sh 
+Starts to set Connection
+setConnection() --> Connection established successfully!
+If it is connected: true
+waiting for Andriod command
+Waiting for receiving msg!
+explore
+start exploration
+Waiting for receiving msg!
+|0:62:62:62:63
+Sending out message: PC2ANGrid: 000000000000000000000000000000000000000000000000000000000000000000000000000 [1, 1, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:62:62:62:20
+Sending out message: PC2ANGrid: 000000000000200000000000000000000000000000000000000000000000000000000000000 [1, 2, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:62:62:62:13
+Sending out message: PC2ANGrid: 000000000000200080000000000000000000000000000000000000000000000000000000000 [1, 3, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:62:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000000000000000000000000000000000000000000000000 [1, 4, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:62:62:46:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000000000000000000000000000000000000000000000000 [1, 5, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:62:62:40:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000000000000000000000000000000000000000000000000 [1, 6, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:62:62:29:0
+Sending out message: PC2ANGrid: 000000000000200080000000000000100000000000000000000000000000000000000000000 [1, 7, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:28:0
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020000000000000000000000000000000000000000 [1, 8, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:61:60:26:0
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000000000000000000000000000000000000 [1, 9, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:45:32:25:40
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080000000000000000000000000000000 [1, 10, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:32:35:25:40
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010000000000000000000000000000 [1, 11, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:20:20:19:39
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000000000000000000000000 [1, 12, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:8:8:8:39
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400000e00000000000000 [1, 13, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:-1:-1:-1:0
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [1, 14, N]
+north error!
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|2:-1:41:24:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [1, 14, E]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|20:62:62:62:2
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [1, 14, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|20:62:62:62:2
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [1, 13, S]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|10:45:53:25:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [1, 13, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:33:35:25:13
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [2, 13, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|20:20:20:20:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [3, 13, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|20:9:8:8:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [4, 13, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|21:-1:-1:-1:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [5, 13, E]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|19:62:62:25:-2
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400800e00000000000000 [5, 13, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|2:57:60:26:-2
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880e00000000000000 [5, 14, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|2:39:37:24:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [5, 15, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|20:23:24:22:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [5, 16, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|17:12:11:11:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [5, 17, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|21:1:0:0:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [5, 18, N]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|58:49:56:23:2
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [5, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-1:37:41:24:2
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [4, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:22:23:22:0
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [3, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|2:11:11:12:-2
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [2, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|3:0:0:1:-3
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [1, 18, W]
+west error!
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|1:-1:-1:-1:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [1, 18, N]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|0:62:62:62:0
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [1, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:62:-1
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [2, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:62:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [3, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:48:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [4, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:41:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [5, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:34:12
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [6, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:26:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [7, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:62:62:24:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [8, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|0:47:39:24:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002000400880f00000000000000 [9, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|2:29:29:24:29
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400880f00000000000000 [10, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:16:16:15:61
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400880f00000000000000 [11, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:5:4:4:63
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400880f00000000000000 [12, 18, E]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:0:6:1:8
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400881f00000000000000 [13, 18, E]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|-2:8:62:28:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400881f00000000000000 [13, 18, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-3:1:62:26:47
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400881f00000000000000 [13, 17, S]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|20:52:62:34:16
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400881f00000000000000 [13, 17, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|18:41:33:34:18
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400881f00000000000000 [12, 17, W]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|9:55:62:25:34
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400881f10000000000000 [12, 17, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|7:41:59:25:37
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200400881f10000000000000 [12, 16, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|5:33:35:26:-3
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [12, 15, S]
+south error!
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|25:-1:49:24:37
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [12, 15, W]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|18:43:48:25:10
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [12, 15, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|58:30:28:23:13
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [12, 16, N]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|50:42:48:26:26
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [12, 16, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|3:28:30:25:28
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [11, 16, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|58:17:15:13:33
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [10, 16, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+Sending out message: PC2ARS
+|58:5:2:1:34
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [9, 16, W]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|1:40:48:25:40
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [9, 16, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|14:27:26:22:42
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [9, 17, N]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|20:15:13:11:47
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [9, 18, N]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|58:1:62:26:16
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [9, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:16:38:26:18
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [8, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:33:23:19:20
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [7, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|58:12:10:32:19
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [6, 18, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|58:1:-1:17:20
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [5, 18, W]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|19:-1:62:62:2
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [5, 18, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:62:62:62:53
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [5, 17, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:62:62:62:47
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [5, 16, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:62:62:62:53
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000080010002200480881f10000000000000 [5, 15, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:62:5:62:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020004000280010002200480881f10000000000000 [5, 14, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:62:0:12:22
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000280010002200480881f10000000000000 [5, 13, S]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|9:28:62:33:63
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000280010002200480881f10000000000000 [5, 13, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|17:16:62:28:25
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000280010002200480881f10000000000000 [4, 13, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|29:5:27:26:20
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000280010002200480881f10000000000000 [3, 13, W]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|16:11:16:48:6
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000280010002200480881f10000000000000 [3, 13, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|5:2:8:27:10
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [3, 12, S]
+Sending out message: PC2ARR
+Waiting for receiving msg!
+|24:8:4:23:29
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [3, 12, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|22:-1:0:22:9
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [2, 12, W]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|54:0:2:23:47
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [1, 12, W]
+Sending out message: PC2ARL
+Waiting for receiving msg!
+|17:62:62:2:-4
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [1, 12, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|11:62:62:6:-5
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [1, 11, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|2:30:48:22:34
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [1, 10, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|39:17:26:11:37
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [1, 9, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|58:5:13:-1:39
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000000000000100020006000380010002200480881f10000000000000 [1, 8, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|1:0:3:62:-3
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080000004000000100020006000380010002200480881f10000000000000 [1, 7, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:12:-1:62:2
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200080020004000000100020006000380010002200480881f10000000000000 [1, 6, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:20:0:62:-5
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000200180020004000000100020006000380010002200480881f10000000000000 [1, 5, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-5:29:3:62:-5
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000000000a00180020004000000100020006000380010002200480881f10000000000000 [1, 4, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-3:10:5:6:-2
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000000004000a00180020004000000100020006000380010002200480881f10000000000000 [1, 3, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-3:9:2:4:-2
+Ooops, be careful, robot!
+Ooops, be careful, robot!
+Sending out message: PC2ANGrid: 000020004000a00180020004000000100020006000380010002200480881f10000000000000 [1, 2, S]
+Sending out message: PC2ARF
+Waiting for receiving msg!
+|-2:7:3:5:-3
+Sending out message: PC2ANGrid: 100020004000a00180020004000000100020006000380010002200480881f10000000000000 [1, 1, S]
+start to calculate the FastestPath to go back to start zone
+Start to find the shortest path from (1, 1) to goal (1, 1)
+Path found!
+Fastest Path is : 
+Sending out message: PC2ARR
+Sending out message: PC2ANGrid: 100020004000a00180020004000000100020006000380010002200480881f10000000000000 [1, 1, W]
+Sending out message: PC2ARR
+Sending out message: PC2ANGrid: 100020004000a00180020004000000100020006000380010002200480881f10000000000000 [1, 1, N]
+Sending out message: PC2ANGrid: 100020004000a00180020004000000100020006000380010002200480881f10000000000000 [1, 1, N]
+Sending out message: PC2ANString1:fc007800ff01f803e007f80ff01fe03f807f00fe01fe03fff7ffefffffffffffffffffffffff String2:11101462020002040c07010004401202207c40000000000000
+exploration spend: 311second
+start to calculate FastestPath
+Start to find the shortest path from (1, 1) to goal (18, 13)
+Path not found!
+Fastest Path is : null
+Waiting for receiving msg!
+

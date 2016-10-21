@@ -38,23 +38,24 @@ public class ExplorationAlgo{
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
-		looping(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
+		looping(RobotConstants.STARTING_ROW,RobotConstants.STARTING_COL);
 
-		//continue to explore the Unexplored area
-		// while (exploredArea!=300){
-		// 	System.out.println("there are still unexplored areas!!!!");
-		// 	Block nearestUnexplored = nearestUnexploredGrid();
-		// 	System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
-		// 	Block nearbyOb = nearbyObstacle(nearestUnexplored);
-		// 	if (nearbyOb!=null){
-		// 		System.out.println("Nearby Obstacle: " + nearbyOb.getRow() + ", " + nearbyOb.getCol());
-		// 		exploredGridNearOb(nearbyOb);
-		// 	}
-		// 	else{
-		// 		exploredGridNearOb(nearestUnexplored);
-		// 	}
-		// }
-		// System.out.println("All grids are explored!");
+		// continue to explore the Unexplored area
+		while (exploredArea!=300){
+			System.out.println("there are still unexplored areas!!!!");
+			Block nearestUnexplored = nearestUnexploredGrid();
+			System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
+			Block nearbyOb = nearbyObstacle(nearestUnexplored);
+			if (nearbyOb!=null){
+				System.out.println("Nearby Obstacle: " + nearbyOb.getRow() + ", " + nearbyOb.getCol());
+				exploredGridNearOb(nearbyOb);
+			}
+			else{
+				exploredGridNearOb(nearestUnexplored);
+			}
+		}
+		System.out.println("All grids are explored!");
+
 		//go back to start zone
 		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot);
 		goBackToStart.runShortestPath(exMap,1,1);

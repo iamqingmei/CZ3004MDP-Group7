@@ -94,58 +94,60 @@ public class Map extends JPanel {
 
 	public void setObstacle(int r, int c,boolean b){
 		this.blocks[r][c].setObstacle(b);
-		if (b==true){
-			if (r >= 1){
-				this.blocks[r-1][c].setVirtualWall(true);
-				if (c < MapConstants.MAP_COL - 1){
-					this.blocks[r-1][c+1].setVirtualWall(true);
-				}
-				if (c >= 1){
-					this.blocks[r-1][c-1].setVirtualWall(true);
-				}
+		// this.blocks[r][c].setVirtualWall(b);
+		// if (r >= 1){
+		// 	this.blocks[r-1][c].setVirtualWall(b);
+		// 	if (c < MapConstants.MAP_COL - 1){
+		// 		this.blocks[r-1][c+1].setVirtualWall(b);
+		// 	}
+		// 	if (c >= 1){
+		// 		this.blocks[r-1][c-1].setVirtualWall(b);
+		// 	}
+		// }
+		// if (c >= 1){
+		// 	this.blocks[r][c-1].setVirtualWall(b);
+		// 	if (r < MapConstants.MAP_ROW - 1){
+		// 		this.blocks[r+1][c-1].setVirtualWall(b);
+		// 	}	
+		// }
+		// if (r < MapConstants.MAP_ROW - 1){
+		// 	this.blocks[r+1][c].setVirtualWall(b);
+		// 	if (c < MapConstants.MAP_COL - 1){
+		// 		this.blocks[r+1][c+1].setVirtualWall(b);
+		// 	}
+		// }
+		// if (c < MapConstants.MAP_COL - 1){
+		// 	this.blocks[r][c+1].setVirtualWall(b);
+		// }
+	
+	}
+
+	public void setVirtualWall(int r, int c, boolean b){
+		this.blocks[r][c].setVirtualWall(b);
+		if (r >= 1){
+			this.blocks[r-1][c].setVirtualWall(b);
+			if (c < MapConstants.MAP_COL - 1){
+				this.blocks[r-1][c+1].setVirtualWall(b);
 			}
 			if (c >= 1){
-				this.blocks[r][c-1].setVirtualWall(true);
-				if (r < MapConstants.MAP_ROW - 1){
-					this.blocks[r+1][c-1].setVirtualWall(true);
-				}	
-			}
-			if (r < MapConstants.MAP_ROW - 1){
-				this.blocks[r+1][c].setVirtualWall(true);
-				if (c < MapConstants.MAP_COL - 1){
-					this.blocks[r+1][c+1].setVirtualWall(true);
-				}
-			}
-			if (c < MapConstants.MAP_COL - 1){
-				this.blocks[r][c+1].setVirtualWall(true);
+				this.blocks[r-1][c-1].setVirtualWall(b);
 			}
 		}
-		else{
-			if (r >= 1){
-				this.blocks[r-1][c].setVirtualWall(false);
-				if (c < MapConstants.MAP_COL - 1){
-					this.blocks[r-1][c+1].setVirtualWall(false);
-				}
-				if (c >= 1){
-					this.blocks[r-1][c-1].setVirtualWall(false);
-				}
-			}
-			if (c >= 1){
-				this.blocks[r][c-1].setVirtualWall(false);
-				if (r < MapConstants.MAP_ROW - 1){
-					this.blocks[r+1][c-1].setVirtualWall(false);
-				}	
-			}
+		if (c >= 1){
+			this.blocks[r][c-1].setVirtualWall(b);
 			if (r < MapConstants.MAP_ROW - 1){
-				this.blocks[r+1][c].setVirtualWall(false);
-				if (c < MapConstants.MAP_COL - 1){
-					this.blocks[r+1][c+1].setVirtualWall(false);
-				}
-			}
+				this.blocks[r+1][c-1].setVirtualWall(b);
+			}	
+		}
+		if (r < MapConstants.MAP_ROW - 1){
+			this.blocks[r+1][c].setVirtualWall(b);
 			if (c < MapConstants.MAP_COL - 1){
-				this.blocks[r][c+1].setVirtualWall(false);
+				this.blocks[r+1][c+1].setVirtualWall(b);
 			}
-		}	
+		}
+		if (c < MapConstants.MAP_COL - 1){
+			this.blocks[r][c+1].setVirtualWall(b);
+		}
 	}
 
 	public void paintComponent(Graphics g) {
