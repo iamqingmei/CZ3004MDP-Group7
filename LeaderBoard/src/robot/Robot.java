@@ -160,7 +160,7 @@ public class Robot{
 	public int[] sense(Map simExMap){
 		int[] result = new int[5];
 	
-		String sensorData = CommMgr.getCommMgr().recvMsg();
+		String sensorData = CommMgr.getCommMgr().recvSensorData();
 		
 		// System.out.println("sensorData: "+ sensorData);
 		
