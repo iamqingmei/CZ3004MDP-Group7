@@ -134,7 +134,21 @@ public class Simulator {
 				ExplorationAlgo exploration = new ExplorationAlgo(realMap, bot);
 				exploration.runExploration();
 				realMap.repaint();
+				try{
+					TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+				}
+				catch(InterruptedException e)
+				{
+				     System.out.println("send msg sleeping error!!!!!!");
+				} 
 				realMap.mapDescriptor();
+				try{
+					TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+				}
+				catch(InterruptedException e)
+				{
+				     System.out.println("send msg sleeping error!!!!!!");
+				} 
 				realMap.finalMap();
 				long end = System.currentTimeMillis();
 				long duration = (end - start)/1000;

@@ -146,7 +146,7 @@ public class CommMgr{
 					System.out.println("No response for sensor data");
 					sendMsg("S","PC2AR");
 				}
-			}, new Date(), 3*1000);
+			}, 10*1000, 10*1000);
 			String input = br.readLine();
 			if (input != null && input.length() > 0){
 				System.out.println(input);
