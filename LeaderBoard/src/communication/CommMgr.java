@@ -137,20 +137,20 @@ public class CommMgr{
 	}
 
 	public String recvSensorData(){
-		Timer timer = new Timer();
+		// Timer timer = new Timer();
 		System.out.println("Waiting for sensor data!");
 		try{
-			timer.scheduleAtFixedRate(new TimerTask() {
-				@Override
-				public void run() {
-					System.out.println("No response for sensor data");
-					sendMsg("S","PC2AR");
-				}
-			}, 10*1000, 10*1000);
+			// timer.scheduleAtFixedRate(new TimerTask() {
+			// 	@Override
+			// 	public void run() {
+			// 		System.out.println("No response for sensor data");
+			// 		sendMsg("S","PC2AR");
+			// 	}
+			// }, 10*1000, 10*1000);
 			String input = br.readLine();
 			if (input != null && input.length() > 0){
 				System.out.println(input);
-				timer.cancel();
+				// timer.cancel();
 				return input;
 			}
 		} catch (IOException e){
