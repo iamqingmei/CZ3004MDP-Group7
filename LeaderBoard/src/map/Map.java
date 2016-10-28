@@ -391,6 +391,14 @@ public class Map extends JPanel {
 			// System.out.println("last df:" + DescriptorFormatHex);
 			DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
 		}
-		CommMgr.getCommMgr().sendMsg("String1:"+DescriptorFinal +" String2:" + DescriptorFinal2, "PC2AN");
+
+		// pass the robot position to android
+		String robotString = " ";
+		robotString += theRobot.getRobotPosCol();
+		robotString += ",";
+		robotString += theRobot.getRobotPosRow();
+		robotString += ",";
+		robotString += DIRECTION.printDir(theRobot.getRobotCurDir());
+		CommMgr.getCommMgr().sendMsg("String1:"+DescriptorFinal +" String2:" + DescriptorFinal2 + robotString, "PC2AN");
 	}								
 }

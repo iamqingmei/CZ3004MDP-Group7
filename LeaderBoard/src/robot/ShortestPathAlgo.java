@@ -216,15 +216,17 @@ public class ShortestPathAlgo{
 					bot.setSensors();
 					bot.sense(this.map);//waiting for sensor data
 				}
-				try{
-					TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-				}
-				catch(InterruptedException e)
-				{
-				     System.out.println("send msg sleeping error!!!!!!");
-				} 
+				
 				this.map.repaint();
-				this.map.MDFString(); 
+
+				// try{
+				// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+				// }
+				// catch(InterruptedException e)
+				// {
+				//      System.out.println("send msg sleeping error!!!!!!");
+				// } 
+				// this.map.MDFString(); 
 				
 			}
 			return null;

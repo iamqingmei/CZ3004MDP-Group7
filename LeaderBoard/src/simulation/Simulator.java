@@ -127,13 +127,11 @@ public class Simulator {
 		    	}
 		    	System.out.println("start exploration");
 		    	long start = System.currentTimeMillis();
-
-				// bot.setRobotPos(1,1);
-				realMap.repaint();
 				
 				ExplorationAlgo exploration = new ExplorationAlgo(realMap, bot);
 				exploration.runExploration();
 				realMap.repaint();
+
 				try{
 					TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 				}
@@ -142,6 +140,7 @@ public class Simulator {
 				     System.out.println("send msg sleeping error!!!!!!");
 				} 
 				realMap.MDFString();
+
 				long end = System.currentTimeMillis();
 				long duration = (end - start)/1000;
 				System.out.println("exploration spend: " + duration + "second");

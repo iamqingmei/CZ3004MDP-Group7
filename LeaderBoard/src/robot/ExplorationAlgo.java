@@ -50,14 +50,16 @@ public class ExplorationAlgo{
 		exploredArea = countExploredArea();
 		// System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
-		exMap.MDFString();
-		try{
-			TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-		}
-		catch(InterruptedException e)
-		{
-		     System.out.println("send msg sleeping error!!!!!!");
-		} 
+
+		// exMap.MDFString();
+		// try{
+		// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+		// }
+		// catch(InterruptedException e)
+		// {
+		//      System.out.println("send msg sleeping error!!!!!!");
+		// } 
+
 		// looping(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
 		looping(RobotConstants.STARTING_ROW,RobotConstants.STARTING_COL);
 
@@ -101,14 +103,17 @@ public class ExplorationAlgo{
 			}
 			CommMgr.getCommMgr().sendMsg("R","PC2AR");
 			exMap.repaint();
-			try{
-				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("send msg sleeping error!!!!!!");
-			}
-			exMap.MDFString();
+
+			// try{
+			// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+			// }
+			// catch(InterruptedException e)
+			// {
+			//      System.out.println("send msg sleeping error!!!!!!");
+			// }
+			// exMap.MDFString();
+
+
 			// System.out.println("robot facing: " + bot.getRobotCurDir());
 		}
 		return;
@@ -124,15 +129,17 @@ public class ExplorationAlgo{
 			pathTakenIsConfirmedFree();
 			sensorData = bot.sense(exMap);
 			exMap.repaint();
-			exMap.MDFString();
-			// System.out.println("robot facing: " + bot.getRobotCurDir());
-			try{
-				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("send msg sleeping error!!!!!!");
-			} 
+
+
+			// exMap.MDFString();
+			// try{
+			// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+			// }
+			// catch(InterruptedException e)
+			// {
+			//      System.out.println("send msg sleeping error!!!!!!");
+			// } 
+
 		}
 	}
 	// return the explored gird which is near obstacle
@@ -198,14 +205,17 @@ public class ExplorationAlgo{
 			exploredArea = countExploredArea();
 			// System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-			exMap.MDFString(); //send map layout and robot position to android
-			try{
-				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("send msg sleeping error!!!!!!");
-			}
+
+
+			// exMap.MDFString(); //send map layout and robot position to android
+			// try{
+			// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+			// }
+			// catch(InterruptedException e)
+			// {
+			//      System.out.println("send msg sleeping error!!!!!!");
+			// }
+			
 			if (exploredArea==MapConstants.MAP_SIZE){
 				//return when the whole map is explored
 				return;
