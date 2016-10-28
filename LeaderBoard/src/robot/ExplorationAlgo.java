@@ -50,7 +50,7 @@ public class ExplorationAlgo{
 		exploredArea = countExploredArea();
 		// System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
-		exMap.mapDescriptor();
+		exMap.MDFString();
 		try{
 			TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 		}
@@ -108,7 +108,7 @@ public class ExplorationAlgo{
 			{
 			     System.out.println("send msg sleeping error!!!!!!");
 			}
-			exMap.mapDescriptor();
+			exMap.MDFString();
 			// System.out.println("robot facing: " + bot.getRobotCurDir());
 		}
 		return;
@@ -124,7 +124,7 @@ public class ExplorationAlgo{
 			pathTakenIsConfirmedFree();
 			sensorData = bot.sense(exMap);
 			exMap.repaint();
-			exMap.mapDescriptor();
+			exMap.MDFString();
 			// System.out.println("robot facing: " + bot.getRobotCurDir());
 			try{
 				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
@@ -198,7 +198,7 @@ public class ExplorationAlgo{
 			exploredArea = countExploredArea();
 			// System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-			exMap.mapDescriptor(); //send map layout and robot position to android
+			exMap.MDFString(); //send map layout and robot position to android
 			try{
 				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 			}

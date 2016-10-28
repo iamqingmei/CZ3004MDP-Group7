@@ -141,15 +141,7 @@ public class Simulator {
 				{
 				     System.out.println("send msg sleeping error!!!!!!");
 				} 
-				realMap.mapDescriptor();
-				try{
-					TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-				}
-				catch(InterruptedException e)
-				{
-				     System.out.println("send msg sleeping error!!!!!!");
-				} 
-				realMap.finalMap();
+				realMap.MDFString();
 				long end = System.currentTimeMillis();
 				long duration = (end - start)/1000;
 				System.out.println("exploration spend: " + duration + "second");
@@ -287,7 +279,7 @@ public class Simulator {
 						realMap.setObstacle(r,c,true);
 						System.out.println("obstacle at " + r + "," + c + " is added");
 						realMap.repaint();
-						realMap.mapDescriptor();
+						realMap.MDFString();
 					}
 				});
 
@@ -299,7 +291,7 @@ public class Simulator {
 						realMap.setObstacle(r,c,false);
 						System.out.println("obstacle at " + r + "," + c + " is removed");
 						realMap.repaint();
-						realMap.mapDescriptor();
+						realMap.MDFString();
 					}
 				});
 
@@ -401,7 +393,7 @@ public class Simulator {
 		btn_mdf.setFocusPainted(false);
 		btn_mdf.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				realMap.finalMap();
+				realMap.MDFString();
 			}
 		});
 		_mainButtons.add(btn_mdf);

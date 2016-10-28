@@ -224,7 +224,7 @@ public class ShortestPathAlgo{
 				     System.out.println("send msg sleeping error!!!!!!");
 				} 
 				this.map.repaint();
-				this.map.mapDescriptor(); 
+				this.map.MDFString(); 
 				
 			}
 			return null;
