@@ -6,7 +6,8 @@ class BluetoothThreading:
 	def __init__(self):
 		self.UUID = "00001101-0000-1000-8000-00805F9B34FB"
 		self.client_sock = BluetoothSocket ( RFCOMM )
-		self.btAdd = "08:60:6E:A4:E4:D4"
+		#self.btAdd = "08:60:6E:A4:E4:D4"
+		self.btAdd = "C8:F2:30:C7:1C:02"
 		#self.mutex = threading.Lock()
 		self.isConnected = False
 

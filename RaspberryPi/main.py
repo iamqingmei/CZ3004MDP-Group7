@@ -4,11 +4,13 @@ import threading
 import WifiThreading
 import ArduinoThreading
 import BluetoothThreading
+import timerThread
 import socket
 import serial
 import bluetooth
 import time
 import re
+import sched
 
 #Message Queue
 incomingMessageQueue = Queue.Queue()
@@ -18,6 +20,11 @@ outgoingMessageQueue = Queue.Queue()
 wifi = WifiThreading.WifiThreading("192.168.7.1", 8080)
 arduino = ArduinoThreading.ArduinoThreading()
 android = BluetoothThreading.BluetoothThreading()
+timer = timerThread.timerThread()
+global command
+command = ""
+global message
+message = ""
 
 class wifiThread (threading.Thread):
 	def __init__(self):
@@ -37,6 +44,19 @@ class wifiThread (threading.Thread):
 				else:
 					time.sleep(0.001)
 
+class timerThread(threading.Thread):
+	def __init__(self):
+		threading.Thread.__init__(self)
+
+	def run(self):
+		while True:
+			if(timer.checkTimer()):
+				if message = "":
+					incomingMessageQueue.put("PC2ARS")
+					print"Request for Sensor Data"
+					timer.stopTimer()
+			
+
 class arduinoThread(threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
@@ -47,15 +67,24 @@ class arduinoThread(threading.Thread):
 				arduino.connect()
 				if(arduino.connected()):
 					receiveData = arduino.receive()
-					if(receiveData != ""):
-						correctSensor = re.search(r'\|-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+',receiveData)
-						if correctSensor:
-							incomingMessageQueue.put(receiveData)
-						else:
-							print "Incorrect sensor data received. Requesting new reading."
-							incomingMessageQueue.put("AR2ARS")
+				
+					if(receiveData != "" and receiveData is not None):
+#						fast = re.search(r'\[Fastest]',receiveData)
+#						correctSensor = re.search(r'\|-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+',receiveData)
+						incomingMessageQueue.put(receiveData)
+						print"Robot sent: " + receiveData
+						time.stopTimer()						
+#						if correctSensor: 
+#							incomingMessageQueue.put(receiveData)
+#							print"message sent from robot: "+receiveData
+#							timer.stopTimer()
+#						elif fast:
+#							incomingMessageQueue.put(receiveData)
+#							timer.stopTimer()
+							
 					else:
-						time.sleep(0.001)
+#						time.sleep(0.001)
+						time.sleep(1)
 			except serial.SerialException:
 				time.sleep(0.001)
 			except Exception as ErrorMsg:
@@ -65,7 +94,7 @@ class androidThread (threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
 
-	def run(self):
+	def run(self):		
 		while True:
 			try:
 				android.connect()
@@ -91,6 +120,7 @@ class incomingMessageThread(threading.Thread):
 			try:
 				incomingMessage = incomingMessageQueue.get(True)
 				outgoingMessageQueue.put(incomingMessage)
+				incomingMessageQueue.task_done()
 			except Exception as ErrorMsg:
 				pass
 
@@ -98,6 +128,7 @@ class outgoingMessageThread(threading.Thread):
 	def __init__(self):
 		threading.Thread.__init__(self)
 
+	
 	def run(self):
 		while True:
 			try:
@@ -105,6 +136,13 @@ class outgoingMessageThread(threading.Thread):
 				sender = outgoingMessage[:2]
 				receiver = outgoingMessage[3:5]
 				data = outgoingMessage[5:]
+
+				if sender != "AR":
+					global command
+					global message
+					command = outgoingMessage
+					command = message
+
 				if receiver == "PC" :
 #					if sender == "AN"
 #						print "Sending Ack to AN"
@@ -112,7 +150,7 @@ class outgoingMessageThread(threading.Thread):
 #					elif 
 					print "Sending message from " + sender + " to PC: " + data
 					wifi.send(data)
-					print "Message sent to PC"
+					print "Message sent to PC: " + data
 					if ("explore" in data):
 						print "Sending explore to Arduino"
 						arduino.send("E")
@@ -124,8 +162,14 @@ class outgoingMessageThread(threading.Thread):
 				elif receiver == "AR" :
 					print "Sending message from " + sender + " to Arduino: " + data
 					arduino.send(data)
-					print "Message sent to Arduino"
+					print "Message sent to Arduino: "+ data
+				
+					timer.startTimer()
+					
+										
+
 				outgoingMessageQueue.task_done()
+				
 
 			except BaseException as ErrorMsg:
 				pass
@@ -135,6 +179,7 @@ class outgoingMessageThread(threading.Thread):
 wifiThread = wifiThread()
 arduinoThread = arduinoThread()
 androidThread = androidThread()
+timerThread = timerThread()
 
 incomingMessageThread = incomingMessageThread()
 outgoingMessageThread = outgoingMessageThread()
@@ -142,6 +187,7 @@ outgoingMessageThread = outgoingMessageThread()
 wifiThread.start()
 arduinoThread.start()
 androidThread.start()
+timerThread.start()
 
 incomingMessageThread.start()
 outgoingMessageThread.start()
@@ -149,6 +195,7 @@ outgoingMessageThread.start()
 wifiThread.join()
 arduinoThread.join()
 androidThread.join()
+timerThread.join()
 
 incomingMessageThread.join()
 outgoingMessageThread.join()
