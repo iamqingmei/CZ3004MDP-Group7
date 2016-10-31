@@ -164,8 +164,8 @@ public class Robot{
 		
 		// System.out.println("sensorData: "+ sensorData);
 		
-		String sub = sensorData.substring(1);
-		String[] parts = sub.split(":");
+
+		String[] parts = sensorData.split(":");
 
 		result[0] = roundToGrid(Integer.parseInt(parts[2]));
 		result[1] = roundToGrid(Integer.parseInt(parts[3]));

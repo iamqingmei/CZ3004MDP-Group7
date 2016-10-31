@@ -262,8 +262,8 @@ public class Simulator {
 			    JDialog d3=new JDialog(_appFrame,"Add/Remove Obstacles!",true);
 				d3.setSize(350,200);
 				d3.setLayout(new FlowLayout());
-				JTextField rowTF = new JTextField(2);
-				JTextField columnTF = new JTextField(2);
+				final JTextField rowTF = new JTextField(2);
+				final JTextField columnTF = new JTextField(2);
 				JButton addButton = new JButton("Add");
 				JButton removeButton = new JButton("Remove");
 				JButton printObButton = new JButton("Print Obstacles");
@@ -348,8 +348,8 @@ public class Simulator {
 			    JDialog d3=new JDialog(_appFrame,"Send Message",true);
 				d3.setSize(400,200);
 				d3.setLayout(new FlowLayout());
-				JTextField headTF = new JTextField(5);
-				JTextField msgTF = new JTextField(20);
+				final JTextField headTF = new JTextField(5);
+				final JTextField msgTF = new JTextField(20);
 				JButton saveButton = new JButton("Send");
 				
 				saveButton.addMouseListener(new MouseAdapter() {

@@ -202,7 +202,7 @@ public class Simulator {
 				JDialog d1=new JDialog(_appFrame,"Change Robot Speed",true);
 				d1.setSize(400,400);
 				d1.setLayout(new FlowLayout());
-				JTextField speedTF = new JTextField(5);
+				final JTextField speedTF = new JTextField(5);
 				JButton speedSaveButton = new JButton("Save");
 				
 				speedSaveButton.addMouseListener(new MouseAdapter() {
@@ -240,7 +240,7 @@ public class Simulator {
 				JDialog d2=new JDialog(_appFrame,"Time Limit Exploration",true);
 				d2.setSize(400,400);
 				d2.setLayout(new FlowLayout());
-				JTextField timeTF = new JTextField(5);
+				final JTextField timeTF = new JTextField(5);
 				JButton timeSaveButton = new JButton("Save");
 				
 				timeSaveButton.addMouseListener(new MouseAdapter() {
@@ -275,8 +275,8 @@ public class Simulator {
 			    JDialog d3=new JDialog(_appFrame,"Add/Remove Obstacles!",true);
 				d3.setSize(350,200);
 				d3.setLayout(new FlowLayout());
-				JTextField rowTF = new JTextField(2);
-				JTextField columnTF = new JTextField(2);
+				final JTextField rowTF = new JTextField(2);
+				final JTextField columnTF = new JTextField(2);
 				JButton addButton = new JButton("Add");
 				JButton removeButton = new JButton("Remove");
 
@@ -338,7 +338,7 @@ public class Simulator {
 				JDialog d3=new JDialog(_appFrame,"Coverage Limit Exploration",true);
 				d3.setSize(400,400);
 				d3.setLayout(new FlowLayout());
-				JTextField coverageTF = new JTextField(5);
+				final JTextField coverageTF = new JTextField(5);
 				JButton coverageSaveButton = new JButton("Save");
 				
 				coverageSaveButton.addMouseListener(new MouseAdapter() {
