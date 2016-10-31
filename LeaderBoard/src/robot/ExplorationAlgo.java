@@ -48,20 +48,19 @@ public class ExplorationAlgo{
 		// sensorData[3] = shortR
 		// sensorData[4] = shortL
 		exploredArea = countExploredArea();
-		// System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
-
-		// exMap.MDFString();
-		// try{
-		// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-		// }
-		// catch(InterruptedException e)
-		// {
-		//      System.out.println("send msg sleeping error!!!!!!");
-		// } 
 
 		// looping(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
 		looping(RobotConstants.STARTING_ROW,RobotConstants.STARTING_COL);
+
+		try{
+			TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+		}
+		catch(InterruptedException e)
+		{
+		    System.out.println("send msg sleeping error!!!!!!");
+		}
+		exMap.MDFString();
 
 		//continue to explore the Unexplored area
 		// while (exploredArea!= MapConstants.MAP_SIZE){
@@ -94,13 +93,6 @@ public class ExplorationAlgo{
 		while(bot.getRobotCurDir() != DIRECTION.NORTH){
 			bot.moveRobot(MOVE.RIGHT);
 			// pressAnyKeyToContinue();
-			try{
-				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("send msg sleeping error!!!!!!");
-			}
 			CommMgr.getCommMgr().sendMsg("R","PC2AR");
 			exMap.repaint();
 
