@@ -132,6 +132,10 @@ public class Simulator {
 				exploration.runExploration();
 				realMap.repaint();
 
+				long end = System.currentTimeMillis();
+				long duration = (end - start)/1000;
+				System.out.println("exploration spend: " + duration + "second");
+
 				try{
 					TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 				}
@@ -149,10 +153,6 @@ public class Simulator {
 				     System.out.println("send msg sleeping error!!!!!!");
 				} 
 				CommMgr.getCommMgr().sendMsg("W", "PC2AR");
-
-				long end = System.currentTimeMillis();
-				long duration = (end - start)/1000;
-				System.out.println("exploration spend: " + duration + "second");
 
 				System.out.println("start to calculate FastestPath");
 				ShortestPathAlgo sp = new ShortestPathAlgo(realMap, bot);
