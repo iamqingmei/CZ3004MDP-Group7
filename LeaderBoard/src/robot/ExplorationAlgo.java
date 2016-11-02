@@ -109,12 +109,14 @@ public class ExplorationAlgo{
 				return;
 			}
 			if (bot.getRobotPosCol() == RobotConstants.GOAL_COL && bot.getRobotPosRow() == RobotConstants.GOAL_ROW){
+				System.out.println("!!!!!!!!!!!!!!!!GOAL ZONE PASSED!!!!!!!!!!!!!!!!");
 				passedGoalZone = true;
 			}
 			if (passedGoalZone == true && exploredArea > MapConstants.MAP_SIZE / 100 * RobotConstants.COVERAGE_PERCENTAGE){
 				// if the robot alr passed goal zone AND
 				// explored area is more than the coverage limitation
 				// directly return to the starting zone
+				System.out.println("Hit the coverage limitation!");
 				return;
 			} 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r);
