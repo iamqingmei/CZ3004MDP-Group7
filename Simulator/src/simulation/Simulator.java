@@ -136,7 +136,7 @@ public class Simulator {
 				ExplorationAlgo exploration = new ExplorationAlgo(simExMap, simShortestPathMap, bot);
 				exploration.runExploration();
 
-				mapDescriptor();
+				mapDescriptor(simExMap);
 				return 222;
 			}
 		}
@@ -326,6 +326,8 @@ public class Simulator {
 
 				ExplorationAlgo coverageExpo = new ExplorationAlgo(simCoverageExMap, simShortestPathMap, bot);
 				coverageExpo.runExploration(coverageLimited);
+
+				mapDescriptor(simCoverageExMap);
 				return 444;
 			}
 		}
@@ -345,6 +347,8 @@ public class Simulator {
 				public void mousePressed(MouseEvent e) {
 						coverageLimited = (Integer.parseInt(coverageTF.getText()));
 						new coverageExploration().execute();
+						CardLayout cl = ((CardLayout) _mainCards.getLayout());
+					    cl.show(_mainCards, "COVERAGEEXPLO");
 					}
 				});
 		        d3.add(new JLabel("Enter coverage for exploration ( % of the maze squares): "));
@@ -394,7 +398,7 @@ public class Simulator {
 		simShortestPathMap.repaint();
 	}
 
-	private static void mapDescriptor(){
+	private static void mapDescriptor(Map simExMap){
 		String DescriptorFormat = "11"; //pad the first 2 bits
 		String DescriptorFinal = "";
 		for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for explored area

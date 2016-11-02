@@ -432,6 +432,11 @@ public class ExplorationAlgo{
 		if (exploredArea!=300){
 			System.out.println("there are still unexplored areas!!!!");
 		}
+
+		//go back to start zone
+		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot);
+		goBackToStart.runShortestPath(exMap,1,1);
+		
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
 		while(bot.getRobotCurDir() != DIRECTION.NORTH){

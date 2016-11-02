@@ -16,6 +16,8 @@ public final class RobotConstants {
 	
 	public static final double INFINITE_COST = 9999; 
 
+	public static final int COVERAGE_PERCENTAGE = 80;
+
 	
 	
 	public static enum DIRECTION {

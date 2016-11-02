@@ -16,12 +16,11 @@ import robot.RobotConstants;
 public class ExplorationAlgo{
 	private Map exMap;
 	private Robot bot;
-	// private ArrayList<Block> pathTaken= new ArrayList<Block>();
 	private int exploredArea;
 	private int[] sensorData;
 	private long start = 0;
 	private long end = 0;
-
+	private boolean passedGoalZone = false;
 
 	public static boolean emergencyCalibration = false;
 
@@ -29,12 +28,6 @@ public class ExplorationAlgo{
 		this.exMap = explorationMap;
 		this.bot = thebot;
 	}
-
-	// public void setEmergencyCalibration(boolean b){
-	// 	emergencyCalibration = b;
-	// }
-
-
 
 	public void runExploration(){
 		start = System.currentTimeMillis();
@@ -61,21 +54,6 @@ public class ExplorationAlgo{
 		    System.out.println("send msg sleeping error!!!!!!");
 		}
 		exMap.MDFString();
-
-		//continue to explore the Unexplored area
-		// while (exploredArea!= MapConstants.MAP_SIZE){
-		// 	System.out.println("there are still unexplored areas!!!!");
-		// 	Block nearestUnexplored = nearestUnexploredGrid();
-		// 	System.out.println("Nearest Unexplored Grid is: " + nearestUnexplored.getRow() + ", " + nearestUnexplored.getCol());
-		// 	Block nearbyOb = nearbyObstacle(nearestUnexplored);
-		// 	if (nearbyOb!=null){
-		// 		exploredGridNearOb(nearbyOb);
-		// 	}
-		// 	else{
-		// 		exploredGridNearOb(nearestUnexplored);
-		// 	}
-		// }
-		// System.out.println("All grids are explored!");
 
 		//go back to start zone
 		System.out.println("start to calculate the FastestPath to go back to start zone");
@@ -106,13 +84,11 @@ public class ExplorationAlgo{
 			// exMap.MDFString();
 
 
-			// System.out.println("robot facing: " + bot.getRobotCurDir());
 		}
 		return;
 	}
 
 	private void turnRobotDir(DIRECTION dir){
-		// System.out.println("robot facing: " + bot.getRobotCurDir());
 		while(bot.getRobotCurDir() != dir){
 			bot.moveRobot(MOVE.RIGHT);
 			// pressAnyKeyToContinue();
@@ -134,52 +110,7 @@ public class ExplorationAlgo{
 
 		}
 	}
-	// return the explored gird which is near obstacle
-	private Block exploredGridNearOb(Block obs){
-		int obsRow = obs.getRow();
-		int obsCol = obs.getCol();
-		Block mark = null;
-		DIRECTION dir = null;
-		if (checkFreeToGo(obsRow-2,obsCol)){ //south
-			//facing east
-			mark = exMap.getBlock(obsRow-2,obsCol);
-			dir = DIRECTION.EAST;
-		}
-		else if (checkFreeToGo(obsRow+2,obsCol)){ //north
-			//facing west
-			mark = exMap.getBlock(obsRow+2,obsCol);
-			dir = DIRECTION.WEST;
-		}
-		else if (checkFreeToGo(obsRow,obsCol-2)){ //west
-			//facing south
-			mark = exMap.getBlock(obsRow,obsCol-2);
-			dir = DIRECTION.SOUTH;
-		}
-		else if (checkFreeToGo(obsRow,obsCol+2)){ //east
-			//facing north
-			mark = exMap.getBlock(obsRow,obsCol+2);
-			dir = DIRECTION.NORTH;
-		}
-		// go to the mark point
-		ShortestPathAlgo spa = new ShortestPathAlgo(exMap,bot,true);
-		spa.runShortestPath(exMap,mark.getRow(),mark.getCol());
-		exploredArea = countExploredArea();
-		turnRobotDir(dir);
-		// System.out.println("bot current pos: " + bot.getRobotPosRow() +", " + bot.getRobotPosCol());
-		// System.out.println("Mark: " + mark.getRow() + ", " + mark.getCol());
-		looping(mark.getRow(),mark.getCol());
-		return mark;
-	}
 
-
-	// return true if b is not a virtual wall nor obstacle and alr explored
-	private boolean checkFreeToGo(int r, int c){
-		if (r>=0 && r<MapConstants.MAP_ROW && c>=0 && c<MapConstants.MAP_COL){
-			Block b = exMap.getBlock(r,c);
-			return (b.getIsExplored() && !b.getIsVirtualWall() && !b.getIsObstacle());
-		}
-		return false;
-	}
 	private void looping(int r, int c){
 		MOVE nextMove = null;
 		MOVE prevMov = null;
@@ -187,7 +118,6 @@ public class ExplorationAlgo{
 			//the path taken is confirmed free
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
-			// System.out.println("move: " + nextMove);
 			// pressAnyKeyToContinue();
 			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
@@ -195,9 +125,7 @@ public class ExplorationAlgo{
 			pathTakenIsConfirmedFree();
 			sensorData = bot.sense(exMap); //wait for receive sensor data
 			exploredArea = countExploredArea();
-			// System.out.println("exploredArea: " + exploredArea);
 			exMap.repaint();
-
 
 			// exMap.MDFString(); //send map layout and robot position to android
 			// try{
@@ -215,6 +143,15 @@ public class ExplorationAlgo{
 			if (System.currentTimeMillis() > end){
 				System.out.println("Time is up! Directly go back to start zone");
 				return;
+			}
+			if (bot.getRobotPosCol() == RobotConstants.GOAL_COL && bot.getRobotPosRow() == RobotConstants.GOAL_ROW){
+				passedGoalZone = true;
+			}
+			if (passedGoalZone == true && exploredArea > MapConstants.MAP_SIZE / 100 * RobotConstants.COVERAGE_PERCENTAGE){
+				// if the robot alr passed goal zone AND
+				// explored area is more than the coverage limitation
+				// directly return to the starting zone
+				return;
 			} 
 		}while(bot.getRobotPosCol() != c || bot.getRobotPosRow() != r);
 	}
@@ -225,7 +162,6 @@ public class ExplorationAlgo{
 			for (int c=0; c<MapConstants.MAP_COL; c++){
 				if (exMap.getBlock(r,c).getIsExplored()){
 					result++;
-					// System.out.println("r,c: " + r +", " + c);
 				}
 			}
 		}
@@ -238,7 +174,6 @@ public class ExplorationAlgo{
 		if (r>=0 && r<MapConstants.MAP_ROW && c>=0 && c<MapConstants.MAP_COL){
 			res = (exMap.getBlock(r,c).getIsExplored() && (!exMap.getBlock(r,c).getIsObstacle())); //explored and not obstacle
 		}
-		// System.out.println("checkStatus for block " +r+", "+c+" : "+res);
 		return res;
 	}
 
@@ -357,60 +292,7 @@ public class ExplorationAlgo{
 				return MOVE.RIGHT;
 		}
 	}
-
-	private Block nearestUnexploredGrid(){
-		Block rBlock = nearestRowUnexploredGrid();
-		Block cBlock = nearestColUnexploredGrid();
-		int rDis = Math.abs(rBlock.getRow() - bot.getRobotPosRow()) + Math.abs(rBlock.getCol() - bot.getRobotPosCol());
-		int cDis = Math.abs(cBlock.getRow() - bot.getRobotPosRow()) + Math.abs(cBlock.getCol() - bot.getRobotPosCol());
-		if (rDis < cDis){
-			return rBlock;
-		}
-		return cBlock;
-
-	}
-	private Block nearestRowUnexploredGrid(){
-		for (int r=0;r<MapConstants.MAP_ROW;r++){
-			for (int c=0; c<MapConstants.MAP_COL; c++){
-				if (!exMap.getBlock(r,c).getIsExplored()){
-					return exMap.getBlock(r,c);
-				}
-			}
-		}
-		return null;
-	}
-
-	private Block nearestColUnexploredGrid(){
-		for (int c=0; c<MapConstants.MAP_COL; c++){
-			for (int r=0;r<MapConstants.MAP_ROW;r++){
-				if (!exMap.getBlock(r,c).getIsExplored()){
-					return exMap.getBlock(r,c);
-				}
-			}
-		}
-		return null;
-	}
-
-	private Block nearbyObstacle(Block blk){
-		int c = blk.getCol();
-		int r = blk.getRow();
-		if (exMap.getBlock(r,c+1).getIsObstacle()){
-			return exMap.getBlock(r,c+1);
-		}
-		else if (exMap.getBlock(r,c-1).getIsObstacle()){
-			return exMap.getBlock(r,c-1);
-		}
-		else if (exMap.getBlock(r+1,c).getIsObstacle()){
-			return exMap.getBlock(r+1,c);
-		}
-		else if (exMap.getBlock(r-1,c).getIsObstacle()){
-			return exMap.getBlock(r-1,c);
-		}
-		else{
-			return null;
-		}
-	}
-
+	
 	private void pressAnyKeyToContinue(){ 
         System.out.println("Press any key to continue...");
         try
@@ -420,13 +302,6 @@ public class ExplorationAlgo{
         catch(Exception e)
         {}  
 	}
-
-	// private void printPathTaken(){
-	// 	int n = pathTaken.size();
-	// 	for (int i=0;i<n;i++){
-	// 		System.out.print("(" + pathTaken.get(i).getRow() + "," + pathTaken.get(i).getCol() + "), ");
-	// 	}
-	// }
 
 	private void pathTakenIsConfirmedFree(){
 		int r = bot.getRobotPosRow();
