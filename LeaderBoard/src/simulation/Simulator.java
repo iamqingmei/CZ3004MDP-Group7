@@ -27,6 +27,8 @@ import java.nio.file.*;
 import java.util.*;
 
 public class Simulator {
+	//testing
+	
 	// JFrame for the application
 	private static JFrame _appFrame = null;
 	
