@@ -43,17 +43,7 @@ public class ExplorationAlgo{
 		exploredArea = countExploredArea();
 		exMap.repaint();
 
-		// looping(MapConstants.GOAL_ROW,MapConstants.GOAL_COL);
 		looping(RobotConstants.STARTING_ROW,RobotConstants.STARTING_COL);
-
-		try{
-			TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-		}
-		catch(InterruptedException e)
-		{
-		    System.out.println("send msg sleeping error!!!!!!");
-		}
-		exMap.MDFString();
 
 		//go back to start zone
 		System.out.println("start to calculate the FastestPath to go back to start zone");
@@ -67,48 +57,23 @@ public class ExplorationAlgo{
 
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
-		// turnRobotDir(DIRECTION.NORTH);
+
 		while(bot.getRobotCurDir() != DIRECTION.NORTH){
 			bot.moveRobot(MOVE.RIGHT);
-			// pressAnyKeyToContinue();
 			CommMgr.getCommMgr().sendMsg("R","PC2AR");
 			exMap.repaint();
 
-			// try{
-			// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			// }
-			// catch(InterruptedException e)
-			// {
-			//      System.out.println("send msg sleeping error!!!!!!");
-			// }
-			// exMap.MDFString();
-
+			try{
+				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			}
+			exMap.MDFString();
 
 		}
 		return;
-	}
-
-	private void turnRobotDir(DIRECTION dir){
-		while(bot.getRobotCurDir() != dir){
-			bot.moveRobot(MOVE.RIGHT);
-			// pressAnyKeyToContinue();
-			CommMgr.getCommMgr().sendMsg("R","PC2AR");
-			bot.setSensors();
-			pathTakenIsConfirmedFree();
-			sensorData = bot.sense(exMap);
-			exMap.repaint();
-
-
-			// exMap.MDFString();
-			// try{
-			// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			// }
-			// catch(InterruptedException e)
-			// {
-			//      System.out.println("send msg sleeping error!!!!!!");
-			// } 
-
-		}
 	}
 
 	private void looping(int r, int c){
@@ -118,7 +83,6 @@ public class ExplorationAlgo{
 			//the path taken is confirmed free
 			prevMov = nextMove;
 			nextMove = getNextMove(prevMov);
-			// pressAnyKeyToContinue();
 			CommMgr.getCommMgr().sendMsg(nextMove.print(nextMove), "PC2AR"); //send to arduino
 			bot.moveRobot(nextMove);
 			bot.setSensors(); 
@@ -127,14 +91,14 @@ public class ExplorationAlgo{
 			exploredArea = countExploredArea();
 			exMap.repaint();
 
-			// exMap.MDFString(); //send map layout and robot position to android
-			// try{
-			// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			// }
-			// catch(InterruptedException e)
-			// {
-			//      System.out.println("send msg sleeping error!!!!!!");
-			// }
+			exMap.MDFString(); //send map layout and robot position to android
+			try{
+				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
+			}
+			catch(InterruptedException e)
+			{
+			     System.out.println("send msg sleeping error!!!!!!");
+			}
 			
 			if (exploredArea==MapConstants.MAP_SIZE){
 				//return when the whole map is explored
