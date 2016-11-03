@@ -178,9 +178,9 @@ public class Robot{
 		// 	System.out.printf("%d, ", result[i]);
 		// }
 
-		longFront.sense(simExMap,result[0],true);
-		shortRF.sense(simExMap,result[1],true);
-		shortLF.sense(simExMap,result[2],true);
+		longFront.sense(simExMap,result[0]);
+		shortRF.sense(simExMap,result[1]);
+		shortLF.sense(simExMap,result[2]);
 		shortR.sense(simExMap,result[3],true);
 		shortL.sense(simExMap,result[4],true);
 		return result;
