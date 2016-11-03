@@ -12,11 +12,11 @@ public final class RobotConstants {
 	public static final int STARTING_COL = 1;
 	public static final int SENSOR_SHORT_RANGE = 1;
 	public static final int SENSOR_LONG_RANGE = 4;
-	public static final int MSG_DELAY = 120;
+	public static final int MSG_DELAY = 200;
 	
 	public static final double INFINITE_COST = 9999; 
 
-	public static final int COVERAGE_PERCENTAGE = 70;
+	public static final int COVERAGE_PERCENTAGE = 95;
 
 	
 	
