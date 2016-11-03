@@ -21,10 +21,8 @@ wifi = WifiThreading.WifiThreading("192.168.7.1", 8080)
 arduino = ArduinoThreading.ArduinoThreading()
 android = BluetoothThreading.BluetoothThreading()
 timer = timerThread.timerThread()
-global command
 command = ""
-global message
-message = ""
+moves = 0
 
 class wifiThread (threading.Thread):
 	def __init__(self):
@@ -40,6 +38,9 @@ class wifiThread (threading.Thread):
 						wifi.close()
 						wifi.__init__("192.168.7.1", 8080)
 					else:
+						if len(receiveData) == 6:
+							global moves
+							moves += 1
 						incomingMessageQueue.put(receiveData)
 				else:
 					time.sleep(0.001)
@@ -51,10 +52,9 @@ class timerThread(threading.Thread):
 	def run(self):
 		while True:
 			if(timer.checkTimer()):
-				if message = "":
-					incomingMessageQueue.put("PC2ARS")
-					print"Request for Sensor Data"
-					timer.stopTimer()
+				timer.stopTimer()
+				incomingMessageQueue.put("PC2ARS")
+				print "Timeout. Requesting for Sensor Data"
 			
 
 class arduinoThread(threading.Thread):
@@ -67,24 +67,32 @@ class arduinoThread(threading.Thread):
 				arduino.connect()
 				if(arduino.connected()):
 					receiveData = arduino.receive()
-				
 					if(receiveData != "" and receiveData is not None):
-#						fast = re.search(r'\[Fastest]',receiveData)
-#						correctSensor = re.search(r'\|-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+',receiveData)
-						incomingMessageQueue.put(receiveData)
-						print"Robot sent: " + receiveData
-						time.stopTimer()						
-#						if correctSensor: 
-#							incomingMessageQueue.put(receiveData)
-#							print"message sent from robot: "+receiveData
-#							timer.stopTimer()
-#						elif fast:
-#							incomingMessageQueue.put(receiveData)
-#							timer.stopTimer()
+						a = receiveData.split('|')
+						fast = re.search(r'Fastest',a[1])
+						correctSensor = re.search(r'-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+:-?[0-9]+',a[1])
+
+						if correctSensor:
+							if moves != int(a[2]):
+								timer.stopTimer()
+								print "Total moves don't tally"
+								repeatMove = "PC2AR" + command
+								print "repeatMove: " + repeatMove
+								incomingMessageQueue.put(repeatMove)
+							else:
+								incomingMessageQueue.put(receiveData)
+								timer.stopTimer()
+						elif fast:
+							print "Fastest path received"
+							incomingMessageQueue.put(receiveData)
+							timer.stopTimer()
+						else:
+							print "Wrong format received. Requesting new sensor data"
+							incomingMessageQueue.put("PC2ARS")
+							timer.stopTimer()
 							
 					else:
-#						time.sleep(0.001)
-						time.sleep(1)
+						time.sleep(0.001)
 			except serial.SerialException:
 				time.sleep(0.001)
 			except Exception as ErrorMsg:
@@ -132,22 +140,23 @@ class outgoingMessageThread(threading.Thread):
 	def run(self):
 		while True:
 			try:
-				outgoingMessage = outgoingMessageQueue.get(True)
-				sender = outgoingMessage[:2]
-				receiver = outgoingMessage[3:5]
-				data = outgoingMessage[5:]
+				b = outgoingMessageQueue.get(True)
+				if b[:2] != "AR":
+					sender = b[:2]
+					receiver = b[3:5]
+					data = b[5:]
+				else:
+					outgoingMessage = b.split("|")
+					comm = outgoingMessage[0]
+					sender = comm[:2]
+					receiver = comm[3:5]
+					data = outgoingMessage[1]
 
-				if sender != "AR":
+				if sender == "PC":
 					global command
-					global message
-					command = outgoingMessage
-					command = message
+					command = data
 
 				if receiver == "PC" :
-#					if sender == "AN"
-#						print "Sending Ack to AN"
-#						wifi.send("A")
-#					elif 
 					print "Sending message from " + sender + " to PC: " + data
 					wifi.send(data)
 					print "Message sent to PC: " + data
@@ -163,10 +172,7 @@ class outgoingMessageThread(threading.Thread):
 					print "Sending message from " + sender + " to Arduino: " + data
 					arduino.send(data)
 					print "Message sent to Arduino: "+ data
-				
-					timer.startTimer()
-					
-										
+					timer.startTimer()	
 
 				outgoingMessageQueue.task_done()
 				

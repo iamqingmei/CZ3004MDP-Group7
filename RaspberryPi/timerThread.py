@@ -6,12 +6,12 @@ class timerThread:
 	def __init__(self):
 		self.timer = False
 		self.timeout = 18
-
 		self.start = 0
 
 	def startTimer(self):
 		self.start = time.time()
 		self.timer = True
+		print "Timer is started"
 
 	def checkTimer(self):
 		if self.timer:
@@ -24,3 +24,4 @@ class timerThread:
 
 	def stopTimer(self):
 		self.timer = False
+		print "Timer is stopped"
