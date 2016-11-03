@@ -152,7 +152,7 @@ class outgoingMessageThread(threading.Thread):
 					receiver = comm[3:5]
 					data = outgoingMessage[1]
 
-				if sender == "PC":
+				if (sender == "PC" and data != "S"):
 					global command
 					command = data
 
