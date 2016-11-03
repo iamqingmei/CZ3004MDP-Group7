@@ -31,7 +31,7 @@ public class ExplorationAlgo{
 
 	public void runExploration(){
 		start = System.currentTimeMillis();
-		end = start + 320*1000; // 320 seconds * 1000 ms/sec
+		end = start + 300*1000; // 300 seconds * 1000 ms/sec
 		pathTakenIsConfirmedFree();
 		bot.setSensors();
 		sensorData = bot.sense(exMap);
@@ -50,29 +50,40 @@ public class ExplorationAlgo{
 		ShortestPathAlgo goBackToStart = new ShortestPathAlgo(exMap,bot);
 		StringBuilder output = goBackToStart.runShortestPath(exMap,1,1);
 		System.out.println("Fastest Path is : " + output);
+
 		if (output.length() != 0){
 			//only send out the string when it is not empty
-		    CommMgr.getCommMgr().sendMsg("X" + output.toString(), "PC2AR");
+			
+
+			//after back to the start zone
+			//turn to North (Ready for shortest path finding)
+			String turns = "";
+			while(bot.getRobotCurDir() != DIRECTION.NORTH){
+				bot.moveRobot(MOVE.RIGHT);
+				turns += "R";
+				exMap.repaint();
+			}
+		    CommMgr.getCommMgr().sendMsg("X" + output.toString() + turns, "PC2AR");
+		}
+		else{
+			//after back to the start zone
+			//turn to North (Ready for shortest path finding)
+			while(bot.getRobotCurDir() != DIRECTION.NORTH){
+				bot.moveRobot(MOVE.RIGHT);
+				CommMgr.getCommMgr().sendMsg("R","PC2AR");
+				exMap.repaint();
+			}
 		}
 
-		//after back to the start zone
-		//turn to North (Ready for shortest path finding)
-
-		while(bot.getRobotCurDir() != DIRECTION.NORTH){
-			bot.moveRobot(MOVE.RIGHT);
-			CommMgr.getCommMgr().sendMsg("R","PC2AR");
-			exMap.repaint();
-
-			try{
-				TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-			}
-			catch(InterruptedException e)
-			{
-			     System.out.println("send msg sleeping error!!!!!!");
-			}
-			exMap.MDFString();
-
+		try{
+			TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
 		}
+		catch(InterruptedException e)
+		{
+		    System.out.println("send msg sleeping error!!!!!!");
+		}
+		exMap.MDFString();
+
 		return;
 	}
 
