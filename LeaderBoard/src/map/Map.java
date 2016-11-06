@@ -93,33 +93,7 @@ public class Map extends JPanel {
 	}
 
 	public void setObstacle(int r, int c,boolean b){
-		this.blocks[r][c].setObstacle(b);
-		// this.blocks[r][c].setVirtualWall(b);
-		// if (r >= 1){
-		// 	this.blocks[r-1][c].setVirtualWall(b);
-		// 	if (c < MapConstants.MAP_COL - 1){
-		// 		this.blocks[r-1][c+1].setVirtualWall(b);
-		// 	}
-		// 	if (c >= 1){
-		// 		this.blocks[r-1][c-1].setVirtualWall(b);
-		// 	}
-		// }
-		// if (c >= 1){
-		// 	this.blocks[r][c-1].setVirtualWall(b);
-		// 	if (r < MapConstants.MAP_ROW - 1){
-		// 		this.blocks[r+1][c-1].setVirtualWall(b);
-		// 	}	
-		// }
-		// if (r < MapConstants.MAP_ROW - 1){
-		// 	this.blocks[r+1][c].setVirtualWall(b);
-		// 	if (c < MapConstants.MAP_COL - 1){
-		// 		this.blocks[r+1][c+1].setVirtualWall(b);
-		// 	}
-		// }
-		// if (c < MapConstants.MAP_COL - 1){
-		// 	this.blocks[r][c+1].setVirtualWall(b);
-		// }
-	
+		this.blocks[r][c].setObstacle(b);	
 	}
 
 	public void setVirtualWall(int r, int c, boolean b){
@@ -245,82 +219,6 @@ public class Map extends JPanel {
 			this.gridSize = borderSize - (MapConstants.GRID_LINE_WEIGHT * 2);
 		}
 	}
-
-	// public void mapDescriptor(){
-	// 	// String DescriptorFormat = "11"; //pad the first 2 bits
-	// 	// String DescriptorFinal = "";
-	// 	// for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for explored area
-	// 	// 	for(int c=0;c<MapConstants.MAP_COL;c++){
-	// 	// 		if(getBlock(r,c).getIsExplored() == true){					
-	// 	// 			//System.out.println(i++);
-	// 	// 			DescriptorFormat = DescriptorFormat + "1"; //grid explored
-	// 	// 		}
-	// 	// 		else
-	// 	// 			DescriptorFormat = DescriptorFormat + "0"; //grid not explored
-	// 	// 		if(DescriptorFormat.length()==16){
-	// 	// 			int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 	// 			String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 	// 			while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
-	// 	// 				DescriptorFormatHex = "0"+ DescriptorFormatHex;
-	// 	// 			// System.out.println(DescriptorFormatHex);
-	// 	// 			DescriptorFinal += DescriptorFormatHex;
-	// 	// 			DescriptorFormat = "";//resets string after each column
-	// 	// 		}
-	// 	// 	}
-	// 	// }
-	// 	// DescriptorFormat = DescriptorFormat + "11";//pad the last 2 bits
-	// 	// int DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 	// String DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 	// // System.out.println(DescriptorFormatHex);
-	// 	// DescriptorFinal += DescriptorFormatHex; //last 4 hexa digits
-	// 	// // System.out.println(DescriptorFinal);
-	// 	int DescriptorFormatBin;
-	// 	String DescriptorFormatHex;
-	// 	String DescriptorFormat = "";
-	// 	String DescriptorFinal2 ="Grid: ";
-	// 	// System.out.println("printing obstacles");
-	// 	for(int r=0;r<MapConstants.MAP_ROW;r++){//output map descriptor for obstacles in map
-	// 		for(int c=0;c<MapConstants.MAP_COL;c++){
-
-	// 			if(getBlock(r,c).getIsObstacle() == true)
-	// 				DescriptorFormat += "1";
-	// 			else
-	// 				DescriptorFormat += "0";
-	// 			if(DescriptorFormat.length()==16){
-	// 				// System.out.println(DescriptorFormat);
-	// 				DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 				DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 				while(DescriptorFormatHex.length()!= 4)
-	// 					DescriptorFormatHex = "0" + DescriptorFormatHex;//add back the zeros automatically removed by the computer
-	// 				// System.out.println(DescriptorFormatHex);
-	// 				DescriptorFinal2 += DescriptorFormatHex;
-	// 				DescriptorFormat = "";//resets string after each column
-	// 			}
-
-	// 		}	
-	// 	}
-	// 	// System.out.println(DescriptorFormat);
-	// 	while(DescriptorFormat.length()%4!=0) // pad it to make the total digits divisible by 4
-	// 		DescriptorFormat = "0" + DescriptorFormat;
-	// 	DescriptorFormatBin = Integer.parseInt(DescriptorFormat,2);
-	// 	DescriptorFormatHex = Integer.toString(DescriptorFormatBin,16);
-	// 	while(DescriptorFormatHex.length()!= DescriptorFormat.length()/4) // pad 0s in front according to string length
-	// 		DescriptorFormatHex = "0"+ DescriptorFormatHex;
-	// 	// System.out.println("last df:" + DescriptorFormatHex);
-	// 	DescriptorFinal2 += DescriptorFormatHex; //last 4 hexa digits
-	// 	// System.out.println(DescriptorFinal2);
-	// 	// CommMgr.getCommMgr().sendMsg(DescriptorFinal2, "PC2AN");
-
-	// 	//pass the robot position to android
-	// 	String robotString = " [";
-	// 	robotString += theRobot.getRobotPosCol();
-	// 	robotString += ", ";
-	// 	robotString += theRobot.getRobotPosRow();
-	// 	robotString += ", ";
-	// 	robotString += DIRECTION.printDir(theRobot.getRobotCurDir());
-	// 	robotString += "]";
-	// 	CommMgr.getCommMgr().sendMsg(DescriptorFinal2+robotString, "PC2AN");
-	// }
 
 	//sending out MDF string
 	public void MDFString(){

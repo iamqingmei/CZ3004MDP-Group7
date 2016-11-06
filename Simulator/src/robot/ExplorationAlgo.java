@@ -32,9 +32,6 @@ public class ExplorationAlgo{
 		// sensorData[2] = shortLF
 		// sensorData[3] = shortR
 		// sensorData[4] = shortL
-		// for (int i = 0; i<5; i++){
-		// 	System.out.println(i + ": " + sensorData[i]);
-		// }
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
@@ -63,8 +60,6 @@ public class ExplorationAlgo{
 		//after back to the start zone
 		//turn to North (Ready for shortest path finding)
 		turnRobotDir(DIRECTION.NORTH);
-
-		// printPathTaken();
 		
 	}
 
@@ -291,84 +286,7 @@ public class ExplorationAlgo{
 		}
 	}
 
-	// //follow right hand side
-	// private MOVE getNextMoveRHS(MOVE prevMov){
-	// 	int botRow = bot.getRobotPosRow();
-	// 	int botCol = bot.getRobotPosCol();
-	// 	switch (bot.getRobotCurDir()){
-	// 		case NORTH: 
-	// 			if (nSideFree() && !eSideFree()){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (eSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (wSideFree() && !nSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("north error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		case EAST:
-	// 			if (eSideFree() && !sSideFree() ){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (sSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (nSideFree() && !eSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("east error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		case SOUTH:
-	// 			if (sSideFree() && !wSideFree() ){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (wSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (eSideFree() && !sSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("south error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		case WEST:
-	// 			if (wSideFree() && !nSideFree() ){
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (nSideFree()){
-	// 				if (prevMov!= MOVE.RIGHT){
-	// 					return MOVE.RIGHT;
-	// 				}
-	// 				return MOVE.FORWARD;
-	// 			}
-	// 			else if (sSideFree() && !wSideFree()){
-	// 				return MOVE.LEFT;
-	// 			}
-	// 			else{
-	// 				System.out.println("west error!");
-	// 				return MOVE.LEFT;
-	// 			}
-	// 		default:
-	// 			System.out.println("default error!");
-	// 			return MOVE.LEFT;
-	// 	}
-	// }
+	
 	//for time limited
 	public void runExploration(int timeInSecond){
 		long start = System.currentTimeMillis();
@@ -377,9 +295,6 @@ public class ExplorationAlgo{
 		MOVE prevMov = null;
 		bot.setSensors();
 		sensorData = bot.sense(exMap, realMap);
-		// for (int i = 0; i<5; i++){
-		// 	System.out.println(i + ": " + sensorData[i]);
-		// }
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();
@@ -411,9 +326,6 @@ public class ExplorationAlgo{
 		MOVE prevMov = null;
 		bot.setSensors();
 		sensorData = bot.sense(exMap, realMap);
-		// for (int i = 0; i<5; i++){
-		// 	System.out.println(i + ": " + sensorData[i]);
-		// }
 		exploredArea = countExploredArea();
 		System.out.println("exploredArea: " + exploredArea);
 		exMap.repaint();

@@ -65,7 +65,7 @@ public class Simulator {
 	private static void displayEverythings(){
 		// Main frame for displaying everything
 		_appFrame = new JFrame();
-		_appFrame.setTitle("MDP Group 7 Simulator");
+		_appFrame.setTitle("MDP Group 7 Leaderboard");
 		_appFrame.setSize(new Dimension(800, 870));
 		_appFrame.setResizable(false);
 		
@@ -205,39 +205,6 @@ public class Simulator {
 		        return 111;
 		    }
 		}
-
-		// for multithreading
-		//Only display the path, not sending anything
-		// class DisplayFastestPath extends SwingWorker<Integer, String>{
-		//     protected Integer doInBackground() throws Exception
-		//     {
-		//     	// System.out.println("waiting for Andriod command");
-		//     	// String startF = CommMgr.getCommMgr().recvMsg();
-		//     	// while(!startF.equals("race")){
-		//     	// 	startF = CommMgr.getCommMgr().recvMsg();
-		//     	// }
-		//     	System.out.println("start FastestPath");
-		//         bot.setRobotPos(1,1);
-		// 		simShortestPathMap.repaint();
-		// 		ShortestPathAlgo shortestPath = new ShortestPathAlgo(simShortestPathMap, bot);
-
-		// 		shortestPath.runShortestPath(simShortestPathMap, 18, 13);
-		//         return 111;
-		//     }
-		// }
-
-		// //Only display the path, not sending anything
-		// JButton btn_DisplayShortestPath = new JButton("Fastest Path");
-		// btn_DisplayShortestPath.setFont(new Font("Arial", Font.BOLD, 13));
-		// btn_DisplayShortestPath.setFocusPainted(false);
-		// btn_DisplayShortestPath.addMouseListener(new MouseAdapter() {
-		// 	public void mousePressed(MouseEvent e) {
-		// 		CardLayout cl = ((CardLayout) _mainCards.getLayout());
-		// 	    cl.show(_mainCards, "MAIN");
-		// 	    new DisplayFastestPath().execute();
-		// 	}
-		// });
-		// _mainButtons.add(btn_DisplayShortestPath);
 
 		//Shortest Path button
 		JButton btn_ShortestPath = new JButton("Fastest Path");

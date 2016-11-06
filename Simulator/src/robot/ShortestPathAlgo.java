@@ -88,34 +88,6 @@ public class ShortestPathAlgo{
 		testingCount =0;
 	}
 
-	// public void reset(Map theMap, Robot bot){
-	// 	open = new ArrayList<Block>();
-	// 	closed = new ArrayList<Block>();
-	// 	parents = new HashMap<Block, Block>();
-	// 	neighbors = new Block[4];
-	// 	current = theMap.getBlock(bot.getRobotPosRow(), bot.getRobotPosCol());
-	// 	curDir = bot.getRobotCurDir();
-	// 	gScores = new double[MapConstants.MAP_ROW][MapConstants.MAP_COL];
-
-	// 	//initialize gScores arrays
-	// 	for (int i = 0; i < MapConstants.MAP_ROW; i++) {
-	// 		for (int j = 0; j < MapConstants.MAP_COL; j++) {
-	// 			if (theMap.getBlock(i, j).getIsObstacle() || theMap.getBlock(i,j).getIsVirtualWall()){
-	// 				gScores[i][j] = RobotConstants.INFINITE_COST;
-	// 			}
-	// 			else{
-	// 				gScores[i][j] = -1;
-	// 			}
-	// 		}
-	// 	}				
-	// 	open.add(current);
-
-	// 	//initialize starting point
-	// 	gScores[bot.getRobotPosRow()][bot.getRobotPosCol()] = 0;
-	// 	testingCount =0;
-	// }
-
-
 	public StringBuilder runShortestPath(Map theMap, int goalRow, int goalCol){
 		System.out.println("Start to find the shortest path from (" + current.getCol() + ", " + current.getRow() + ") to goal (" + goalRow + ", " + goalCol + ")");	
 		Stack<Block> path = new Stack<Block>();

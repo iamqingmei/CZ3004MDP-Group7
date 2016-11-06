@@ -218,15 +218,6 @@ public class ShortestPathAlgo{
 				}
 				
 				this.map.repaint();
-
-				// try{
-				// 	TimeUnit.MILLISECONDS.sleep(RobotConstants.MSG_DELAY);
-				// }
-				// catch(InterruptedException e)
-				// {
-				//      System.out.println("send msg sleeping error!!!!!!");
-				// } 
-				// this.map.MDFString(); 
 				
 			}
 			return null;

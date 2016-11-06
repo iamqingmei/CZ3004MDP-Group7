@@ -94,20 +94,6 @@ public class CommMgr{
 
 			bw.write(outputMsg);
 			bw.flush();
-
-			// try{
-			// 	TimeUnit.MILLISECONDS.sleep(500);
-			// }
-			// catch(InterruptedException e)
-			// {
-			//      System.out.println("send msg sleeping error!!!!!!");
-			// } 
-
-			// String ack = recvMsg();
-			// while(!ack.equals("A")){
-			// 	System.out.println("NOT ACK!!!");
-			// 	ack = recvMsg();
-			// }
 			return true;
 
 		} catch (IOException e){

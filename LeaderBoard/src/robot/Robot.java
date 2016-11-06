@@ -68,13 +68,6 @@ public class Robot{
 	}
 	
 	public void moveRobot(MOVE m){
-		// try{
-		// 	TimeUnit.MILLISECONDS.sleep(botSpeed);
-		// }
-		// catch(InterruptedException e)
-		// {
-		//      System.out.println("robot sleep error!");
-		// }
 		switch (m){
 			case FORWARD:
 				switch (robotCurDir){
@@ -162,9 +155,6 @@ public class Robot{
 	
 		String sensorData = CommMgr.getCommMgr().recvSensorData();
 		
-		// System.out.println("sensorData: "+ sensorData);
-		
-
 		String[] parts = sensorData.split(":");
 
 		result[0] = roundToGrid(Integer.parseInt(parts[2]));
@@ -173,10 +163,6 @@ public class Robot{
 		result[3] = roundToGrid(Integer.parseInt(parts[4]));
 		result[4] = roundToGrid(Integer.parseInt(parts[0]));
 
-		// System.out.println("sensorData in gird: ");
-		// for (int i=0;i<5;i++){
-		// 	System.out.printf("%d, ", result[i]);
-		// }
 
 		longFront.sense(simExMap,result[0]);
 		shortRF.sense(simExMap,result[1]);
